@@ -377,6 +377,7 @@
             background: var(--bg-light); 
             transition: border-color var(--transition-fast), box-shadow 0.5s ease; 
             touch-action: pan-y; 
+            border-radius: 4px;
         }
 
         .carousel-wrapper:hover { 
@@ -399,13 +400,14 @@
             justify-content: center; 
             align-items: center; 
             flex-shrink: 0; 
+            background: var(--bg-light); 
         }
         
         .carousel-btn { 
             position: absolute; 
             top: 50%; 
             transform: translateY(-50%); 
-            background: rgba(255, 255, 255, 0.9); 
+            background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(5px);
             border: 1px solid rgba(136,136,136,0.1); 
             color: var(--text); 
@@ -442,7 +444,7 @@
             font-style: italic; 
         }
 
-        /* Karuzela Wideo Google Drive */
+        /* Karuzela Wideo */
         #video-wrapper { 
             background: #000; 
         }
@@ -514,12 +516,36 @@
             cursor: pointer; 
             transition: color var(--transition-fast), transform var(--transition-fast); 
             user-select: none;
+            z-index: 10000;
         }
 
         .lightbox-close:hover { 
             color: var(--accent); 
             transform: rotate(90deg);
         }
+
+        /* Kontrolki przewijania w lightboxie */
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 1rem;
+            transition: color var(--transition-fast), transform var(--transition-fast);
+            z-index: 10000;
+        }
+
+        .lightbox-btn:hover {
+            color: #fff;
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .lightbox-btn.prev { left: 2rem; }
+        .lightbox-btn.next { right: 2rem; }
 
         /* ==========================================================================
            5. FORMULARZ KONTAKTOWY I STOPKA
@@ -784,17 +810,34 @@
                 padding: 6rem 1.5rem 3rem; 
             }
             
-            #image-track img { 
-                height: auto; 
-                aspect-ratio: 3/4; 
-                max-height: 65vh; 
+            .carousel-wrapper {
+                margin: 2rem 0; 
             }
             
+            #image-track img { 
+                height: 100%; 
+                width: 100%;
+                /* Remove strict aspect-ratio to prevent side cutting */
+                aspect-ratio: auto;
+                /* Keep max-height to avoid extremely tall images */
+                max-height: 60vh;
+                object-fit: contain; /* Show the entire image */
+                /* Use a nice subtle blur background for images that don't fill the space */
+                background: var(--bg-light);
+            }
+
             .lightbox-close {
                 top: 15px;
                 right: 25px;
                 font-size: 2.5rem;
             }
+
+            .lightbox-btn {
+                font-size: 2rem;
+                padding: 0.5rem;
+            }
+            .lightbox-btn.prev { left: 0.5rem; }
+            .lightbox-btn.next { right: 0.5rem; }
             
             .carousel-btn {
                 width: 45px;
@@ -927,7 +970,6 @@
                 <div class="carousel-slide"><img src="IMG_4699.jpeg" alt="Meditation Practice 1" onclick="openLightbox(this)"></div>
                 <div class="carousel-slide"><img src="IMG_5149.jpeg" alt="Meditation Practice 2" onclick="openLightbox(this)"></div>
                 <div class="carousel-slide"><img src="IMG_8623.jpeg" alt="Meditation Practice 3" onclick="openLightbox(this)"></div>
-                <div class="carousel-slide"><img src="IMG_8741.jpeg" alt="Meditation Practice 4" onclick="openLightbox(this)"></div>
             </div>
             <button class="carousel-btn prev" id="img-prev" aria-label="Previous image">&#10094;</button>
             <button class="carousel-btn next" id="img-next" aria-label="Next image">&#10095;</button>
@@ -935,9 +977,11 @@
         <p class="media-caption tr" data-en="Practice space" data-pl="Przestrzeń praktyki" data-ru="Пространство практики">Practice space</p>
     </section>
 
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()" role="dialog" aria-modal="true">
-        <span class="lightbox-close" aria-label="Close lightbox">&times;</span>
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <span class="lightbox-close" aria-label="Close lightbox" onclick="closeLightbox()">&times;</span>
+        <button class="lightbox-btn prev" onclick="navigateLightbox(-1)" aria-label="Previous image">&#10094;</button>
         <img id="lightbox-img" src="" alt="Enlarged view">
+        <button class="lightbox-btn next" onclick="navigateLightbox(1)" aria-label="Next image">&#10095;</button>
     </div>
 
     <div class="microtext fade-in tr" data-en="Attention can be trained." data-pl="Uwaga może być trenowana." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
@@ -1202,15 +1246,42 @@
         });
 
         /* ==========================================================================
-           7. LIGHTBOX (Pełnoekranowy podgląd zdjęć)
+           7. ZAAWANSOWANY LIGHTBOX (Przełączanie zdjęć kliknięciem)
            ========================================================================== */
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        
+        let originalImages = [];
+        let currentLightboxIndex = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('#image-track .carousel-slide:not(#first-clone):not(#last-clone) img');
+            slides.forEach(img => {
+                originalImages.push(img.src);
+            });
+        });
 
         function openLightbox(imgElement) {
+            currentLightboxIndex = originalImages.indexOf(imgElement.src);
             lightboxImg.src = imgElement.src;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden'; 
+        }
+
+        function navigateLightbox(direction) {
+            currentLightboxIndex += direction;
+            
+            if (currentLightboxIndex >= originalImages.length) {
+                currentLightboxIndex = 0;
+            } else if (currentLightboxIndex < 0) {
+                currentLightboxIndex = originalImages.length - 1;
+            }
+            
+            lightboxImg.style.opacity = '0.5';
+            setTimeout(() => {
+                lightboxImg.src = originalImages[currentLightboxIndex];
+                lightboxImg.style.opacity = '1';
+            }, 150);
         }
 
         function closeLightbox() {
@@ -1222,9 +1293,11 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape" && lightbox.classList.contains('active')) {
-                closeLightbox();
-            }
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowRight") navigateLightbox(1);
+            if (e.key === "ArrowLeft") navigateLightbox(-1);
         });
 
         /* ==========================================================================
