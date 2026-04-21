@@ -860,6 +860,50 @@
                 height: 250px; 
             }
         }
+
+        /* Styl natywnej galerii */
+.native-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    border: 1px solid rgba(136,136,136,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.native-carousel-track {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Ukrywa pasek na Firefox */
+}
+
+.native-carousel-track::-webkit-scrollbar {
+    display: none; /* Ukrywa pasek na Chrome/Safari */
+}
+
+.native-carousel-track img {
+    flex: 0 0 100% !important; /* Zdjęcie na całą szerokość */
+    scroll-snap-align: center !important;
+    height: 600px !important;
+    object-fit: cover !important;
+    cursor: zoom-in;
+    display: block;
+}
+
+.nc-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
+    width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
+}
+.nc-btn.prev { left: 1rem; }
+.nc-btn.next { right: 1rem; }
+
+@media (max-width: 768px) {
+    .native-carousel-track img { height: 400px !important; }
+    .nc-btn { display: none !important; } /* Na telefonie tylko palcem */
+}
     </style>
 </head>
 <body>
@@ -965,14 +1009,14 @@
             </div>
         </div>
 
-        <div class="carousel-wrapper fade-in" style="margin-top: 5rem;" id="photo-wrapper">
-            <div class="carousel-track" id="image-track">
-                <div class="carousel-slide"><img src="IMG_4699.jpeg" alt="Meditation Practice 1" onclick="openLightbox(this)"></div>
-                <div class="carousel-slide"><img src="IMG_5149.jpeg" alt="Meditation Practice 2" onclick="openLightbox(this)"></div>
-                <div class="carousel-slide"><img src="IMG_8623.jpeg" alt="Meditation Practice 3" onclick="openLightbox(this)"></div>
+        <div class="native-carousel-wrapper fade-in" id="photo-wrapper" style="margin-top: 5rem;">
+            <button class="nc-btn prev" id="img-prev-native">&#10094;</button>
+            <div class="native-carousel-track" id="image-track-native">
+                <img src="IMG_4699.jpeg" alt="Meditation Practice 1" onclick="openLightbox(this)">
+                <img src="IMG_5149.jpeg" alt="Meditation Practice 2" onclick="openLightbox(this)">
+                <img src="IMG_8623.jpeg" alt="Meditation Practice 3" onclick="openLightbox(this)">
             </div>
-            <button class="carousel-btn prev" id="img-prev" aria-label="Previous image">&#10094;</button>
-            <button class="carousel-btn next" id="img-next" aria-label="Next image">&#10095;</button>
+            <button class="nc-btn next" id="img-next-native">&#10095;</button>
         </div>
         <p class="media-caption tr" data-en="Practice space" data-pl="Przestrzeń praktyki" data-ru="Пространство практики">Practice space</p>
     </section>
@@ -1182,68 +1226,6 @@
             () => moveVideoCarousel(-1)  
         );
 
-        /* ==========================================================================
-           6. NIESKOŃCZONA KARUZELA ZDJĘĆ Z PĘTLĄ (Infinite Loop Slider)
-           ========================================================================== */
-        const imgTrack = document.getElementById('image-track');
-        let imgSlides = Array.from(imgTrack.children);
-        
-        const firstClone = imgSlides[0].cloneNode(true);
-        const lastClone = imgSlides[imgSlides.length - 1].cloneNode(true);
-        
-        firstClone.id = 'first-clone';
-        lastClone.id = 'last-clone';
-        
-        imgTrack.appendChild(firstClone);
-        imgTrack.insertBefore(lastClone, imgSlides[0]);
-        
-        let imgIdx = 1; 
-        let isTransitioning = false; 
-        
-        imgTrack.style.transform = `translateX(-100%)`;
-
-        function updateImageCarousel(useAnimation = true) {
-            if (useAnimation) {
-                imgTrack.classList.add('smooth-transition');
-            } else {
-                imgTrack.classList.remove('smooth-transition');
-            }
-            imgTrack.style.transform = `translateX(-${imgIdx * 100}%)`;
-        }
-
-        function slideNextImage() {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            imgIdx++;
-            updateImageCarousel(true);
-        }
-
-        function slidePrevImage() {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            imgIdx--;
-            updateImageCarousel(true);
-        }
-
-        document.getElementById('img-next').addEventListener('click', slideNextImage);
-        document.getElementById('img-prev').addEventListener('click', slidePrevImage);
-
-        addTouchSupport('photo-wrapper', slideNextImage, slidePrevImage);
-
-        imgTrack.addEventListener('transitionend', () => {
-            isTransitioning = false;
-            let currentSlides = imgTrack.querySelectorAll('.carousel-slide');
-            
-            if (currentSlides[imgIdx].id === 'first-clone') {
-                imgIdx = 1; 
-                updateImageCarousel(false); 
-            }
-            
-            if (currentSlides[imgIdx].id === 'last-clone') {
-                imgIdx = currentSlides.length - 2; 
-                updateImageCarousel(false);
-            }
-        });
 
         /* ==========================================================================
            7. ZAAWANSOWANY LIGHTBOX (Przełączanie zdjęć kliknięciem)
@@ -1347,7 +1329,31 @@
                 content.classList.remove('open');
             }
         }
+// 1. Obsługa strzałek w nowej galerii
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById('image-track-native');
+    const btnNext = document.getElementById('img-next-native');
+    const btnPrev = document.getElementById('img-prev-native');
 
+    if (track && btnNext && btnPrev) {
+        btnNext.addEventListener('click', () => {
+            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        });
+        btnPrev.addEventListener('click', () => {
+            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        });
+    }
+});
+
+// 2. Poprawka dla Lightboxa (Sekcja 7 w Twoim kodzie)
+// Znajdź w swoim kodzie window.addEventListener('DOMContentLoaded', ...) w sekcji Lightboxa i zmień selektor:
+window.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('#image-track-native img');
+    originalImages = []; // Czyścimy tablicę
+    slides.forEach(img => {
+        originalImages.push(img.src);
+    });
+});
     </script>
 </body>
 </html>
