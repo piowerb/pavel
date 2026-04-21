@@ -442,7 +442,7 @@
             font-style: italic; 
         }
 
-        /* Karuzela Wideo */
+        /* Karuzela Wideo Google Drive */
         #video-wrapper { 
             background: #000; 
         }
@@ -753,23 +753,23 @@
             .about-flex { 
                 flex-direction: column; 
                 align-items: center;
-                text-align: center; /* Wyśrodkowanie na tabletach/telefonach */
+                text-align: center; 
                 gap: 2.5rem;
             }
             .profile-img-wrapper { 
                 width: 100%; 
-                max-width: 400px; /* Zwiększone zdj profilowe dla lepszego efektu na mniejszych ekranach */
+                max-width: 400px; 
                 margin: 0 auto;
             }
             .grid { 
-                grid-template-columns: 1fr; /* Na węższych ekranach karty ładnie ułożą się w 1 kolumnie */
+                grid-template-columns: 1fr; 
             }
         }
 
         @media (max-width: 768px) { 
             .nav-container { 
                 flex-direction: column; 
-                gap: 0.8rem; /* Mniejszy odstęp żeby nawigacja zbytnio nie urosła */
+                gap: 0.8rem; 
                 padding: 0 1rem;
             }
             nav ul { 
@@ -778,16 +778,15 @@
                 justify-content: center;
             } 
             nav a {
-                font-size: 0.85rem; /* Zmniejszenie fontu nawigacji na tel */
+                font-size: 0.85rem; 
             }
             section { 
                 padding: 6rem 1.5rem 3rem; 
             }
             
-            /* Inteligentne skalowanie zdjęć w karuzeli na telefonach */
             #image-track img { 
                 height: auto; 
-                aspect-ratio: 3/4; /* Zapewnia idealny, instagramowy pionowy format */
+                aspect-ratio: 3/4; 
                 max-height: 65vh; 
             }
             
@@ -797,7 +796,6 @@
                 font-size: 2.5rem;
             }
             
-            /* Powiększone strefy dotykowe na telefony */
             .carousel-btn {
                 width: 45px;
                 height: 45px;
@@ -816,7 +814,7 @@
                 font-size: 0.8rem;
             }
             #video-track iframe {
-                height: 250px; /* Zabezpieczenie dla bardzo małych ekranów wideo */
+                height: 250px; 
             }
         }
     </style>
@@ -929,6 +927,7 @@
                 <div class="carousel-slide"><img src="IMG_4699.jpeg" alt="Meditation Practice 1" onclick="openLightbox(this)"></div>
                 <div class="carousel-slide"><img src="IMG_5149.jpeg" alt="Meditation Practice 2" onclick="openLightbox(this)"></div>
                 <div class="carousel-slide"><img src="IMG_8623.jpeg" alt="Meditation Practice 3" onclick="openLightbox(this)"></div>
+                <div class="carousel-slide"><img src="IMG_8741.jpeg" alt="Meditation Practice 4" onclick="openLightbox(this)"></div>
             </div>
             <button class="carousel-btn prev" id="img-prev" aria-label="Previous image">&#10094;</button>
             <button class="carousel-btn next" id="img-next" aria-label="Next image">&#10095;</button>
@@ -1026,7 +1025,6 @@
         const elementsToTranslate = document.querySelectorAll('.tr');
         const placeholdersToTranslate = document.querySelectorAll('.tr-ph');
 
-        // Funkcja aplikująca wybrany język
         function changeLanguage(lang) {
             elementsToTranslate.forEach(el => { 
                 if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
@@ -1035,15 +1033,14 @@
                 if (el.dataset[lang]) el.placeholder = el.dataset[lang]; 
             });
             document.documentElement.lang = lang;
-            langSelect.value = lang; // Synchronizacja dropdowna
+            langSelect.value = lang; 
         }
 
-        // Auto-detekcja przy starcie strony na bazie ustawień przeglądarki
         document.addEventListener("DOMContentLoaded", () => {
             const userLangFull = navigator.language || navigator.userLanguage || "en";
             const userLangShort = userLangFull.toLowerCase().substring(0, 2);
             
-            let defaultLang = 'en'; // Bezpieczny domyślny język
+            let defaultLang = 'en'; 
             
             if (userLangShort === 'pl') {
                 defaultLang = 'pl';
@@ -1052,12 +1049,9 @@
             }
             
             changeLanguage(defaultLang);
-
-            // Automatyczny rok w stopce (Samograj)
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
 
-        // Ręczna zmiana języka z menu
         langSelect.addEventListener('change', (e) => {
             changeLanguage(e.target.value);
         });
@@ -1084,7 +1078,7 @@
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Animuje tylko raz
+                observer.unobserve(entry.target); 
             });
         }, appearOptions);
 
@@ -1112,9 +1106,9 @@
             }, {passive: true});
 
             function handleSwipe() {
-                const swipeThreshold = 50; // Minimalny dystans przeciągnięcia
-                if (touchendX < touchstartX - swipeThreshold) onSwipeLeft();  // Swipe w lewo
-                if (touchendX > touchstartX + swipeThreshold) onSwipeRight(); // Swipe w prawo
+                const swipeThreshold = 50; 
+                if (touchendX < touchstartX - swipeThreshold) onSwipeLeft();  
+                if (touchendX > touchstartX + swipeThreshold) onSwipeRight(); 
             }
         }
 
@@ -1139,10 +1133,9 @@
             videoTrack.style.transform = `translateX(-${videoIdx * 100}%)`;
         }
 
-        // Aktywacja swipe dla Wideo
         addTouchSupport('video-wrapper', 
-            () => moveVideoCarousel(1),  // w lewo = nastepne
-            () => moveVideoCarousel(-1)  // w prawo = poprzednie
+            () => moveVideoCarousel(1),  
+            () => moveVideoCarousel(-1)  
         );
 
         /* ==========================================================================
@@ -1151,22 +1144,18 @@
         const imgTrack = document.getElementById('image-track');
         let imgSlides = Array.from(imgTrack.children);
         
-        // Klonowanie pierwszego i ostatniego elementu w celu stworzenia złudzenia pętli
         const firstClone = imgSlides[0].cloneNode(true);
         const lastClone = imgSlides[imgSlides.length - 1].cloneNode(true);
         
-        // Identyfikatory pomocnicze
         firstClone.id = 'first-clone';
         lastClone.id = 'last-clone';
         
-        // Wstawianie klonów do DOM
         imgTrack.appendChild(firstClone);
         imgTrack.insertBefore(lastClone, imgSlides[0]);
         
-        let imgIdx = 1; // Startujemy od indeksu 1, bo na 0 jest nasz klon-końcówka
-        let isTransitioning = false; // Zapobiega błędom przy szybkim klikaniu
+        let imgIdx = 1; 
+        let isTransitioning = false; 
         
-        // Ustawienie domyślnej pozycji (na prawdziwe pierwsze zdjęcie)
         imgTrack.style.transform = `translateX(-100%)`;
 
         function updateImageCarousel(useAnimation = true) {
@@ -1192,27 +1181,22 @@
             updateImageCarousel(true);
         }
 
-        // Obsługa kliknięć w przyciski karuzeli zdjęć
         document.getElementById('img-next').addEventListener('click', slideNextImage);
         document.getElementById('img-prev').addEventListener('click', slidePrevImage);
 
-        // Aktywacja swipe dla Zdjęć na telefonie
         addTouchSupport('photo-wrapper', slideNextImage, slidePrevImage);
 
-        // Magiczna część: Resetowanie pętli po zakończeniu fizycznej animacji przesuwania
         imgTrack.addEventListener('transitionend', () => {
             isTransitioning = false;
             let currentSlides = imgTrack.querySelectorAll('.carousel-slide');
             
-            // Jeśli przewinęliśmy poza ostatnie prawdziwe zdjęcie do klonu "pierwszego"
             if (currentSlides[imgIdx].id === 'first-clone') {
-                imgIdx = 1; // Resetujemy indeks
-                updateImageCarousel(false); // Skaczemy bez animacji, użytkownik tego nie zauważy!
+                imgIdx = 1; 
+                updateImageCarousel(false); 
             }
             
-            // Jeśli cofnęliśmy się przed pierwsze zdjęcie do klonu "ostatniego"
             if (currentSlides[imgIdx].id === 'last-clone') {
-                imgIdx = currentSlides.length - 2; // Wskakujemy na prawdiwe ostatnie
+                imgIdx = currentSlides.length - 2; 
                 updateImageCarousel(false);
             }
         });
@@ -1226,19 +1210,17 @@
         function openLightbox(imgElement) {
             lightboxImg.src = imgElement.src;
             lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Wyłączenie przewijania strony w tle
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeLightbox() {
             lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Włączenie przewijania strony
-            // Delikatne opóźnienie wyczyszczenia źródła zdjęcia (czekamy aż animacja CSS opacity zniknie)
+            document.body.style.overflow = 'auto'; 
             setTimeout(() => { 
                 lightboxImg.src = ''; 
             }, 400);
         }
 
-        // Zamykanie podglądu również klawiszem "Escape"
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape" && lightbox.classList.contains('active')) {
                 closeLightbox();
@@ -1251,31 +1233,25 @@
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Honeypot weryfikacja: Jeśli ukryte pole zostało wypełnione przez bota, anuluj akcję "cicho"
             const honeypot = document.getElementById('honeypot').value;
             if (honeypot !== "") {
                 console.log("Bot detected. Stopping submission.");
                 return false;
             }
             
-            // Pobieranie danych z formularza
             const name = document.getElementById('contactName').value.trim();
             const email = document.getElementById('contactEmail').value.trim();
             const message = document.getElementById('contactMessage').value.trim();
             
-            // Przygotowanie maila
             const destinationEmail = 'pspirydonau@gmail.com';
             const subject = encodeURIComponent(`Contact from ${name} via Nobody Meditates Here`);
             const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
             
-            // Pokazywanie informacji o otwieraniu klienta pocztowego
             const statusEl = document.getElementById('formStatus');
             statusEl.style.display = 'block';
             
-            // Próba otwarcia domyślnego klienta poczty użytkownika
             window.location.href = `mailto:${destinationEmail}?subject=${subject}&body=${body}`;
             
-            // Resetowanie formularza po 3 sekundach i ukrywanie wiadomości
             setTimeout(() => {
                 this.reset();
                 statusEl.style.display = 'none';
