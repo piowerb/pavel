@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nobody Meditates Here</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --text: #111111;
+            --accent: #888888;
+            --bord: #4A2C2A; /* Subtelny, ciemny bordowy */
+            --bg-light: #FAFAFA;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            font-weight: 300;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { 
+            font-family: 'Libre Baskerville', serif; 
+            font-weight: 400; 
+        }
+
+        /* --- NAWIGACJA --- */
+        nav { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            background: rgba(255,255,255,0.95); 
+            padding: 1.5rem 0; 
+            z-index: 100; 
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(136, 136, 136, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 3rem; 
+        }
+
+        nav a { 
+            color: var(--accent); 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            transition: color 0.3s; 
+        }
+
+        nav a:hover { 
+            color: var(--bord); 
+        }
+
+        .lang-switch select { 
+            background: transparent; 
+            border: none; 
+            color: var(--accent); 
+            font-family: 'Inter', sans-serif; 
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+            transition: color 0.3s;
+        }
+
+        .lang-switch select:hover {
+            color: var(--text);
+        }
+
+        /* --- SEKCJE --- */
+        section { 
+            padding: 8rem 2rem 6rem; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            scroll-margin-top: 5rem;
+        }
+
+        .microtext {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin: 4rem 0;
+            font-style: italic;
+        }
+
+        /* --- HERO --- */
+        .hero { 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+
+        .hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            margin-bottom: 1.5rem; 
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .hero p { 
+            font-size: clamp(1.1rem, 3vw, 1.4rem); 
+            color: var(--accent); 
+            margin-bottom: 4rem; 
+            max-width: 500px;
+        }
+
+        .btn { 
+            display: inline-block; 
+            border: 1px solid var(--text);
+            color: var(--text); 
+            padding: 1rem 2.5rem; 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            transition: all 0.4s ease; 
+            background: transparent;
+        }
+
+        .btn:hover { 
+            background: var(--text); 
+            color: var(--bg); 
+            border-color: var(--text);
+        }
+
+        /* --- TYPOGRAFIA I TREŚĆ --- */
+        h2 { 
+            font-size: 2rem; 
+            margin-bottom: 2.5rem; 
+            color: var(--text);
+            border-bottom: 1px solid rgba(136,136,136,0.2);
+            padding-bottom: 1rem;
+            display: inline-block;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+
+        /* --- WIDEO --- */
+        .video-wrapper {
+            margin: 4rem 0 2rem;
+            width: 100%;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            border: 1px solid rgba(136,136,136,0.3);
+            outline: none;
+            transition: border-color 0.4s ease;
+        }
+
+        .video-wrapper video:hover {
+            border-color: var(--bord);
+        }
+
+        .video-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* --- SPOTKANIA (GRID) --- */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem; 
+            margin-top: 2rem; 
+        }
+
+        .card { 
+            padding: 2.5rem; 
+            background: var(--bg-light);
+            transition: transform 0.4s ease, background 0.4s ease; 
+        }
+
+        .card:hover { 
+            background: #F0F0F0;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--bord);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        .upcoming {
+            margin-top: 3rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        /* --- O MNIE --- */
+        .about-flex {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: auto;
+            filter: grayscale(20%) contrast(110%);
+            transition: filter 0.5s ease;
+        }
+
+        .profile-img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* --- KONTAKT & FORMULARZ --- */
+        form { 
+            margin-top: 2rem; 
+        }
+
+        input, textarea { 
+            width: 100%; 
+            padding: 1rem 0; 
+            margin-bottom: 2rem; 
+            border: none;
+            border-bottom: 1px solid var(--accent); 
+            background: transparent; 
+            font-family: inherit; 
+            font-size: 1rem;
+            color: var(--text); 
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-bottom-color: var(--bord);
+        }
+
+        textarea { 
+            height: 100px; 
+            resize: none; 
+        }
+
+        button[type="submit"] {
+            cursor: pointer;
+        }
+
+        .contact-info {
+            margin-top: 4rem;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            transition: border-color 0.3s;
+        }
+
+        .contact-info a:hover {
+            border-color: var(--bord);
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--accent);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(136,136,136,0.1);
+        }
+
+        /* --- ANIMACJE (JS Fade In) --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) { 
+            .nav-container { flex-direction: column; gap: 1rem; }
+            nav ul { gap: 1.5rem; } 
+            .grid { grid-template-columns: 1fr; }
+            .about-flex { flex-direction: column; }
+            .profile-img { width: 100%; max-width: 300px; }
+            section { padding: 6rem 1.5rem 3rem; }
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <ul>
+                <li><a href="#home" class="tr" data-pl="Start" data-en="Home" data-ru="Главная">Start</a></li>
+                <li><a href="#about-practice" class="tr" data-pl="O praktyce" data-en="Practice" data-ru="О практике">O praktyce</a></li>
+                <li><a href="#sessions" class="tr" data-pl="Spotkania" data-en="Sessions" data-ru="Встречи">Spotkania</a></li>
+                <li><a href="#about-me" class="tr" data-pl="O mnie" data-en="About" data-ru="Обо мне">O mnie</a></li>
+                <li><a href="#contact" class="tr" data-pl="Kontakt" data-en="Contact" data-ru="Контакты">Kontakt</a></li>
+            </ul>
+            <div class="lang-switch">
+                <select id="langSelect">
+                    <option value="pl">PL</option>
+                    <option value="en">EN</option>
+                    <option value="ru">RU</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero fade-in">
+        <h1 class="tr" data-pl="Nobody Meditates Here" data-en="Nobody Meditates Here" data-ru="Nobody Meditates Here">Nobody Meditates Here</h1>
+        <p class="tr" data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-en="Learn to sit still in a restless world." data-ru="Научись сидеть спокойно в беспокойном мире.">Naucz się siedzieć spokojnie w niespokojnym świecie.</p>
+        <a href="#sessions" class="btn tr" data-pl="Dołącz do medytacji" data-en="Join meditation" data-ru="Присоединиться к медитации">Dołącz do medytacji</a>
+    </section>
+
+    <div class="microtext fade-in tr" data-pl="Sit down. Begin." data-en="Sit down. Begin." data-ru="Сядь. Начни.">Sit down. Begin.</div>
+
+    <section id="about-practice" class="fade-in">
+        <h2 class="tr" data-pl="O praktyce" data-en="About the practice" data-ru="О практике">O praktyce</h2>
+        <p class="lead tr" data-pl="Prowadzimy proste instrukcje medytacji siedzącej online dla osób chcących rozwijać uwagę i pracować z umysłem." data-en="We provide simple sitting meditation instructions online for those wishing to develop attention and work with their mind." data-ru="Мы проводим простые инструкции по сидячей медитации онлайн для тех, кто хочет развивать внимание и работать с умом.">Prowadzę proste instrukcje medytacji siedzącej online dla osób chcących rozwijać uwagę i pracować z umysłem.</p>
+        <p class="tr" data-pl="Medytacja nie polega na wyłączaniu myśli. Praktyka polega na spotkaniu doświadczenia takim, jakie jest." data-en="Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is." data-ru="Медитация не означает отключение мыслей. Практика заключается во встрече с опытом таким, какой он есть.">Medytacja nie polega na wyłączaniu myśli. Praktyka polega na spotkaniu doświadczenia takim, jakie jest.</p>
+        <p class="tr" data-pl="Uwaga rozwija stabilność i przejrzystość. Medytacja jest prostą dyscypliną obecności." data-en="Attention develops stability and clarity. Meditation is a simple discipline of presence." data-ru="Внимание развивает стабильность и ясность. Медитация — это простая дисциплина присутствия.">Uwaga rozwija stabilność i przejrzystość. Medytacja jest prostą dyscypliną obecności.</p>
+        
+        <div class="video-wrapper fade-in">
+            <video controls poster="okladka-wideo.jpg">
+                <source src="twoje-wideo.mp4" type="video/mp4">
+                Przeglądarka nie obsługuje odtwarzacza wideo.
+            </video>
+            <p class="video-caption tr" data-pl="Krótkie wprowadzenie do praktyki" data-en="A short introduction to practice" data-ru="Краткое введение в практику">
+                Krótkie wprowadzenie do praktyki
+            </p>
+        </div>
+    </section>
+
+    <div class="microtext fade-in tr" data-pl="Practice is simple." data-en="Practice is simple." data-ru="Практика проста.">Practice is simple.</div>
+
+    <section id="sessions" class="fade-in">
+        <h2 class="tr" data-pl="Spotkania" data-en="Sessions" data-ru="Встречи">Spotkania</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 class="tr" data-pl="Cotygodniowa medytacja online" data-en="Weekly online meditation" data-ru="Еженедельная онлайн-медитация">Cotygodniowa medytacja online</h3>
+                <p class="tr" data-pl="Spotkania na platformie Zoom." data-en="Sessions held via Zoom." data-ru="Встречи на платформе Zoom.">Spotkania na platformie Zoom.</p>
+            </div>
+            <div class="card">
+                <h3 class="tr" data-pl="Medytacja dla początkujących" data-en="Meditation for beginners" data-ru="Медитация для начинающих">Medytacja dla początkujących</h3>
+                <p class="tr" data-pl="Wprowadzenie do praktyki shamatha." data-en="Introduction to shamatha practice." data-ru="Введение в практику шаматха.">Wprowadzenie do praktyki shamatha.</p>
+            </div>
+            <div class="card">
+                <h3 class="tr" data-pl="Małe grupy praktyki" data-en="Small practice groups" data-ru="Малые группы практики">Małe grupy praktyki</h3>
+                <p class="tr" data-pl="Dla studentów, ukierunkowane na stabilność." data-en="For students, focused on stability." data-ru="Для студентов, с акцентом на стабильность.">Dla studentów, ukierunkowane na stabilność.</p>
+            </div>
+            <div class="card">
+                <h3 class="tr" data-pl="Indywidualne instrukcje" data-en="Individual guidance" data-ru="Индивидуальные инструкции">Indywidualne instrukcje</h3>
+                <p class="tr" data-pl="Prywatne sesje i wsparcie w praktyce." data-en="Private sessions and practice support." data-ru="Частные сессии и поддержка в практике.">Prywatne sesje i wsparcie w praktyce.</p>
+            </div>
+        </div>
+        <div class="upcoming tr" data-pl="Upcoming Sessions: Szczegóły dotyczące najbliższych spotkań wysyłam drogą mailową." data-en="Upcoming Sessions: Details regarding the next meetings are sent via email." data-ru="Upcoming Sessions: Детали ближайших встреч отправляю по электронной почте.">
+            Upcoming Sessions: Szczegóły dotyczące najbliższych spotkań wysyłam drogą mailową.
+        </div>
+    </section>
+
+    <div class="microtext fade-in tr" data-pl="Start where you are." data-en="Start where you are." data-ru="Начни там, где ты есть.">Start where you are.</div>
+
+    <section id="about-me" class="fade-in">
+        <h2 class="tr" data-pl="O mnie" data-en="About" data-ru="Обо мне">O mnie</h2>
+        <div class="about-flex">
+            <div>
+                <img src="photo_2026-04-13 22.11.22.jpeg" alt="Pavel Bielski" class="profile-img">
+            </div>
+            <div>
+                <p class="tr" data-pl="Pavel Bielski — praktykujący instruktor medytacji od 2023 roku, czerpiący z tradycji Kwan Um Zen, Shambhali, Diamentowej Drogi oraz buddyzmu indo-tybetańskiego." data-en="Pavel Bielski is a meditation practitioner and instructor since 2023, drawing from Kwan Um Zen, Shambhala, Diamond Way, and Indo-Tibetan Buddhist traditions." data-ru="Павел Бельский — практикующий инструктор по медитации с 2023 года, опирающийся на традиции Кван Ум Дзен, Шамбалы, Алмазного Пути и индо-тибетского буддизма.">
+                    Pavel Bielski — praktykujący instruktor medytacji od 2023 roku, czerpiący z tradycji Kwan Um Zen, Shambhali, Diamentowej Drogi oraz buddyzmu indo-tybetańskiego.
+                </p>
+                <p class="tr" data-pl="Projekt ten oferuje proste instrukcje medytacji dla studentów, początkujących i osób zainteresowanych rozwijaniem świadomości oraz stabilności umysłu." data-en="This project offers simple meditation instruction for students, beginners, and people interested in developing awareness and mental stability." data-ru="Этот проект предлагает простые инструкции по медитации для студентов, начинающих и всех, кто заинтересован в развитии осознанности и стабильности ума.">
+                    Projekt ten oferuje proste instrukcje medytacji dla studentów, początkujących i osób zainteresowanych rozwijaniem świadomości oraz stabilności umysłu.
+                </p>
+                <p class="tr" data-pl="Na co dzień mieszkam w Gdańsku, oferując instrukcje medytacyjne online dla międzynarodowej publiczności." data-en="Based in Gdańsk, Poland, he offers meditation instruction online for an international audience." data-ru="Проживая в Гданьске (Польша), он предлагает онлайн-инструкции по медитации для международной аудитории.">
+                    Na co dzień mieszkam w Gdańsku, oferując instrukcje medytacyjne online dla międzynarodowej publiczności.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="microtext fade-in tr" data-pl="Attention can be trained." data-en="Attention can be trained." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
+
+    <section id="contact" class="fade-in">
+        <h2 class="tr" data-pl="Kontakt" data-en="Contact" data-ru="Контакты">Kontakt</h2>
+        <p class="tr" data-pl="Zostaw wiadomość, jeśli chcesz dołączyć do spotkania lub masz pytania o praktykę." data-en="Leave a message if you want to join a session or have questions about the practice." data-ru="Оставьте сообщение, если хотите присоединиться к сессии или у вас есть вопросы о практике.">Zostaw wiadomość, jeśli chcesz dołączyć do spotkania lub masz pytania o praktykę.</p>
+        
+        <form onsubmit="event.preventDefault();">
+            <input type="text" class="tr-ph" data-pl="Imię" data-en="Name" data-ru="Имя" placeholder="Imię" required>
+            <input type="email" class="tr-ph" data-pl="Email" data-en="Email" data-ru="Email" placeholder="Email" required>
+            <textarea class="tr-ph" data-pl="Wiadomość" data-en="Message" data-ru="Сообщение" placeholder="Wiadomość" required></textarea>
+            <button type="submit" class="btn tr" data-pl="Wyślij" data-en="Send" data-ru="Отправить">Wyślij</button>
+        </form>
+
+        <div class="contact-info">
+            <p>Email: <a href="mailto:pspirydonau@gmail.com">pspirydonau@gmail.com</a></p>
+            <p>Zoom: <a href="#" class="tr" data-pl="Link podawany po kontakcie" data-en="Link provided after contact" data-ru="Ссылка предоставляется после связи">Link podawany po kontakcie</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p class="tr" data-pl="Spotkania mają charakter edukacyjny i kontemplacyjny." data-en="The meetings are educational and contemplative in nature." data-ru="Встречи носят образовательный и созерцательный характер.">
+            Spotkania mają charakter edukacyjny i kontemplacyjny.
+        </p>
+        <p>&copy; 2026 Nobody Meditates Here.</p>
+    </footer>
+
+    <script>
+        // --- ZMIANA JĘZYKA ---
+        const langSelect = document.getElementById('langSelect');
+        const elementsToTranslate = document.querySelectorAll('.tr');
+        const placeholdersToTranslate = document.querySelectorAll('.tr-ph');
+
+        function changeLanguage(lang) {
+            // Zmiana tekstów
+            elementsToTranslate.forEach(el => {
+                if(el.dataset[lang]) {
+                    el.innerText = el.dataset[lang];
+                }
+            });
+            // Zmiana placeholderów w formularzu
+            placeholdersToTranslate.forEach(el => {
+                if(el.dataset[lang]) {
+                    el.placeholder = el.dataset[lang];
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        langSelect.addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+
+        // --- EFEKT PRZEZROCZYSTEJ NAWIGACJI PRZY SKROLLOWANIU ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // --- SUBTELNE ANIMACJE FADE-IN (INTERSECTION OBSERVER) ---
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+    </script>
+</body>
+</html>
