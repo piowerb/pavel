@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Fortress of the Unchanging Mind: Why you don't need to become someone better.">
+    <title>Fortress of the Unchanging Mind - Nobody Meditates Here</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg-light: #FAFAFA;
+            --text: #111111;
+            --accent: #888888;
+            --bord: #4A2C2A; 
+            --transition-fast: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            font-weight: 300; 
+        }
+
+        h1, h2, h3, h4 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
+        
+        /* Ambient BG */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: linear-gradient(to bottom, #FFFFFF, #FCFCFC);
+        }
+
+        /* Nav */
+        nav { 
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); padding: 1rem 0; z-index: 100; border-bottom: 1px solid rgba(136, 136, 136, 0.1);
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        
+        /* LOGO W NAV + BRAND TEXT */
+        .nav-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+
+        .nav-logo {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        .nav-brand-text {
+            font-family: 'Libre Baskerville', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-logo-link:hover .nav-logo {
+            transform: scale(1.05);
+        }
+        
+        .nav-logo-link:hover .nav-brand-text {
+            color: var(--bord);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        nav a:not(.nav-logo-link) { color: var(--accent); text-decoration: none; font-size: 0.95rem; transition: color var(--transition-fast); }
+        nav a:not(.nav-logo-link):hover { color: var(--bord); }
+        
+        .back-link { font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+        .lang-switch select { 
+            background: transparent; border: 1px solid transparent; color: var(--accent); font-family: inherit; font-size: 0.95rem; cursor: pointer; outline: none;
+        }
+
+        /* Article Layout */
+        .article-container {
+            max-width: 700px;
+            margin: 10rem auto 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header { text-align: center; margin-bottom: 4rem; }
+        .article-header h1 { font-size: 2.5rem; color: var(--bord); line-height: 1.3; margin-bottom: 1.5rem; }
+
+        /* ==========================================================================
+           MODERN HEADER META (Author, Time, Likes, Views)
+           ========================================================================== */
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        .author-name { font-weight: 600; color: var(--text); }
+        .meta-item { display: flex; align-items: center; gap: 5px; }
+        .meta-sep { opacity: 0.2; font-weight: 300; }
+
+        /* CZYSTE SERDUSZKO CSS */
+        .meta-stat-btn {
+            background: none; border: none; color: inherit; font: inherit;
+            cursor: pointer; display: flex; align-items: center; gap: 5px;
+            transition: color 0.3s ease; padding: 0; outline: none;
+        }
+
+        .meta-stat-btn:hover { color: var(--bord); }
+        .meta-stat-btn.active { color: #e74c3c; }
+        .meta-stat-btn.active svg { fill: #e74c3c; stroke: #e74c3c; }
+
+        .meta-stat-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; transition: all 0.3s ease; }
+        .meta-item svg { width: 15px; height: 15px; stroke-width: 2; }
+
+        .article-content p { margin-bottom: 1.8rem; font-size: 1.05rem; }
+        .article-content h4 { font-size: 1.4rem; color: var(--text); margin: 3rem 0 1.5rem 0; }
+
+        .article-footer {
+            margin-top: 5rem; padding-top: 2rem; border-top: 1px solid rgba(136,136,136,0.2); text-align: center;
+        }
+
+        .btn {
+            display: inline-block; border: 1px solid var(--text); color: var(--text); padding: 1rem 2rem; text-decoration: none; transition: all 0.3s;
+        }
+        .btn:hover { background: var(--text); color: var(--bg); }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 1.8rem; }
+            .article-container { margin-top: 8rem; }
+            .nav-container { padding: 0 1.5rem; }
+        }
+
+        /* Responsywność dla paska nawigacji */
+        @media (max-width: 480px) {
+            .nav-brand-text { display: none; }
+            .nav-container { justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link" aria-label="Go to Home">
+                <img src="logo.jpg" alt="Nobody Meditates Here" class="nav-logo">
+                <span class="nav-brand-text">Nobody Meditates Here</span>
+            </a>
+            
+            <div class="nav-controls">
+                <a href="index.html#articles" class="back-link tr" data-en="&larr; Back" data-pl="&larr; Wróć" data-ru="&larr; Назад">&larr; Wróć</a>
+                <div class="lang-switch">
+                    <select id="langSelect" aria-label="Select language">
+                        <option value="en">EN</option>
+                        <option value="pl" selected>PL</option>
+                        <option value="ru">RU</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <header class="article-header">
+            <h1 class="tr" 
+                data-en="Fortress of the Unchanging Mind: Why you don't need to become someone better" 
+                data-pl="Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym" 
+                data-ru="Крепость Неизменного Ума: Почему тебе не нужно становиться кем-то лучшим">
+                Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym
+            </h1>
+            
+            <div class="article-meta">
+                <span class="meta-item">
+                    <span class="tr" data-en="Author: " data-pl="Autor: " data-ru="Автор: ">Autor: </span>
+                    <span class="author-name">Pavel Bielski</span>
+                </span>
+                
+                <span class="meta-sep">|</span>
+                
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span class="tr" data-en="4 min read" data-pl="4 min czytania" data-ru="4 мин чтения">4 min czytania</span>
+                </span>
+
+                <span class="meta-sep">|</span>
+
+                <button class="meta-stat-btn" id="likeBtn" onclick="toggleLike()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span id="likeCount">19</span>
+                </button>
+
+                <span class="meta-sep">|</span>
+
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span id="viewCount">264</span>
+                </span>
+            </div>
+        </header>
+
+        <img src="article3.jpg" alt="Temple on the rock" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 4px; margin-bottom: 3rem; filter: grayscale(10%); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+
+        <article class="article-content">
+            <p class="tr" 
+               data-en="Look at this landscape. Built on raw rock, the temple towers over a vast, green valley, with raw, sun-baked peaks in the background. Thousands of colorful prayer flags flutter constantly in the wind." 
+               data-pl="Spójrz na ten krajobraz. Zbudowana na surowej skale świątynia góruje nad rozległą, zieloną doliną, w tle mając surowe, spalone słońcem szczyty. Na wietrze nieustannie łopoczą tysiące kolorowych flag modlitewnych." 
+               data-ru="Посмотри на этот пейзаж. Построенный на суровой скале храм возвышается над обширной зеленой долиной на фоне суровых, выжженных солнцем вершин. Тысячи разноцветных молитвенных флагов непрерывно развеваются на ветру.">
+               Spójrz na ten krajobraz. Zbudowana na surowej skale świątynia góruje nad rozległą, zieloną doliną, w tle mając surowe, spalone słońcem szczyty. Na wietrze nieustannie łopoczą tysiące kolorowych flag modlitewnych.
+            </p>
+
+            <p class="tr" 
+               data-en="The Western mind, conditioned by the constant need for achievement, looks at this image and sees a goal to conquer. We imagine that spirituality is about climbing this steep mountain, building our own shining fortress of enlightenment there, and cutting ourselves off from the ordinary world in the valley. We treat meditation practice as just another project aimed at improving ourselves." 
+               data-pl="Zachodni umysł, uwarunkowany ciągłą potrzebą osiągnięć, patrzy na ten obraz i widzi w nim cel do zdobycia. Wyobrażamy sobie, że duchowość polega na wspinaczce na tę stromą górę, zbudowaniu tam własnej, lśniącej twierdzy oświecenia i odcięciu się od zwyczajnego świata w dolinie. Traktujemy praktykę medytacyjną jako kolejny projekt, którego celem jest ulepszenie nas samych." 
+               data-ru="Западный ум, обусловленный постоянной потребностью в достижениях, смотрит на эту картину и видит в ней цель для завоевания. Мы представляем себе, что духовность заключается в том, чтобы взобраться на эту крутую гору, построить там свою собственную сияющую крепость просветления и отгородиться от обычного мира в долине. Мы относимся к медитативной практике как к очередному проекту, цель которого — улучшить нас самих.">
+               Zachodni umysł, uwarunkowany ciągłą potrzebą osiągnięć, patrzy na ten obraz i widzi w nim cel do zdobycia. Wyobrażamy sobie, że duchowość polega na wspinaczce na tę stromą górę, zbudowaniu tam własnej, lśniącej twierdzy oświecenia i odcięciu się od zwyczajnego świata w dolinie. Traktujemy praktykę medytacyjną jako kolejny projekt, którego celem jest ulepszenie nas samych.
+            </p>
+
+            <p class="tr" 
+               data-en="This is the most common and exhausting illusion we bring with us onto the path." 
+               data-pl="To najpowszechniejsze i najbardziej wyczerpujące złudzenie, z jakim wchodzimy na ścieżkę." 
+               data-ru="Это самая распространенная и изнурительная иллюзия, с которой мы вступаем на путь.">
+               To najpowszechniejsze i najbardziej wyczerpujące złudzenie, z jakim wchodzimy na ścieżkę.
+            </p>
+
+            <h4 class="tr" data-en="The Illusion of a Broken &quot;I&quot;" data-pl="Iluzja zepsutego &quot;Ja&quot;" data-ru="Иллюзия сломанного &quot;Я&quot;">Iluzja zepsutego "Ja"</h4>
+
+            <p class="tr" 
+               data-en="Most of us sit on the cushion with a deep, often unconscious belief that we are somehow broken. Meditation is supposed to be a form of spiritual therapy for us, a tool to cut out our flaws, suppress anger, and produce endless peace. We believe that if we just sit in silence long enough, a new, awakened, perfect identity will eventually emerge from the 'defective' version of ourselves." 
+               data-pl="Większość z nas siada na poduszce z głębokim, często nieuświadomionym przekonaniem, że jesteśmy w jakiś sposób uszkodzeni. Medytacja ma być dla nas formą duchowej terapii, narzędziem do wycięcia naszych wad, stłumienia gniewu i wyprodukowania niekończącego się spokoju. Uważamy, że jeśli tylko będziemy odpowiednio długo siedzieć w ciszy, w końcu z 'wadliwej' wersji nas samych wyłoni się nowa, przebudzona, idealna tożsamość." 
+               data-ru="Большинство из нас садится на подушку с глубоким, часто неосознанным убеждением, что мы каким-то образом сломаны. Медитация должна стать для нас формой духовной терапии, инструментом, чтобы вырезать наши недостатки, подавить гнев и создать бесконечный покой. Мы верим, что если мы просто будем сидеть в тишине достаточно долго, из 'бракованной' версии нас самих в конечном итоге появится новая, пробужденная, идеальная личность.">
+               Większość z nas siada na poduszce z głębokim, często nieuświadomionym przekonaniem, że jesteśmy w jakiś sposób uszkodzeni. Medytacja ma być dla nas formą duchowej terapii, narzędziem do wycięcia naszych wad, stłumienia gniewu i wyprodukowania niekończącego się spokoju. Uważamy, że jeśli tylko będziemy odpowiednio długo siedzieć w ciszy, w końcu z "wadliwej" wersji nas samych wyłoni się nowa, przebudzona, idealna tożsamość.
+            </p>
+
+            <p class="tr" 
+               data-en="Chögyam Trungpa Rinpoche ruthlessly cut through this approach. He taught that as long as you treat meditation as a self-improvement project, you remain in the grip of the ego. Spirituality simply becomes another way to feel more important and better." 
+               data-pl="Chögyam Trungpa Rinpocze bezlitośnie odcinał to podejście. Uczył, że tak długo, jak traktujesz medytację jako projekt naprawy samego siebie, tak długo tkwisz w szponach ego. Duchowość staje się po prostu kolejnym sposobem na to, by poczuć się kimś ważniejszym i lepszym." 
+               data-ru="Чогьям Трунгпа Ринпоче безжалостно отсекал этот подход. Он учил, что пока вы относитесь к медитации как к проекту по самоисправлению, вы остаетесь в тисках эго. Духовность становится просто еще одним способом почувствовать себя более важным и лучшим.">
+               Chögyam Trungpa Rinpocze bezlitośnie odcinał to podejście. Uczył, że tak długo, jak traktujesz medytację jako projekt naprawy samego siebie, tak długo tkwisz w szponach ego. Duchowość staje się po prostu kolejnym sposobem na to, by poczuć się kimś ważniejszym i lepszym.
+            </p>
+
+            <h4 class="tr" data-en="Basic Goodness: You are already complete" data-pl="Podstawowe Dobro: Jesteś już kompletny" data-ru="Базовая Доброта: Ты уже целостен">Podstawowe Dobro: Jesteś już kompletny</h4>
+
+            <p class="tr" 
+               data-en="The answer to this fundamental neurosis is the concept of Basic Goodness. It has nothing to do with moral categories of being a good or bad citizen. Basic Goodness is the inherent, indestructible dignity, clarity, and purity of every human mind." 
+               data-pl="Odpowiedzią na tę fundamentalną neurozę jest koncepcja Podstawowego Dobra (Basic Goodness). Nie ma ona nic wspólnego z moralnymi kategoriami bycia dobrym lub złym obywatelem. Podstawowe Dobro to wrodzona, niezniszczalna godność, przejrzystość i czystość każdego ludzkiego umysłu." 
+               data-ru="Ответом на этот фундаментальный невроз является концепция Базовой Доброты. Она не имеет ничего общего с моральными категориями того, чтобы быть хорошим или плохим гражданином. Базовая Доброта — это врожденное, неразрушимое достоинство, ясность и чистота каждого человеческого ума.">
+               Odpowiedzią na tę fundamentalną neurozę jest koncepcja Podstawowego Dobra (Basic Goodness). Nie ma ona nic wspólnego z moralnymi kategoriami bycia dobrym lub złym obywatelem. Podstawowe Dobro to wrodzona, niezniszczalna godność, przejrzystość i czystość każdego ludzkiego umysłu.
+            </p>
+
+            <p class="tr" 
+               data-en="Notice the rock on which the building from the picture stands. That rock just is. It is immovable, silent, and forms the foundation of everything. Such is the nature of your mind. Your fears, neuroses, plans, ambitions, and the identities you cling to so desperately are like those colorful flags fluttering in the wind. They are constantly jerking and making noise, reacting to every gust." 
+               data-pl="Zwróć uwagę na skałę, na której wznosi się budowla ze zdjęcia. Ta skała po prostu jest. Jest niewzruszona, milcząca i stanowi fundament wszystkiego. Taka jest natura Twojego umysłu. Twoje lęki, neurozy, plany, ambicje i tożsamości, do których tak desperacko się przywiązujesz, są jak te kolorowe flagi łopoczące na wietrze. Nieustannie szarpią się i hałasują, reagując na każdy podmuch." 
+               data-ru="Обратите внимание на скалу, на которой возвышается здание с фотографии. Эта скала просто есть. Она неподвижна, безмолвна и является фундаментом всего. Такова природа вашего ума. Ваши страхи, неврозы, планы, амбиции и идентичности, за которые вы так отчаянно цепляетесь, подобны этим разноцветным флагам, развевающимся на ветру. Они постоянно дергаются и шумят, реагируя на каждый порыв.">
+               Zwróć uwagę na skałę, na której wznosi się budowla ze zdjęcia. Ta skała po prostu jest. Jest niewzruszona, milcząca i stanowi fundament wszystkiego. Taka jest natura Twojego umysłu. Twoje lęki, neurozy, plany, ambicje i tożsamości, do których tak desperacko się przywiązujesz, są jak te kolorowe flagi łopoczące na wietrze. Nieustannie szarpią się i hałasują, reagując na każdy podmuch.
+            </p>
+
+            <p class="tr" 
+               data-en="The problem is that we spend our whole lives identifying with these jerking flags, forgetting that we are, in fact, the mountain. Basic Goodness does not need to be built, just as a mountain does not need to be built. It only needs to be recognized." 
+               data-pl="Problem polega na tym, że spędzamy całe życie, utożsamiając się z tymi szarpiącymi się flagami, zapominając, że w istocie jesteśmy górą. Podstawowego Dobra nie trzeba budować, tak jak nie trzeba budować góry. Trzeba je jedynie rozpoznać." 
+               data-ru="Проблема в том, что мы проводим всю свою жизнь, отождествляя себя с этими дергающимися флагами, забывая, что на самом деле мы — гора. Базовую Доброту не нужно строить, так же как не нужно строить гору. Ее нужно только распознать.">
+               Problem polega na tym, że spędzamy całe życie, utożsamiając się z tymi szarpiącymi się flagami, zapominając, że w istocie jesteśmy górą. Podstawowego Dobra nie trzeba budować, tak jak nie trzeba budować góry. Trzeba je jedynie rozpoznać.
+            </p>
+
+            <h4 class="tr" data-en="Shedding masks, not building monuments" data-pl="Zrzucanie masek, a nie budowanie pomników" data-ru="Сбрасывание масок, а не строительство памятников">Zrzucanie masek, a nie budowanie pomników</h4>
+
+            <p class="tr" 
+               data-en="From the perspective of these teachings, meditation adds absolutely nothing to you. You don't sit on the cushion to accumulate spiritual merit, develop mystical powers, or become a saint. By definition, you are not broken, so you don't need fixing." 
+               data-pl="Z perspektywy tych nauk medytacja nie dodaje Ci absolutnie niczego. Nie siadasz na poduszce po to, by zgromadzić duchowe zasługi, rozwinąć mistyczne moce czy stać się świętym. Z założenia nie jesteś zepsuty, więc nie potrzebujesz naprawy." 
+               data-ru="С точки зрения этих учений, медитация не добавляет вам абсолютно ничего. Вы не садитесь на подушку для того, чтобы накопить духовные заслуги, развить мистические силы или стать святым. Изначально вы не сломаны, поэтому вам не нужна починка.">
+               Z perspektywy tych nauk medytacja nie dodaje Ci absolutnie niczego. Nie siadasz na poduszce po to, by zgromadzić duchowe zasługi, rozwinąć mistyczne moce czy stać się świętym. Z założenia nie jesteś zepsuty, więc nie potrzebujesz naprawy.
+            </p>
+
+            <p class="tr" 
+               data-en="Practice is a process of radical stripping away. It is the slow, often painful shedding of masks that your ego has put on to survive in the world. Instead of adding more layers of 'spirituality', you simply learn to sit with what is, allowing the illusions to fall away." 
+               data-pl="Praktyka jest procesem radykalnego ogołacania. To powolne, często bolesne zrzucanie masek, które Twoje ego założyło, by przetrwać w świecie. Zamiast dorzucać kolejne warstwy 'uduchowienia', uczysz się po prostu siedzieć z tym, co jest, pozwalając iluzjom opaść." 
+               data-ru="Практика — это процесс радикального обнажения. Это медленное, часто болезненное сбрасывание масок, которые ваше эго надело, чтобы выжить в мире. Вместо того, чтобы добавлять новые слои 'духовности', вы просто учитесь сидеть с тем, что есть, позволяя иллюзиям отпасть.">
+               Praktyka jest procesem radykalnego ogołacania. To powolne, często bolesne zrzucanie masek, które Twoje ego założyło, by przetrwać w świecie. Zamiast dorzucać kolejne warstwy "uduchowienia", uczysz się po prostu siedzieć z tym, co jest, pozwalając iluzjom opaść.
+            </p>
+
+            <p class="tr" 
+               data-en="When you stop fighting with yourself and abandon the project titled 'I am becoming a better person', you begin to see the open, clear space of your own presence. You discover that what you were so desperately searching for blindly in the world, you had inside you from the very beginning." 
+               data-pl="Kiedy przestajesz walczyć ze sobą i porzucasz projekt pod tytułem 'Staję się lepszym człowiekiem', zaczynasz dostrzegać otwartą, czystą przestrzeń własnej obecności. Odkrywasz, że to, czego tak desperacko szukałeś po omacku w świecie, miałeś w sobie od samego początku." 
+               data-ru="Когда вы перестаете бороться с собой и отказываетесь от проекта под названием 'Я становлюсь лучшим человеком', вы начинаете видеть открытое, ясное пространство собственного присутствия. Вы обнаруживаете, что то, что вы так отчаянно искали вслепую в мире, было внутри вас с самого начала.">
+               Kiedy przestajesz walczyć ze sobą i porzucasz projekt pod tytułem "Staję się lepszym człowiekiem", zaczynasz dostrzegać otwartą, czystą przestrzeń własnej obecności. Odkrywasz, że to, czego tak desperacko szukałeś po omacku w świecie, miałeś w sobie od samego początku.
+            </p>
+        </article>
+
+        <div class="article-footer">
+            <p class="tr" style="font-style: italic; color: var(--accent); margin-bottom: 2rem;" 
+               data-en="You don't need to climb the peak. You don't need to build a temple. Sit down. Be silent. Let the flags flutter in the wind and lean on your own foundation." 
+               data-pl="Nie musisz wspinać się na szczyt. Nie musisz budować świątyni. Usiądź. Zamilknij. Pozwól flagom łopotać na wietrze i oprzyj się o własny fundament." 
+               data-ru="Тебе не нужно взбираться на вершину. Тебе не нужно строить храм. Сядь. Замолчи. Позволь флагам развеваться на ветру и обопрись на свой собственный фундамент.">
+               Nie musisz wspinać się na szczyt. Nie musisz budować świątyni. Usiądź. Zamilknij. Pozwól flagom łopotać na wietrze i oprzyj się o własny fundament.
+            </p>
+            <a href="index.html#articles" class="btn tr" data-en="View all articles" data-pl="Zobacz wszystkie artykuły" data-ru="Смотреть все статьи">Zobacz wszystkie artykuły</a>
+        </div>
+    </main>
+
+    <script>
+/* =============================================================
+   SYSTEM STATYSTYK I TŁUMACZEŃ - FIXED VERSION (v5)
+   ============================================================= */
+
+// 1. Konfiguracja kluczy (zaktualizowana dla v5 - resetuje stare dane)
+const path = window.location.pathname;
+const storageKeyLike = 'liked_v5_art3_' + path;
+const storageKeyViews = 'views_v5_art3_' + path;
+
+// 2. Obsługa Języków
+const langSelect = document.getElementById('langSelect');
+const elementsToTranslate = document.querySelectorAll('.tr');
+
+function changeLanguage(lang) {
+    elementsToTranslate.forEach(el => { 
+        if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
+    });
+    document.documentElement.lang = lang;
+    langSelect.value = lang;
+    localStorage.setItem('preferredLang', lang);
+}
+
+// 3. Obsługa Polubień (Serduszko)
+function toggleLike() {
+    const btn = document.getElementById('likeBtn');
+    const countEl = document.getElementById('likeCount');
+    let currentLikes = parseInt(countEl.innerText);
+
+    if (!btn.classList.contains('active')) {
+        btn.classList.add('active');
+        currentLikes++;
+        localStorage.setItem(storageKeyLike, 'true');
+    } else {
+        btn.classList.remove('active');
+        currentLikes--;
+        localStorage.removeItem(storageKeyLike);
+    }
+    countEl.innerText = currentLikes;
+}
+
+// 4. Licznik Wyświetleń (Uproszczony z dodaniem wartości startowej)
+function initStats() {
+    const viewEl = document.getElementById('viewCount');
+    const likeEl = document.getElementById('likeCount');
+    const likeBtn = document.getElementById('likeBtn');
+
+    // A. Przywróć polubienie
+    if (localStorage.getItem(storageKeyLike)) {
+        likeBtn.classList.add('active');
+        likeEl.innerText = (parseInt(likeEl.innerText) + 1).toString();
+    }
+
+    // B. Logika Wyświetleń - Prosta inkrementacja
+    let savedViews = localStorage.getItem(storageKeyViews);
+    let currentViews;
+
+    if (!savedViews) {
+        // Pierwszy raz na tej wersji kodu - weź wartość z HTML i dodaj 1
+        currentViews = parseInt(viewEl.innerText.replace(/\s/g, '')) + 1;
+    } else {
+        // Jeśli już byłeś, dodaj 1 do zapamiętanej liczby
+        currentViews = parseInt(savedViews) + 1;
+    }
+
+    // Zapisz i wyświetl
+    localStorage.setItem(storageKeyViews, currentViews);
+    viewEl.innerText = currentViews.toLocaleString();
+}
+
+// 5. Start wszystkiego po załadowaniu DOM
+document.addEventListener("DOMContentLoaded", () => {
+    // Ustaw język
+    let savedLang = localStorage.getItem('preferredLang');
+    if (!savedLang) {
+        const userLangFull = navigator.language || navigator.userLanguage || "en";
+        savedLang = userLangFull.toLowerCase().substring(0, 2);
+        if (!['pl', 'ru', 'en'].includes(savedLang)) savedLang = 'en';
+    }
+    changeLanguage(savedLang);
+
+    // Zainicjuj statystyki
+    initStats();
+});
+
+// Listener dla przełącznika języka
+langSelect.addEventListener('change', (e) => {
+    changeLanguage(e.target.value);
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Spiritual materialism: Why meditation is not a spa for the brain?">
+    <title>Spiritual Materialism - Nobody Meditates Here</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg-light: #FAFAFA;
+            --text: #111111;
+            --accent: #888888;
+            --bord: #4A2C2A; 
+            --transition-fast: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            font-weight: 300; 
+        }
+
+        h1, h2, h3, h4 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
+        
+        /* Ambient BG */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: linear-gradient(to bottom, #FFFFFF, #FCFCFC);
+        }
+
+        /* Nav */
+        nav { 
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); padding: 1rem 0; z-index: 100; border-bottom: 1px solid rgba(136, 136, 136, 0.1);
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        
+        /* LOGO W NAV + BRAND TEXT */
+        .nav-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px; /* Odstęp między logo a napisem */
+        }
+
+        .nav-logo {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        /* Stylizacja napisu brandowego */
+        .nav-brand-text {
+            font-family: 'Libre Baskerville', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-logo-link:hover .nav-logo {
+            transform: scale(1.05);
+        }
+        
+        .nav-logo-link:hover .nav-brand-text {
+            color: var(--bord);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        nav a:not(.nav-logo-link) { color: var(--accent); text-decoration: none; font-size: 0.95rem; transition: color var(--transition-fast); }
+        nav a:not(.nav-logo-link):hover { color: var(--bord); }
+        
+        .back-link { font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+        .lang-switch select { 
+            background: transparent; border: 1px solid transparent; color: var(--accent); font-family: inherit; font-size: 0.95rem; cursor: pointer; outline: none;
+        }
+
+        /* Article Layout */
+        .article-container {
+            max-width: 700px;
+            margin: 10rem auto 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header { text-align: center; margin-bottom: 4rem; }
+        .article-header h1 { font-size: 2.5rem; color: var(--bord); line-height: 1.3; margin-bottom: 1.5rem; }
+
+        /* ==========================================================================
+           MODERN HEADER META (Author, Time, Likes, Views)
+           ========================================================================== */
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .meta-sep {
+            opacity: 0.2;
+            font-weight: 300;
+        }
+
+        /* CZYSTE SERDUSZKO CSS */
+        .meta-stat-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            padding: 0;
+            outline: none;
+        }
+
+        .meta-stat-btn:hover { color: var(--bord); }
+        .meta-stat-btn.active { color: #e74c3c; }
+        .meta-stat-btn.active svg { fill: #e74c3c; stroke: #e74c3c; }
+
+        .meta-stat-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+
+        .meta-item svg {
+            width: 15px;
+            height: 15px;
+            stroke-width: 2;
+        }
+
+        .article-content p { margin-bottom: 1.8rem; font-size: 1.05rem; }
+        .article-content h4 { font-size: 1.4rem; color: var(--text); margin: 3rem 0 1.5rem 0; }
+
+        .article-footer {
+            margin-top: 5rem; padding-top: 2rem; border-top: 1px solid rgba(136,136,136,0.2); text-align: center;
+        }
+
+        .btn {
+            display: inline-block; border: 1px solid var(--text); color: var(--text); padding: 1rem 2rem; text-decoration: none; transition: all 0.3s;
+        }
+        .btn:hover { background: var(--text); color: var(--bg); }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 1.8rem; }
+            .article-container { margin-top: 8rem; }
+            .nav-container { padding: 0 1.5rem; }
+        }
+
+        /* Responsywność dla paska nawigacji */
+        @media (max-width: 480px) {
+            .nav-brand-text {
+                display: none; /* Chowamy napis na telefonach, by nie blokował nav-controls */
+            }
+            .nav-container {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link" aria-label="Go to Home">
+                <img src="logo.jpg" alt="Nobody Meditates Here" class="nav-logo">
+                <span class="nav-brand-text">Nobody Meditates Here</span>
+            </a>
+            
+            <div class="nav-controls">
+                <a href="index.html" class="back-link tr" data-en="&larr; Back" data-pl="&larr; Wróć" data-ru="&larr; Назад">&larr; Wróć</a>
+                <div class="lang-switch">
+                    <select id="langSelect" aria-label="Select language">
+                        <option value="en">EN</option>
+                        <option value="pl" selected>PL</option>
+                        <option value="ru">RU</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <header class="article-header">
+            <h1 class="tr" 
+                data-en="Spiritual materialism: Why meditation is not a spa for the brain?" 
+                data-pl="Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?" 
+                data-ru="Духовный материализм: Почему медитация — это не спа для мозга?">
+                Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?
+            </h1>
+            
+            <div class="article-meta">
+                <span class="meta-item">
+                    <span class="tr" data-en="Author: " data-pl="Autor: " data-ru="Автор: ">Autor: </span>
+                    <span class="author-name">Pavel Bielski</span>
+                </span>
+                
+                <span class="meta-sep">|</span>
+                
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span class="tr" data-en="3 min read" data-pl="3 min czytania" data-ru="3 мин чтения">3 min czytania</span>
+                </span>
+
+                <span class="meta-sep">|</span>
+
+                <button class="meta-stat-btn" id="likeBtn" onclick="toggleLike()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span id="likeCount">27</span>
+                </button>
+
+                <span class="meta-sep">|</span>
+
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span id="viewCount">241</span>
+                </span>
+            </div>
+        </header>
+
+        <img src="article1.jpg" alt="Meditation representation" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 4px; margin-bottom: 3rem; filter: grayscale(10%); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+
+        <article class="article-content">
+            <p class="tr" 
+               data-en="Burnt incense, apps promising deep sleep, pastel cushions, and the promise of instant calm after a hard day at the office. Meditation in the West has undergone a very specific transformation in recent decades. From a raw, often uncomfortable discipline, it has become another 'product' on the shelf in the self-improvement supermarket. Something meant to relax us, remove stress, and make us more productive." 
+               data-pl="Wypalone kadzidła, aplikacje obiecujące głęboki sen, pastelowe poduszki i obietnica natychmiastowego wyciszenia po ciężkim dniu w biurze. Medytacja na Zachodzie przeszła w ostatnich dekadach bardzo specyficzną transformację. Z surowej, często niewygodnej dyscypliny stała się kolejnym 'produktem' na półce w supermarkecie samorozwoju. Czymś, co ma nas zrelaksować, usunąć stres i sprawić, że będziemy bardziej produktywni." 
+               data-ru="Сгоревшие благовония, приложения, обещающие глубокий сон, пастельные подушки и обещание мгновенного успокоения после тяжелого дня в офисе. Медитация на Западе за последние десятилетия претерпела весьма специфическую трансформацию. Из суровой, часто неудобной дисциплины она превратилась в очередной «продукт» на полке супермаркета саморазвития. В то, что должно нас расслабить, снять стресс и сделать более продуктивными.">
+               Wypalone kadzidła, aplikacje obiecujące głęboki sen, pastelowe poduszki i obietnica natychmiastowego wyciszenia po ciężkim dniu w biurze. Medytacja na Zachodzie przeszła w ostatnich dekadach bardzo specyficzną transformację. Z surowej, często niewygodnej dyscypliny stała się kolejnym "productem" na półce w supermarkecie samorozwoju. Czymś, co ma nas zrelaksować, usunąć stres i sprawić, że będziemy bardziej produktywni.
+            </p>
+
+            <p class="tr" 
+               data-en="The problem is that this approach completely misses the point." 
+               data-pl="Problem w tym, że takie podejście całkowicie mija się z celem." 
+               data-ru="Проблема в том, что такой подход совершенно упускает суть.">
+               Problem w tym, że takie podejście całkowicie mija się z celem.
+            </p>
+
+            <h4 class="tr" data-en="The Trap of the Spiritual Ego" data-pl="Pułapka duchowego ego" data-ru="Ловушка духовного эго">Pułapka duchowego ego</h4>
+
+            <p class="tr" 
+               data-en="Chögyam Trungpa Rinpoche, a Tibetan meditation master, warned against this phenomenon as early as the 1970s. He coined the term 'spiritual materialism' for this very purpose. It is an incredibly subtle and dangerous trap of the ego, which can appropriate anything — even the techniques meant to dissolve it." 
+               data-pl="Chögyam Trungpa Rinpocze, tybetański mistrz medytacji, ostrzegał przed tym zjawiskiem już w latach 70. Ukuł w tym celu pojęcie duchowego materializmu. To niezwykle subtelna i niebezpieczna pułapka ego, które potrafi zawłaszczyć wszystko – nawet techniki służące jego rozpuszczeniu." 
+               data-ru="Чогьям Трунгпа Ринпоче, тибетский мастер медитации, предупреждал об этом явлении еще в 70-х годах. Для этого он ввел понятие «духовный материализм». Это невероятно тонкая и опасная ловушка эго, которое способно присвоить себе все — даже техники, служащие его растворению.">
+               Chögyam Trungpa Rinpocze, tybetański mistrz medytacji, ostrzegał przed tym zjawiskiem już w latach 70. Ukuł w tym celu pojęcie duchowego materializmu. To niezwykle subtelna i niebezpieczna pułapka ego, które potrafi zawłaszczyć wszystko – nawet techniki służące jego rozpuszczeniu.
+            </p>
+
+            <p class="tr" 
+               data-en="Spiritual materialism occurs when we start using meditation practice not to awaken to reality, but to build a better, more 'spiritual' version of ourselves. We want to feel calmer, wiser, and over time — secretly — better and more aware than all those 'busy people' around us." 
+               data-pl="Duchowy materializm pojawia się wtedy, gdy zaczynamy używać praktyki medytacyjnej nie po to, by przebudzić się do rzeczywistości, ale po to, by zbudować lepszą, bardziej 'uduchowioną' wersję samego siebie. Chcemy poczuć się spokojniejsi, mądrzejsi, a z czasem – w skrytości ducha – lepsi i bardziej świadomi od tych wszystkich 'zabieganych ludzi' wokół nas." 
+               data-ru="Духовный материализм возникает тогда, когда мы начинаем использовать практику медитации не для того, чтобы пробудиться к реальности, а для того, чтобы создать лучшую, более «духовную» версию себя. Мы хотим чувствовать себя спокойнее, мудрее, а со временем — втайне — лучше и осознаннее всех этих «занятых людей» вокруг нас.">
+               Duchowy materializm pojawia się wtedy, gdy zaczynamy używać praktyki medytacyjnej nie po to, by przebudzić się do rzeczywistości, ale po to, by zbudować lepszą, bardziej "uduchowioną" wersję samego siebie. Chcemy poczuć się spokojniejsi, mądrzejsi, a z czasem – w skrytości ducha – lepsi i bardziej świadomi od tych wszystkich "zabieganych ludzi" wokół nas.
+            </p>
+
+            <h4 class="tr" data-en="The Illusion of Eternal Bliss" data-pl="Złudzenie wiecznego błogostanu" data-ru="Иллюзия вечного блаженства">Złudzenie wiecznego błogostanu</h4>
+
+            <p class="tr" 
+               data-en="Many beginners sit on the cushion with one goal: they want to turn off their thoughts. They expect all their fears, anger from an argument with a partner, or stress about unpaid bills to evaporate after fifteen minutes. When this doesn't work — when the mind races and the knees start to ache — they get frustrated and decide they 'can't meditate.'" 
+               data-pl="Wielu początkujących siada na poduszce z jednym celem: chcą wyłączyć myśli. Oczekują, że po piętnastu minutach wyparują z nich wszystkie lęki, złość z powodu kłótni z partnerem czy stres o niezapłacone rachunki. Kiedy to nie działa – kiedy umysł galopuje, a kolana zaczynają boleć – frustrują się i uznają, że 'nie potrafią medytować'." 
+               data-ru="Многие начинающие садятся на подушку с одной целью: они хотят отключить мысли. Они ожидают, что через пятнадцать минут испарятся все их страхи, злость из-за ссоры с партнером или стресс из-за неоплаченных счетов. Когда это не работает — когда ум скачет, а колени начинают болеть — они разочаровываются и решают, что «не умеют медитировать».">
+               Wielu początkujących siada na poduszce z jednym celem: chcą wyłączyć myśli. Oczekują, że po piętnastu minutach wyparują z nich wszystkie lęki, złość z powodu kłótni z partnerem czy stres o niezapłacone rachunki. Szukają ucieczki w krainę wiecznego spokoju. Kiedy to nie działa – kiedy umysł galopuje, a kolana zaczynają boleć – frustrują się i uznają, że "nie potrafią medytować".
+            </p>
+
+            <p class="tr" 
+               data-en="The truth, however, is different: meditation is not a spa for the brain. Its purpose is not to drown out problems or escape the chaos surrounding us. If you are just looking for pleasant relaxation, a hot bath will probably work much better." 
+               data-pl="Prawda jest jednak inna: medytacja to nie spa dla mózgu. Nie ma na celu zagłuszenia problemów ani ucieczki od otaczającego nas chaosu. Jeśli szukasz tylko przyjemnego relaksu i odcięcia się od świata, gorąca kąpiel lub spacer w lesie sprawdzą się prawdopodobnie o wiele lepiej." 
+               data-ru="Правда, однако, w drugim: медитация — это не спа для мозга. Ее цель не в том, чтобы zagłuszyć проблемы lub uciec od откпужающего chaosu. Если ты ищешь просто приятного расслабления, горячая ванна, вероятно, подойдет намного лучше.">
+               Prawda jest jednak inna: medytacja to nie spa dla mózgu. Nie ma na celu zagłuszenia problemów ani ucieczki od otaczającego nas chaosu. Jeśli szukasz tylko przyjemnego relaksu i odcięcia się od świata, gorąca kąpiel lub spacer w lesie sprawdzą się prawdopodobnie o wiele lepiej.
+            </p>
+
+            <h4 class="tr" data-en="Stripping Away the Illusion" data-pl="Obdarcie z iluzji" data-ru="Избавление от иллюзий">Obdarcie z iluzji</h4>
+
+            <p class="tr" 
+               data-en="True practice is the process of stripping away illusions. It is the moment you decide to stop running from your own life and meet it exactly as it is. With all its boredom, discomfort, ordinariness, and pain." 
+               data-pl="Prawdziwa praktyka to proces obdzierania się z iluzji. To moment, w którym decydujesz się przestać uciekać przed własnym życiem i spotykasz się z nim dokładnie takim, jakie jest. Z całą jego nudą, dyskomfortem, zwyczajnością i bólem." 
+               data-ru="Истинная практика — это процесс избавления от иллюзий. Это момент, когда вы решаете перестать убегать от собственной жизни и встречаете ее именно такой, какая она есть. Со всей ее скукой, дискомфортом, обыденностью и болью.">
+               Prawdziwa praktyka to proces obdzierania się z iluzji. To moment, w którym decydujesz się przestać uciekać przed własnym życiem i spotykasz się z nim dokładnie takim, jakie jest. Z całą jego nudą, dyskomfortem, zwyczajnością i bólem.
+            </p>
+
+            <p class="tr" 
+               data-en="You do not meditate to become someone else. You sit down to finally notice how obsessively your mind tries to control reality and how terrified it is to simply be. This requires courage. It is precisely in this raw, uncomfortable place that genuine stability and clarity begin." 
+               data-pl="Nie medytujesz po to, by stać się kimś innym. Siadasz po to, aby w końcu zauważyć, jak obsesyjnie Twój umysł próbuje kontrolować rzeczywistość i jak bardzo boi się po prostu być. To wymaga odwagi. Ale to właśnie w tym surowym, niewygodnym miejscu zaczyna się prawdziwa stabilność i przejrzystość." 
+               data-ru="Вы не медитируете для того, чтобы стать кем-то другим. Вы садитесь для того, чтобы наконец заметить, как одержимо ваш ум пытается контролировать реальность и как сильно он боится просто быть. Это требует смелости. Именно в этом суровом, неудобном месте начинается настоящая стабильность и ясность.">
+               Nie medytujesz po to, by stać się kimś innym, uciec w wyobrażone światło czy zyskać supermoce. Siadasz po to, aby w końcu zauważyć, jak obsesyjnie Twój umysł próbuje kontrolować rzeczywistość i jak bardzo boi się po prostu być. To wymaga odwagi. Ale to właśnie w tym surowym, niewygodnym miejscu, po odrzuceniu wszystkich ról i oczekiwań, zaczyna się prawdziwa stabilność i przejrzystość.
+            </p>
+        </article>
+
+        <div class="article-footer">
+            <p class="tr" style="font-style: italic; color: var(--accent); margin-bottom: 2rem;" 
+               data-en="Start where you are. With what you have. Nothing more is needed." 
+               data-pl="Zacznij tam, gdzie jesteś. Z tym, co masz. Nic więcej nie jest potrzebne." 
+               data-ru="Начни там, где ты есть. С тем, что у тебя есть. Больше ничего не нужно.">
+               Zacznij tam, gdzie jesteś. Z tym, co masz. Nic więcej nie jest potrzebne.
+            </p>
+            <a href="index.html#articles" class="btn tr" data-en="View all articles" data-pl="Zobacz wszystkie artykuły" data-ru="Смотреть все статьи">Zobacz wszystkie artykuły</a>
+        </div>
+    </main>
+
+<script>
+/* =============================================================
+   SYSTEM STATYSTYK I TŁUMACZEŃ - FIXED VERSION (v5)
+   ============================================================= */
+
+// 1. Konfiguracja kluczy (v5 resetuje stare błędne dane)
+const path = window.location.pathname;
+const storageKeyLike = 'liked_v5_' + path;
+const storageKeyViews = 'views_v5_' + path;
+
+// 2. Obsługa Języków
+const langSelect = document.getElementById('langSelect');
+const elementsToTranslate = document.querySelectorAll('.tr');
+
+function changeLanguage(lang) {
+    elementsToTranslate.forEach(el => { 
+        if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
+    });
+    document.documentElement.lang = lang;
+    langSelect.value = lang;
+    localStorage.setItem('preferredLang', lang);
+}
+
+// 3. Obsługa Polubień (Serduszko)
+function toggleLike() {
+    const btn = document.getElementById('likeBtn');
+    const countEl = document.getElementById('likeCount');
+    let currentLikes = parseInt(countEl.innerText);
+
+    if (!btn.classList.contains('active')) {
+        btn.classList.add('active');
+        currentLikes++;
+        localStorage.setItem(storageKeyLike, 'true');
+    } else {
+        btn.classList.remove('active');
+        currentLikes--;
+        localStorage.removeItem(storageKeyLike);
+    }
+    countEl.innerText = currentLikes;
+}
+
+// 4. Licznik Wyświetleń (Uproszczony)
+function initStats() {
+    const viewEl = document.getElementById('viewCount');
+    const likeEl = document.getElementById('likeCount');
+    const likeBtn = document.getElementById('likeBtn');
+
+    // A. Przywróć polubienie
+    if (localStorage.getItem(storageKeyLike)) {
+        likeBtn.classList.add('active');
+        likeEl.innerText = (parseInt(likeEl.innerText) + 1).toString();
+    }
+
+    // B. Logika Wyświetleń - Prosta inkrementacja
+    let savedViews = localStorage.getItem(storageKeyViews);
+    let currentViews;
+
+    if (!savedViews) {
+        // Jeśli pierwszy raz na tej wersji kodu, weź 241 z HTML i dodaj 1
+        currentViews = parseInt(viewEl.innerText.replace(/\s/g, '')) + 1;
+    } else {
+        // Jeśli już byłeś, po prostu dodaj 1 do zapamiętanej liczby
+        currentViews = parseInt(savedViews) + 1;
+    }
+
+    // Zapisz i wyświetl
+    localStorage.setItem(storageKeyViews, currentViews);
+    viewEl.innerText = currentViews.toLocaleString();
+}
+
+// 5. Start wszystkiego po załadowaniu DOM
+document.addEventListener("DOMContentLoaded", () => {
+    // Ustaw język
+    let savedLang = localStorage.getItem('preferredLang');
+    if (!savedLang) {
+        const userLangFull = navigator.language || navigator.userLanguage || "en";
+        savedLang = userLangFull.toLowerCase().substring(0, 2);
+        if (!['pl', 'ru', 'en'].includes(savedLang)) savedLang = 'en';
+    }
+    changeLanguage(savedLang);
+
+    // Zainicjuj statystyki
+    initStats();
+});
+
+// Listener dla przełącznika języka
+langSelect.addEventListener('change', (e) => {
+    changeLanguage(e.target.value);
+});
+</script>
+</body>
+</html>

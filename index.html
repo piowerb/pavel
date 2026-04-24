@@ -13,7 +13,7 @@
     <meta property="og:title" content="Nobody Meditates Here">
     <meta property="og:description" content="Learn to sit still in a restless world. Simple sitting meditation instruction online.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nobodymeditateshere.com/">
+    <meta property="og:url" content="https://pavelbielski.com/">
     <meta property="og:image" content="main.jpeg">
     
     <meta name="twitter:card" content="summary_large_image">
@@ -21,9 +21,12 @@
     <meta name="twitter:description" content="Simple sitting meditation instruction online.">
     <meta name="twitter:image" content="main.jpeg">
 
-    <link rel="canonical" href="https://nobodymeditateshere.com/">
+    <link rel="canonical" href="https://pavelbielski.com/">
     <title>Nobody Meditates Here</title>
-    
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -37,7 +40,7 @@
             --bg-light: #FAFAFA;
             --text: #111111;
             --accent: #888888;
-            --bord: #4A2C2A; /* Subtelny, ciemny bordowy detal */
+            --bord: #4A2C2A; 
             --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             --transition-fast: 0.3s ease;
         }
@@ -143,15 +146,17 @@
             max-width: 1200px; 
             margin: 0 auto; 
             display: flex; 
-            justify-content: space-between; 
+            justify-content: center; 
             align-items: center; 
             padding: 0 2rem; 
+            position: relative;
         }
 
         nav ul { 
             list-style: none; 
             display: flex; 
-            gap: 3rem; 
+            gap: 2.5rem; 
+            padding-right: 50px; 
         }
 
         nav a { 
@@ -167,7 +172,12 @@
             outline: none;
         }
 
-        /* Przełącznik języka */
+        .lang-switch {
+            position: absolute;
+            right: 2rem;
+            display: flex;
+        }
+
         .lang-switch select { 
             background: transparent; 
             border: 1px solid transparent; 
@@ -226,7 +236,6 @@
             margin-bottom: 2rem; 
         }
 
-        /* Przyciski */
         .btn { 
             display: inline-block; 
             border: 1px solid var(--text); 
@@ -265,7 +274,6 @@
             transform: translateY(-2px);
         }
 
-        /* --- HERO SECTION --- */
         .hero { 
             text-align: center; 
             display: flex; 
@@ -274,6 +282,27 @@
             align-items: center; 
             min-height: 100vh; 
             padding-top: 0; 
+            position: relative;
+        }
+
+        .hero-watermark {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 0.04; 
+            z-index: 0;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1; 
         }
 
         .hero h1 { 
@@ -289,13 +318,13 @@
             color: var(--accent); 
             margin-bottom: 4rem; 
             max-width: 500px; 
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* ==========================================================================
            4. KOMPONENTY (KARTY, KARUZELE, ZDJĘCIA)
            ========================================================================== */
-        
-        /* Grid Spotkań */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -338,7 +367,6 @@
             color: var(--text);
         }
 
-        /* O Mnie */
         .about-flex { 
             display: flex; 
             gap: 4rem; 
@@ -367,7 +395,41 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
-        /* Wspólne ustawienia Karuzeli */
+        .certificate-wrapper {
+            margin-top: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .certificate-images-container {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .certificate-img {
+            width: 100%;
+            max-width: 250px; 
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(136, 136, 136, 0.15);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            cursor: zoom-in;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: grayscale(10%);
+        }
+
+        .certificate-img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            filter: grayscale(0%);
+        }
+
         .carousel-wrapper { 
             position: relative; 
             width: 100%; 
@@ -444,10 +506,7 @@
             font-style: italic; 
         }
 
-        /* Karuzela Wideo */
-        #video-wrapper { 
-            background: #000; 
-        }
+        #video-wrapper { background: #000; }
         
         #video-track iframe { 
             width: 100%; 
@@ -457,22 +516,36 @@
             display: block; 
         }
 
-        /* Karuzela Zdjęć */
-        #image-track img { 
-            width: 100%; 
-            height: 600px; 
-            object-fit: cover; 
-            display: block; 
-            cursor: zoom-in; 
-            filter: grayscale(15%); 
-            transition: filter 0.6s ease, transform 0.6s ease; 
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 4rem;
         }
 
-        #image-track img:hover { 
-            filter: grayscale(0%); 
+        @media (min-width: 768px) {
+            .collage-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
-        /* Lightbox (Powiększenie Zdjęć) */
+        .collage-grid img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: zoom-in;
+            filter: grayscale(15%);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .collage-grid img:hover {
+            filter: grayscale(0%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
         .lightbox { 
             position: fixed; 
             top: 0; left: 0; 
@@ -488,10 +561,7 @@
             transition: opacity var(--transition-fast); 
         }
 
-        .lightbox.active { 
-            opacity: 1; 
-            pointer-events: all; 
-        }
+        .lightbox.active { opacity: 1; pointer-events: all; }
 
         .lightbox img { 
             max-width: 90vw; 
@@ -502,9 +572,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .lightbox.active img {
-            transform: scale(1);
-        }
+        .lightbox.active img { transform: scale(1); }
 
         .lightbox-close { 
             position: absolute; 
@@ -524,7 +592,6 @@
             transform: rotate(90deg);
         }
 
-        /* Kontrolki przewijania w lightboxie */
         .lightbox-btn {
             position: absolute;
             top: 50%;
@@ -539,17 +606,10 @@
             z-index: 10000;
         }
 
-        .lightbox-btn:hover {
-            color: #fff;
-            transform: translateY(-50%) scale(1.2);
-        }
-
+        .lightbox-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
         .lightbox-btn.prev { left: 2rem; }
         .lightbox-btn.next { right: 2rem; }
 
-        /* ==========================================================================
-           5. FORMULARZ KONTAKTOWY I STOPKA
-           ========================================================================== */
         form { 
             margin-top: 2rem; 
             max-width: 600px;
@@ -571,52 +631,14 @@
             appearance: none; 
         }
 
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-bottom-color: var(--bord); 
-            padding-left: 10px; 
-        }
+        input:focus, textarea:focus { outline: none; border-bottom-color: var(--bord); padding-left: 10px; }
+        textarea { height: 120px; resize: vertical; }
 
-        textarea { 
-            height: 120px; 
-            resize: vertical; 
-        }
-
-        /* HONEYPOT */
-        .honeypot-field {
-            display: none !important;
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 0;
-            width: 0;
-            z-index: -1;
-        }
-
-        .form-status {
-            margin-top: 1rem;
-            font-size: 0.95rem;
-            color: var(--bord);
-            display: none;
-        }
-
-        .contact-info { 
-            margin-top: 4rem; 
-            font-size: 0.95rem; 
-        }
-
-        .contact-info a { 
-            color: var(--text); 
-            text-decoration: none; 
-            border-bottom: 1px solid var(--accent); 
-            transition: border-color var(--transition-fast); 
-            padding-bottom: 2px;
-        }
-
-        .contact-info a:hover { 
-            border-color: var(--bord); 
-        }
+        .honeypot-field { display: none !important; opacity: 0; position: absolute; top: 0; left: 0; height: 0; width: 0; z-index: -1; }
+        .form-status { margin-top: 1rem; font-size: 0.95rem; color: var(--bord); display: none; }
+        .contact-info { margin-top: 4rem; font-size: 0.95rem; }
+        .contact-info a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent); transition: border-color var(--transition-fast); padding-bottom: 2px; }
+        .contact-info a:hover { border-color: var(--bord); }
 
         footer { 
             text-align: center; 
@@ -627,147 +649,41 @@
             position: relative;
         }
 
-        .social-media-container {
-            margin: 3rem 0 2rem 0;
-            padding: 2.5rem 0;
-            border-top: 1px dashed rgba(136,136,136,0.1);
-        }
-
-        .social-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .social-links a {
-            color: var(--accent);
-            transition: color var(--transition-fast), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-links a:hover {
-            color: var(--bord);
-            transform: translateY(-5px) scale(1.1);
-        }
-
-        .social-links svg {
-            width: 28px;
-            height: 28px;
-        }
+        .social-media-container { margin: 3rem 0 2rem 0; padding: 2.5rem 0; border-top: 1px dashed rgba(136,136,136,0.1); }
+        .social-title { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--accent); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .social-links { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; }
+        .social-links a { color: var(--accent); transition: color var(--transition-fast), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); display: inline-flex; align-items: center; justify-content: center; }
+        .social-links a:hover { color: var(--bord); transform: translateY(-5px) scale(1.1); }
+        .social-links svg { width: 28px; height: 28px; }
 
         .support-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border: 1px solid rgba(136,136,136,0.2);
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(5px);
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-radius: 50px; 
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            margin-top: 1rem;
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; border: 1px solid rgba(136,136,136,0.2);
+            background: rgba(255,255,255,0.5); backdrop-filter: blur(5px); color: var(--text); text-decoration: none;
+            font-size: 0.9rem; border-radius: 50px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); margin-top: 1rem;
         }
+        .support-btn:hover { border-color: var(--bord); background: var(--bg); transform: translateY(-3px); color: var(--bord); box-shadow: 0 10px 20px rgba(74, 44, 42, 0.05); }
+        .support-btn svg { width: 20px; height: 20px; }
+        .footer-copyright { margin-top: 3rem; color: var(--accent); opacity: 0.7; }
 
-        .support-btn:hover {
-            border-color: var(--bord);
-            background: var(--bg);
-            transform: translateY(-3px);
-            color: var(--bord);
-            box-shadow: 0 10px 20px rgba(74, 44, 42, 0.05);
-        }
-
-        .support-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .footer-copyright {
-            margin-top: 3rem;
-            color: var(--accent);
-            opacity: 0.7;
-        }
-
-        /* Akordeon Polityki Prywatności */
-        .privacy-accordion {
-            max-width: 600px;
-            margin: 2rem auto 0;
-            text-align: left;
-            border-top: 1px solid rgba(136,136,136,0.1);
-            padding-top: 1rem;
-        }
-
-        .privacy-toggle {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            gap: 0.5rem;
-            transition: color var(--transition-fast);
-            padding: 0.5rem;
-        }
-
-        .privacy-toggle:hover {
-            color: var(--text);
-        }
-
-        .privacy-toggle svg {
-            width: 14px;
-            height: 14px;
-            transition: transform var(--transition-fast);
-        }
-
-        .privacy-toggle[aria-expanded="true"] svg {
-            transform: rotate(180deg);
-        }
-
-        .privacy-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-            opacity: 0;
-            font-size: 0.8rem;
-            color: var(--accent);
-            line-height: 1.6;
-        }
-
-        .privacy-content.open {
-            max-height: 300px;
-            opacity: 1;
-            padding: 1rem 0;
-        }
+        .privacy-accordion { max-width: 600px; margin: 2rem auto 0; text-align: left; border-top: 1px solid rgba(136,136,136,0.1); padding-top: 1rem; }
+        .privacy-toggle { background: none; border: none; color: var(--accent); font-family: 'Inter', sans-serif; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; gap: 0.5rem; transition: color var(--transition-fast); padding: 0.5rem; }
+        .privacy-toggle:hover { color: var(--text); }
+        .privacy-toggle svg { width: 14px; height: 14px; transition: transform var(--transition-fast); }
+        .privacy-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+        .privacy-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease; opacity: 0; font-size: 0.8rem; color: var(--accent); line-height: 1.6; }
+        .privacy-content.open { max-height: 300px; opacity: 1; padding: 1rem 0; }
 
         /* ==========================================================================
-           6. ANIMACJE (FADE IN)
+           6. FANCY ANIMACJE (SCROLL REVEAL)
            ========================================================================== */
-        .fade-in { 
+        .fancy-reveal { 
             opacity: 0; 
             transform: translateY(40px); 
-            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1); 
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
             will-change: opacity, transform;
         }
 
-        .fade-in.visible { 
+        .fancy-reveal.is-visible { 
             opacity: 1; 
             transform: translateY(0); 
         }
@@ -775,6 +691,10 @@
         /* ==========================================================================
            7. MEDIA QUERIES (RESPONSYWNOŚĆ) - MOBILE FIRST OPTIMIZATION
            ========================================================================== */
+        @media (max-width: 1000px) {
+            nav ul { gap: 1.5rem; }
+        }
+
         @media (max-width: 900px) {
             .about-flex { 
                 flex-direction: column; 
@@ -795,13 +715,16 @@
         @media (max-width: 768px) { 
             .nav-container { 
                 flex-direction: column; 
-                gap: 0.8rem; 
-                padding: 0 1rem;
+                gap: 1rem; 
+                padding: 1rem;
+                justify-content: center;
             }
+
             nav ul { 
-                gap: 1.2rem; 
+                gap: 1rem; 
                 flex-wrap: wrap;
                 justify-content: center;
+                padding-right: 0; 
             } 
             nav a {
                 font-size: 0.85rem; 
@@ -814,15 +737,12 @@
                 margin: 2rem 0; 
             }
             
-            #image-track img { 
+            .native-carousel-track img { 
                 height: 100%; 
                 width: 100%;
-                /* Remove strict aspect-ratio to prevent side cutting */
                 aspect-ratio: auto;
-                /* Keep max-height to avoid extremely tall images */
                 max-height: 60vh;
-                object-fit: contain; /* Show the entire image */
-                /* Use a nice subtle blur background for images that don't fill the space */
+                object-fit: contain; 
                 background: var(--bg-light);
             }
 
@@ -839,6 +759,15 @@
             .lightbox-btn.prev { left: 0.5rem; }
             .lightbox-btn.next { right: 0.5rem; }
             
+            .nc-btn {
+                width: 35px !important;
+                height: 35px !important;
+                font-size: 1rem !important;
+                display: block !important;
+            }
+            .nc-btn.prev { left: 0.5rem !important; }
+            .nc-btn.next { right: 0.5rem !important; }
+
             .carousel-btn {
                 width: 45px;
                 height: 45px;
@@ -846,64 +775,247 @@
             }
             .carousel-btn.prev { left: 0.5rem; }
             .carousel-btn.next { right: 0.5rem; }
+
+            .hero-watermark {
+                width: 300px;
+                height: 300px;
+            }
+
+            .lang-switch {
+                position: static; 
+                justify-content: center;
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .support-btn {
-                padding: 0.8rem 1.2rem;
-                font-size: 0.8rem;
-            }
-            #video-track iframe {
-                height: 250px; 
-            }
+            .hero h1 { font-size: 2.2rem; }
+            .support-btn { padding: 0.8rem 1.2rem; font-size: 0.8rem; }
+            #video-track iframe { height: 250px; }
+            .hero-watermark { width: 250px; height: 250px; }
         }
 
         /* Styl natywnej galerii */
-.native-carousel-wrapper {
-    position: relative;
-    width: 100%;
-    border: 1px solid rgba(136,136,136,0.15);
-    border-radius: 4px;
-    overflow: hidden;
-}
+        .native-carousel-wrapper {
+            position: relative;
+            width: 100%;
+            border: 1px solid rgba(136,136,136,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
 
-.native-carousel-track {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Ukrywa pasek na Firefox */
-}
+        .native-carousel-track {
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; 
+        }
 
-.native-carousel-track::-webkit-scrollbar {
-    display: none; /* Ukrywa pasek na Chrome/Safari */
-}
+        .native-carousel-track::-webkit-scrollbar { display: none; }
 
-.native-carousel-track img {
-    flex: 0 0 100% !important; /* Zdjęcie na całą szerokość */
-    scroll-snap-align: center !important;
-    height: 600px !important;
-    object-fit: cover !important;
-    cursor: zoom-in;
-    display: block;
-}
+        .native-carousel-track img {
+            flex: 0 0 100% !important; 
+            scroll-snap-align: center !important;
+            height: 600px !important;
+            object-fit: cover !important;
+            cursor: zoom-in;
+            display: block;
+        }
 
-.nc-btn {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
-    width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
-}
-.nc-btn.prev { left: 1rem; }
-.nc-btn.next { right: 1rem; }
+        .nc-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd;
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
+        }
+        .nc-btn.prev { left: 1rem; }
+        .nc-btn.next { right: 1rem; }
 
-@media (max-width: 768px) {
-    .native-carousel-track img { height: 400px !important; }
-    .nc-btn { display: none !important; } /* Na telefonie tylko palcem */
-}
+        @media (max-width: 768px) {
+            .native-carousel-track img { height: 400px !important; }
+        }
+
+        /* Styl Cytatu pod Galerią */
+        .quote-wrapper {
+            margin: 4rem auto 0;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .quote-wrapper blockquote {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--bord);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .quote-wrapper cite {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-style: normal;
+        }
+
+        /* ==========================================================================
+           KAFELKI ARTYKUŁÓW Z GRAFIKĄ
+           ========================================================================== */
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            background: rgba(250, 250, 250, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(136,136,136,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .article-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+            border-color: rgba(136,136,136,0.25);
+            transform: translateY(-5px);
+        }
+
+        .article-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            filter: grayscale(15%);
+            transition: filter 0.5s ease;
+        }
+
+        .article-card:hover .article-img {
+            filter: grayscale(0%);
+        }
+
+        .article-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        #articles {
+            max-width: 1100px !important; 
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        #articles .grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px; 
+        }
+
+        .article-card {
+            position: relative;
+            display: flex !important;
+            flex-direction: column;
+            height: 280px; 
+            border-radius: 8px; 
+            overflow: hidden;
+            text-decoration: none;
+            background: #000;
+            transition: all 0.4s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .article-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: opacity 0.4s ease;
+        }
+
+        .article-card:hover .article-img { opacity: 1; }
+
+        .article-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+            z-index: 1;
+        }
+
+        .article-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .article-content h3 {
+            font-family: 'Inter', sans-serif; 
+            font-size: 1.1rem !important; 
+            color: #FFFFFF;
+            line-height: 1.4;
+            margin: 0;
+            font-weight: 600;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+
+        .article-content p, .article-content span.tr {
+            display: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            #articles .grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
+        @media (max-width: 768px) {
+            #articles .grid { grid-template-columns: 1fr !important; }
+            .article-card { height: 240px; } 
+            .article-content h3 { font-size: 1.05rem !important; }
+        }
+
+        /* KONTENER DLA LOGO I NAPISU W STOPCE */
+        .footer-brand-block {
+            display: flex;         
+            align-items: center;   
+            justify-content: center; 
+            gap: 15px;             
+            margin-top: 1.5rem;    
+            text-decoration: none; 
+            cursor: pointer;
+        }
+
+        .footer-brand-logo {
+            width: 50px;           
+            height: 50px;          
+            display: block;
+            border-radius: 12px;    
+            object-fit: cover;     
+            border: 1px solid rgba(136, 136, 136, 0.1); 
+        }
+
+        .footer-brand-name {
+            font-family: 'Libre Baskerville', serif; 
+            font-size: 1.1rem;     
+            color: var(--text);    
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            transition: none; 
+        }
+
+        @media (max-width: 360px) {
+            .footer-brand-block { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -916,9 +1028,12 @@
                 <li><a href="#home" class="tr" data-en="Home" data-pl="Start" data-ru="Главная">Home</a></li>
                 <li><a href="#about-practice" class="tr" data-en="Practice" data-pl="O praktyce" data-ru="О практике">Practice</a></li>
                 <li><a href="#sessions" class="tr" data-en="Sessions" data-pl="Spotkania" data-ru="Встречи">Sessions</a></li>
-                <li><a href="#about-me" class="tr" data-en="About" data-pl="O mnie" data-ru="Обо мне">About</a></li>
+                <li><a href="#philosophy" class="tr" data-en="Philosophy" data-pl="Filozofia" data-ru="Философия">Filozofia</a></li>
+                <li><a href="#about-me" class="tr" data-en="About" data-pl="O mnie" data-ru="Оbo mnie">About</a></li>
+                <li><a href="#articles" class="tr" data-en="Articles" data-pl="Artykuły" data-ru="Статьи">Artykuły</a></li>
                 <li><a href="#contact" class="tr" data-en="Contact" data-pl="Kontakt" data-ru="Контакты">Contact</a></li>
             </ul>
+            
             <div class="lang-switch">
                 <select id="langSelect" aria-label="Select language">
                     <option value="en">EN</option>
@@ -929,21 +1044,25 @@
         </div>
     </nav>
 
-    <section id="home" class="hero fade-in">
-        <h1 class="tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
-        <p class="tr" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
-        <a href="#sessions" class="btn tr" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться к медитации">Join meditation</a>
+    <section id="home" class="hero">
+        <img src="logo.jpg" alt="Logo Watermark" class="hero-watermark">
+        
+        <div class="hero-content">
+            <h1 class="tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
+            <p class="tr" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
+            <a href="#sessions" class="btn tr" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться k медитации">Join meditation</a>
+        </div>
     </section>
 
-    <div class="microtext fade-in tr" data-en="Sit down. Begin." data-pl="Usiądź. Zacznij." data-ru="Сядь. Начни.">Sit down. Begin.</div>
+    <div class="microtext tr" data-en="Sit down. Begin." data-pl="Usiądź. Zacznij." data-ru="Сядь. Начни.">Sit down. Begin.</div>
 
-    <section id="about-practice" class="fade-in">
+    <section id="about-practice">
         <h2 class="tr" data-en="About the practice" data-pl="O praktyce" data-ru="О практике">About the practice</h2>
         <p class="lead tr" data-en="I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind." data-pl="Prowadzę proste instrukcje medytacji siedzącej online dla osób chcących rozwijać uwagę i pracować z umysłem." data-ru="Я провожу простые инструкции по сидячей медитации онлайн для тех, кто хочет развивать внимание и работать с умом.">I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind.</p>
         <p class="tr" data-en="Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is." data-pl="Medytacja nie polega na wyłączaniu myśli. Praktyka polega na spotkaniu doświadczenia takim, jakie jest." data-ru="Медитация не заключается в отключении мыслей. Практика — это встреча с опытом таким, какой он есть.">Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is.</p>
         <p class="tr" data-en="Attention develops stability and clarity. Meditation is a simple discipline of presence." data-pl="Uwaga rozwija stabilność i przejrzystość. Medytacja jest prostą dyscypliną obecności." data-ru="Внимание развивает стабильность и ясность. Медитация — это простая дисциплина присутствия.">Attention develops stability and clarity. Meditation is a simple discipline of presence.</p>
         
-        <div class="carousel-wrapper fade-in" id="video-wrapper">
+        <div class="carousel-wrapper" id="video-wrapper">
             <div class="carousel-track smooth-transition" id="video-track">
                 <div class="carousel-slide">
                     <iframe src="https://drive.google.com/file/d/1ahxwsMn4Q-6g8UKVtzDD0nWn6h_ja3xm/preview" allow="autoplay; fullscreen" loading="lazy" title="Meditation Video 1"></iframe>
@@ -961,9 +1080,9 @@
         <p class="media-caption tr" data-en="A short introduction to practice" data-pl="Krótkie wprowadzenie do praktyki" data-ru="Краткое введение в практику">A short introduction to practice</p>
     </section>
 
-    <div class="microtext fade-in tr" data-en="Practice is simple." data-pl="Praktyka jest prosta." data-ru="Практика проста.">Practice is simple.</div>
+    <div class="microtext tr" data-en="Practice is simple." data-pl="Praktyka jest prosta." data-ru="Практика проста.">Practice is simple.</div>
 
-    <section id="sessions" class="fade-in">
+    <section id="sessions">
         <h2 class="tr" data-en="Sessions" data-pl="Spotkania" data-ru="Встречи">Sessions</h2>
         <div class="grid">
             <div class="card">
@@ -971,11 +1090,11 @@
                 <p class="tr" data-en="Sessions held via Zoom." data-pl="Spotkania na platformie Zoom." data-ru="Встречи проходят через Zoom.">Sessions held via Zoom.</p>
             </div>
             <div class="card">
-                <h3 class="tr" data-en="Meditation for beginners" data-pl="Medytacja dla początkujących" data-ru="Медитация для начинающих">Meditation for beginners</h3>
+                <h3 class="tr" data-en="Meditation for beginners" data-pl="Medytacja dla początkujących" data-ru="Медитация dla начинающих">Meditation for beginners</h3>
                 <p class="tr" data-en="Introduction to shamatha practice." data-pl="Wprowadzenie do praktyki shamatha." data-ru="Введение в практику шаматха.">Introduction to shamatha practice.</p>
             </div>
             <div class="card">
-                <h3 class="tr" data-en="Small practice groups" data-pl="Małe grupy praktyki" data-ru="Малые группы практики">Small practice groups</h3>
+                <h3 class="tr" data-en="Small practice groups" data-pl="Małe grupy praktyki" data-ru="Малые группы praktyki">Small practice groups</h3>
                 <p class="tr" data-en="For students, focused on stability." data-pl="Dla studentów, ukierunkowane na stabilność." data-ru="Для студентов, с акцентом на стабильность.">For students, focused on stability.</p>
             </div>
             <div class="card">
@@ -988,10 +1107,29 @@
         </div>
     </section>
 
-    <div class="microtext fade-in tr" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, где ты есть.">Start where you are.</div>
+    <div class="microtext tr" data-en="Spiritual materialism is the enemy." data-pl="Duchowy materializm jest przeszkodą." data-ru="Духовный материализм — это препятствие.">Duchowy materializm jest przeszkodą.</div>
 
-    <section id="about-me" class="fade-in">
-        <h2 class="tr" data-en="About" data-pl="O mnie" data-ru="Обо мне">About</h2>
+    <section id="philosophy">
+        <h2 class="tr" data-en="Philosophy" data-pl="Filozofia" data-ru="Философия">Filozofia</h2>
+        <div>
+            <p class="lead tr" data-en="My main source of inspiration is Chögyam Trungpa Rinpoche, a Tibetan Buddhist meditation master." data-pl="Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpocze, tybetański mistrz medytacji." data-ru="Моим главным источником вдохновения является Чогьям Трунгпа Ринпоче, тибетский мастер медитации.">Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpocze, tybetański mistrz medytacji.</p>
+            <p class="tr" data-en="Trungpa inspires me and people all over the world with his uncompromising approach. He taught that spirituality is not about escaping reality or seeking bliss, but about facing our everyday life with courage and opening up to it completely." data-pl="Trungpa inspiruje mnie i ludzi na całym świecie swoim bezkompromisowym podejściem. Nauczał, że duchowość nie polega na ucieczce od rzeczywistości czy szukaniu błogostanu, ale na odważnym stawianiu czoła naszej codzienności i całkowitym otwarciu się na nią." data-ru="Трунгпа вдохновляет меня и людей по всему миру своим бескомпромиссным подходом. Он учил, что духовность — это не бегство от реальности, а смелое противостояние нашей повседневной жизни.">Trungpa inspiruje mnie i ludzi na całym świecie swoim bezkompromisowym podejściem. Nauczał, że duchowość nie polega na ucieczce od rzeczywistości czy szukaniu błogostanu, ale na odważnym stawianiu czoła naszej codzienności i całkowitym otwarciu się na nią.</p>
+            <p class="tr" data-en="His practice emphasizes the concept of 'Basic Goodness' — the inherent purity and dignity in every human being. Meditation in his tradition is a process of dropping our ego-driven masks, cutting through spiritual materialism, and developing a genuine, grounded presence in the here and now. We sit not to become someone better, but to discover who we already are." data-pl="Jego praktyka kładzie nacisk na koncepcję „Podstawowego Dobra” (Basic Goodness) — wrodzonej czystości i godności w każdym człowieku. Medytacja w jego ujęciu to proces zrzucania masek napędzanych przez ego, odcinania „duchowego materializmu” i rozwijania autentycznej, ugruntowanej obecności tu i teraz. Siadamy nie po to, by stać się kimś lepszym, ale by odkryć, kim już jesteśmy." data-ru="Его практика подчеркивает концепцию 'Базовой Доброты' — врожденной чистоты и достоинства в каждом человеке. Медитация w его понимании — это процесс сбрасывания масок эго и развития подлинного присутствия здесь и сейчас.">Jego praktyka kładzie nacisk na koncepcję „Podstawowego Dobra” (Basic Goodness) — wrodzonej czystości i godności w każdym człowieku. Medytacja w jego ujęciu to proces zrzucania masek napędzanych przez ego, odcinania „duchowego materializmu” i rozwijania autentycznej, ugruntowanej obecności tu i teraz. Siadamy nie po to, by stać się kimś lepszym, ale by odkryć, kim już jesteśmy.</p>
+        </div>
+
+        <div class="collage-grid">
+            <img src="trungpa1.jpg" alt="Chögyam Trungpa Rinpoche portrait" onclick="openLightbox(this)">
+            <img src="trungpa2.jpg" alt="Chögyam Trungpa Rinpoche with another monk" onclick="openLightbox(this)">
+            <img src="trungpa3.jpg" alt="Chögyam Trungpa Rinpoche painting" onclick="openLightbox(this)">
+            <img src="trungpa4.jpg" alt="Chögyam Trungpa Rinpoche with a group" onclick="openLightbox(this)">
+        </div>
+        <p class="media-caption tr" data-en="Chögyam Trungpa Rinpoche" data-pl="Chögyam Trungpa Rinpocze" data-ru="Чогьям Трунгпа Ринпоче">Chögyam Trungpa Rinpocze</p>
+    </section>
+
+    <div class="microtext tr" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, где ты есть.">Start where you are.</div>
+
+    <section id="about-me">
+        <h2 class="tr" data-en="About" data-pl="O mnie" data-ru="Обо mnie">About</h2>
         <div class="about-flex">
             <div class="profile-img-wrapper">
                 <img src="main.jpeg" alt="Pavel Bielski" class="profile-img">
@@ -1009,16 +1147,33 @@
             </div>
         </div>
 
-        <div class="native-carousel-wrapper fade-in" id="photo-wrapper" style="margin-top: 5rem;">
-            <button class="nc-btn prev" id="img-prev-native">&#10094;</button>
-            <div class="native-carousel-track" id="image-track-native">
+        <div class="certificate-wrapper">
+            <div class="certificate-images-container">
+                <img src="certyfikat.jpg" alt="Certyfikat instruktora medytacji 1" class="certificate-img" onclick="openLightbox(this)">
+                <img src="certyfikat2.jpg" alt="Certyfikat instruktora medytacji 2" class="certificate-img" onclick="openLightbox(this)">
+            </div>
+            <p class="media-caption tr" data-en="Certificates confirming my meditation instructor skills." data-pl="Certyfikaty potwierdzające moje umiejętności instruktorskie." data-ru="Сертификаты, подтверждающие мои навыки инструктора по медитации.">Certyfikaty potwierdzające moje umiejętności instruktorskie.</p>
+        </div>
+
+        <div class="native-carousel-wrapper" style="margin-top: 5rem;">
+            <button class="nc-btn prev">&#10094;</button>
+            <div class="native-carousel-track">
                 <img src="IMG_4699.jpeg" alt="Meditation Practice 1" onclick="openLightbox(this)">
                 <img src="IMG_5149.jpeg" alt="Meditation Practice 2" onclick="openLightbox(this)">
                 <img src="IMG_8623.jpeg" alt="Meditation Practice 3" onclick="openLightbox(this)">
             </div>
-            <button class="nc-btn next" id="img-next-native">&#10095;</button>
+            <button class="nc-btn next">&#10095;</button>
         </div>
-        <p class="media-caption tr" data-en="Practice space" data-pl="Przestrzeń praktyki" data-ru="Пространство практики">Practice space</p>
+
+        <div class="quote-wrapper">
+            <blockquote class="tr" 
+                        data-en="&quot;Sitting quietly, doing nothing, Spring comes, and the grass grows, by itself.&quot;" 
+                        data-pl="&quot;Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama.&quot;" 
+                        data-ru="&quot;Сидя тихо, ничего не делая, приходит весна, и трава растет сама по себе.&quot;">
+                "Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama."
+            </blockquote>
+            <cite class="tr" data-en="— Zen Proverb" data-pl="— Przysłowie Zen" data-ru="— Дзенская пословица">— Przysłowie Zen</cite>
+        </div>
     </section>
 
     <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
@@ -1028,9 +1183,101 @@
         <button class="lightbox-btn next" onclick="navigateLightbox(1)" aria-label="Next image">&#10095;</button>
     </div>
 
-    <div class="microtext fade-in tr" data-en="Attention can be trained." data-pl="Uwaga może być trenowana." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
+    <div class="microtext tr" data-en="Attention can be trained." data-pl="Uwaga może być trenowana." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
 
-    <section id="contact" class="fade-in">
+    <section id="articles">
+        <h2 class="tr" data-en="Articles" data-pl="Artykuły" data-ru="Статьи">Artykuły</h2>
+        
+        <div class="grid">
+            <a href="article1.html" class="article-card">
+                <img src="article1.jpg" alt="Duchowy materializm" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Meditation & Mind" data-pl="Medytacja i Umysł" data-ru="Медитация и Ум">Medytacja i Umysł</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Spiritual materialism: Why meditation is not a spa for the brain?" data-pl="Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?" data-ru="Духовный материализм: Почему медитация — это не спа для мозга?">
+                        Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="Meditation has become a product. But that completely misses the point." data-pl="Medytacja stała się produktem. Problem w tym, że to całkowicie mija się z celem." data-ru="Медитация стала продуктом. Проблема в том, что это упускает суть.">
+                        Medytacja stała się produktem. Problem w tym, że to całkowicie mija się z celem.
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+
+            <a href="article2.html" class="article-card">
+                <img src="article2.jpg" alt="Mit Buddy pod Drzewem" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Dharma & Realization" data-pl="Dharma i Urzeczywistnienie" data-ru="Дхарма и Реализация">Dharma i Urzeczywistnienie</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="The Myth of the Buddha under the Tree and the Truth of Realization" data-pl="Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu" data-ru="Миф о Будде под Деревом и Правда о Реализации">
+                        Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="The Western mind desires magic, but true awakening is raw, stripped of mysticism, and therefore liberating." data-pl="Zachodni umysł pragnie magii, ale prawdziwe przebudzenie jest surowe, obdarte z mistycyzmu i dlatego wyzwalające." data-ru="Западный ум жаждет магии, но истинное пробуждение сурово, лишено мистицизма и поэтому освобождающе.">
+                        Zachodni umysł pragnie magii, ale prawdziwe przebudzenie jest surowe, obdarte z mistycyzmu i dlatego wyzwalające.
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+
+            <a href="article3.html" class="article-card">
+                <img src="article3.jpg" alt="Twierdza Niezmiennego Umysłu" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Spiritual Ego" data-pl="Duchowe Ego" data-ru="Духовное Эго">Duchowe Ego</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Fortress of the Unchanging Mind: Why you don't need to become someone better" data-pl="Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym" data-ru="Крепость Неизменного Ума: Почему тебе не нужно становиться кем-то лучшим">
+                        Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="We treat meditation as a self-improvement project. This is the most exhausting illusion on the path." data-pl="Traktujemy medytację jako projekt ulepszenia nas samych. To najbardziej wyczerpujące złudzenie." data-ru="Мы относимся к медитации как к проекту по улучшению себя. Это самая изнурительная иллюзия.">
+                        Traktujemy medytację jako projekt ulepszenia nas samych. To najbardziej wyczerpujące złudzenie.
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+
+            <a href="article4.html" class="article-card">
+                <img src="article4.jpg" alt="Instrukcja medytacji" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Instruction" data-pl="Instrukcja" data-ru="Инструкция">Instrukcja</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Just sit. An ordinary instruction for beginners (and chronic starters)" data-pl="Po prostu usiądź. Zwyczajna instrukcja dla początkujących (i wiecznie zaczynających)" data-ru="Просто сядь. Обычная инструкция для начинающих (и вечно начинающих)">
+                        Po prostu usiądź. Zwyczajna instrukcja dla początkujących (i wiecznie zaczynających)
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="Meditation is not an elite activity. It is a radical act of returning to yourself. Here is a simple guide to start." data-pl="Medytacja to nie elitarne zajęcie. To radykalny akt powrotu do samego siebie. Oto prosta instrukcja jak zacząć." data-ru="Медитация — это не элитное занятие. Это радикальный акт возвращения к самому себе. Вот простая инструкция, как начать.">
+                        Medytacja to nie elitarne zajęcie. To radykalny akt powrotu do samego siebie. Oto prosta instrukcja jak zacząć.
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+
+            <a href="article5.html" class="article-card">
+                <img src="article5.jpg" alt="Mit zachodu słońca" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Practice & Discomfort" data-pl="Praktyka i Dyskomfort" data-ru="Практика и Дискомфорт">Praktyka i Dyskomfort</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="The Sunset Myth. Discomfort as a Path to Awakening" data-pl="Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia" data-ru="Миф о закате. Дискомфорт как путь к пробуждению">
+                        Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="Meditation is not an escape into a beautiful sunset. True awakening is hidden in boredom, pain, and irritation." data-pl="Medytacja to nie ucieczka w piękny zachód słońca. Prawdziwe przebudzenie kryje się w nudzie, bólu i irytacji." data-ru="Медитация — это не побег в красивый закат. Истинное пробуждение скрыто в скуке, боли и раздражении.">
+                        Medytacja to nie ucieczka w piękny zachód słońca. Prawdziwe przebudzenie kryje się w nudzie, bólu i irytacji.
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+
+            <a href="article6.html" class="article-card">
+                <img src="article6.jpg" alt="Budda i lotos" class="article-img">
+                <div class="article-content">
+                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Zen & Wisdom" data-pl="Zen i Mądrość" data-ru="Дзен и Мудрость">Zen i Mądrość</p>
+                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Put away the puzzles. Why you don't need to understand everything to simply bloom" data-pl="Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć" data-ru="Отложи головоломки. Почему не нужно понимать всё, чтобы просто расцвести">
+                        Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć
+                    </h3>
+                    <p class="tr" style="font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow: 1;" data-en="Our intellect wants to fix everything. But what if your 'mud'—your flaws and fears—is exactly the soil your wisdom grows from?" data-pl="Nasz intelekt chce wszystko naprawić. Ale co jeśli Twoje „błoto” – wady i lęki – to właśnie gleba, z której wyrasta mądrość?" data-ru="Наш интеллект хочет всё исправить. Но что, если твоя «грязь» — недостатки и страхи — это именно та почва, на которой растет мудрость?">
+                        Nasz intelekt chce wszystko naprawić. Ale co jeśli Twoje „błoto” – wady i lęki – to właśnie gleba, z której wyrasta mądrość?
+                    </p>
+                    <span class="tr" style="font-size: 0.9rem; color: var(--bord); font-weight: 500; align-self: flex-start; border-bottom: 1px solid var(--bord); padding-bottom: 2px;" data-en="Read article &rarr;" data-pl="Czytaj artykuł &rarr;" data-ru="Читать статью &rarr;">Czytaj artykuł &rarr;</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div class="microtext tr" data-en="Read and reflect." data-pl="Przeczytaj i przemyśl." data-ru="Прочти и поразмысли.">Przeczytaj i przemyśl.</div>
+
+    <section id="contact">
         <h2 class="tr" data-en="Contact" data-pl="Kontakt" data-ru="Контакты">Contact</h2>
         <p class="tr" data-en="Leave a message if you want to join a session or have questions about the practice." data-pl="Zostaw wiadomość, jeśli chcesz dołączyć do spotkania lub masz pytania o praktykę." data-ru="Оставьте сообщение, если хотите присоединиться к сессии или у вас есть вопросы о практике.">Leave a message if you want to join a session or have questions about the practice.</p>
         
@@ -1046,7 +1293,7 @@
 
         <div class="contact-info">
             <p>Email: <a href="mailto:pspirydonau@gmail.com">pspirydonau@gmail.com</a></p>
-            <p>Zoom: <span class="tr" data-en="Link provided after contact" data-pl="Link podawany po kontakcie" data-ru="Ссылка предоставляется после связи">Link provided after contact</span></p>
+            <p>Zoom: <span class="tr" data-en="Link provided after contact" data-pl="Link podawany po kontakcie" data-ru="Ссылка предоставляется po kontakcie">Link provided after contact</span></p>
         </div>
     </section>
 
@@ -1055,7 +1302,7 @@
             Meetings are educational and contemplative in nature.
         </p>
         
-        <div class="social-media-container fade-in">
+        <div class="social-media-container">
             <p class="social-title tr" data-en="Connect with me" data-pl="Znajdziesz mnie tutaj" data-ru="Найдите меня здесь">Connect with me</p>
             
             <div class="social-links">
@@ -1087,7 +1334,12 @@
         </div>
 
         <p class="footer-copyright">&copy; <span id="current-year"></span> Pavel Bielski | Nobody Meditates Here.</p>
-
+        
+        <a href="#home" class="footer-brand-block">
+            <img src="logo.jpg" alt="Logo" class="footer-brand-logo">
+            <span class="footer-brand-name tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</span>
+        </a>        
+        
         <div class="privacy-accordion">
             <button class="privacy-toggle" aria-expanded="false" aria-controls="privacy-content" onclick="togglePrivacy()">
                 <span class="tr" data-en="Privacy Policy & Cookies" data-pl="Polityka Prywatności i Cookies" data-ru="Политика конфиденциальности и Cookies">Privacy Policy & Cookies</span>
@@ -1107,7 +1359,7 @@
 
     <script>
         /* ==========================================================================
-           1. AUTOMATYCZNE WYKRYWANIE JĘZYKA (Samograj)
+           1. AUTOMATYCZNE WYKRYWANIE JĘZYKA (Samograj) + Pamięć LocalStorage
            ========================================================================== */
         const langSelect = document.getElementById('langSelect');
         const elementsToTranslate = document.querySelectorAll('.tr');
@@ -1122,21 +1374,19 @@
             });
             document.documentElement.lang = lang;
             langSelect.value = lang; 
+            localStorage.setItem('preferredLang', lang); 
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            const userLangFull = navigator.language || navigator.userLanguage || "en";
-            const userLangShort = userLangFull.toLowerCase().substring(0, 2);
+            let savedLang = localStorage.getItem('preferredLang');
             
-            let defaultLang = 'en'; 
-            
-            if (userLangShort === 'pl') {
-                defaultLang = 'pl';
-            } else if (userLangShort === 'ru') {
-                defaultLang = 'ru';
+            if (!savedLang) {
+                const userLangFull = navigator.language || navigator.userLanguage || "en";
+                const userLangShort = userLangFull.toLowerCase().substring(0, 2);
+                savedLang = (userLangShort === 'pl' || userLangShort === 'ru') ? userLangShort : 'en';
             }
             
-            changeLanguage(defaultLang);
+            changeLanguage(savedLang);
             document.getElementById('current-year').textContent = new Date().getFullYear();
         });
 
@@ -1157,21 +1407,45 @@
         });
 
         /* ==========================================================================
-           3. EFEKTY POJAWIANIA SIĘ (Fade-In Observer)
+           3. EFEKTY POJAWIANIA SIĘ (Fancy Scroll Reveal ze Staggerem)
            ========================================================================== */
-        const faders = document.querySelectorAll('.fade-in');
-        const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const selectorsToReveal = [
+            '.hero h1', '.hero p', '.hero .btn',
+            '.microtext', 'h2', '.lead', 'section p:not(.lead)', 
+            '.carousel-wrapper', '.native-carousel-wrapper',
+            '.card', '.profile-img', '.certificate-img', 
+            '.collage-grid img', '.quote-wrapper', '.article-card',
+            'form', '.contact-info', '.social-title', '.social-links', '.support-btn'
+        ];
 
-        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+        const revealElements = document.querySelectorAll(selectorsToReveal.join(', '));
+        
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -30px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target); 
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); 
+                }
             });
-        }, appearOptions);
+        }, revealOptions);
 
-        faders.forEach(fader => {
-            appearOnScroll.observe(fader);
+        revealElements.forEach(el => {
+            el.classList.add('fancy-reveal');
+            
+            // Kaskadowe opóźnienie (stagger) dla elementów w gridach
+            if(el.closest('.grid') || el.closest('.collage-grid') || el.closest('.certificate-images-container') || el.closest('.social-links')) {
+                // Pobiera indeks elementu względem jego rodzeństwa
+                const siblings = Array.from(el.parentElement.children);
+                const index = siblings.indexOf(el);
+                el.style.transitionDelay = `${index * 0.15}s`;
+            }
+            
+            revealObserver.observe(el);
         });
 
         /* ==========================================================================
@@ -1226,9 +1500,8 @@
             () => moveVideoCarousel(-1)  
         );
 
-
         /* ==========================================================================
-           7. ZAAWANSOWANY LIGHTBOX (Przełączanie zdjęć kliknięciem)
+           6. ZAAWANSOWANY LIGHTBOX (Zaktualizowany dla Kolażu i Galerii)
            ========================================================================== */
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
@@ -1237,7 +1510,7 @@
         let currentLightboxIndex = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('#image-track .carousel-slide:not(#first-clone):not(#last-clone) img');
+            const slides = document.querySelectorAll('.native-carousel-track img, .collage-grid img, .certificate-img');
             slides.forEach(img => {
                 originalImages.push(img.src);
             });
@@ -1280,6 +1553,39 @@
             if (e.key === "Escape") closeLightbox();
             if (e.key === "ArrowRight") navigateLightbox(1);
             if (e.key === "ArrowLeft") navigateLightbox(-1);
+        });
+
+        /* ==========================================================================
+           7. OBSŁUGA STRZAŁEK W GALERIACH NATYWNYCH (NIESKOŃCZONA PĘTLA)
+           ========================================================================== */
+        document.addEventListener("DOMContentLoaded", () => {
+            const carousels = document.querySelectorAll('.native-carousel-wrapper');
+            
+            carousels.forEach(wrapper => {
+                const track = wrapper.querySelector('.native-carousel-track');
+                const btnNext = wrapper.querySelector('.nc-btn.next');
+                const btnPrev = wrapper.querySelector('.nc-btn.prev');
+
+                if (track && btnNext && btnPrev) {
+                    btnNext.addEventListener('click', () => {
+                        // Jeśli dotarliśmy prawie do końca, przewiń na start
+                        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+                            track.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else {
+                            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+                        }
+                    });
+                    
+                    btnPrev.addEventListener('click', () => {
+                        // Jeśli jesteśmy na początku, przewiń na sam koniec
+                        if (track.scrollLeft <= 10) {
+                            track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+                        } else {
+                            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+                        }
+                    });
+                }
+            });
         });
 
         /* ==========================================================================
@@ -1329,31 +1635,6 @@
                 content.classList.remove('open');
             }
         }
-// 1. Obsługa strzałek w nowej galerii
-document.addEventListener("DOMContentLoaded", () => {
-    const track = document.getElementById('image-track-native');
-    const btnNext = document.getElementById('img-next-native');
-    const btnPrev = document.getElementById('img-prev-native');
-
-    if (track && btnNext && btnPrev) {
-        btnNext.addEventListener('click', () => {
-            track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
-        });
-        btnPrev.addEventListener('click', () => {
-            track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
-        });
-    }
-});
-
-// 2. Poprawka dla Lightboxa (Sekcja 7 w Twoim kodzie)
-// Znajdź w swoim kodzie window.addEventListener('DOMContentLoaded', ...) w sekcji Lightboxa i zmień selektor:
-window.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('#image-track-native img');
-    originalImages = []; // Czyścimy tablicę
-    slides.forEach(img => {
-        originalImages.push(img.src);
-    });
-});
     </script>
 </body>
 </html>

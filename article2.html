@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="The Myth of the Buddha under the Tree and the Truth of Realization.">
+    <title>The Myth of the Buddha - Nobody Meditates Here</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg-light: #FAFAFA;
+            --text: #111111;
+            --accent: #888888;
+            --bord: #4A2C2A; 
+            --transition-fast: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            font-weight: 300; 
+        }
+
+        h1, h2, h3, h4 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
+        
+        /* Ambient BG */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: linear-gradient(to bottom, #FFFFFF, #FCFCFC);
+        }
+
+        /* Nav */
+        nav { 
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); padding: 1rem 0; z-index: 100; border-bottom: 1px solid rgba(136, 136, 136, 0.1);
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        
+        /* LOGO W NAV + BRAND TEXT */
+        .nav-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px; /* Odstęp między logo a napisem */
+        }
+
+        .nav-logo {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        /* Stylizacja napisu brandowego */
+        .nav-brand-text {
+            font-family: 'Libre Baskerville', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-logo-link:hover .nav-logo {
+            transform: scale(1.05);
+        }
+        
+        .nav-logo-link:hover .nav-brand-text {
+            color: var(--bord);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        nav a:not(.nav-logo-link) { color: var(--accent); text-decoration: none; font-size: 0.95rem; transition: color var(--transition-fast); }
+        nav a:not(.nav-logo-link):hover { color: var(--bord); }
+        
+        .back-link { font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+        .lang-switch select { 
+            background: transparent; border: 1px solid transparent; color: var(--accent); font-family: inherit; font-size: 0.95rem; cursor: pointer; outline: none;
+        }
+
+        /* Article Layout */
+        .article-container {
+            max-width: 700px;
+            margin: 10rem auto 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header { text-align: center; margin-bottom: 4rem; }
+        .article-header h1 { font-size: 2.5rem; color: var(--bord); line-height: 1.3; margin-bottom: 1.5rem; }
+
+        /* ==========================================================================
+           MODERN HEADER META (Author, Time, Likes, Views)
+           ========================================================================== */
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .meta-sep {
+            opacity: 0.2;
+            font-weight: 300;
+        }
+
+        /* CZYSTE SERDUSZKO CSS */
+        .meta-stat-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            padding: 0;
+            outline: none;
+        }
+
+        .meta-stat-btn:hover { color: var(--bord); }
+        .meta-stat-btn.active { color: #e74c3c; }
+        .meta-stat-btn.active svg { fill: #e74c3c; stroke: #e74c3c; }
+
+        .meta-stat-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+
+        .meta-item svg {
+            width: 15px;
+            height: 15px;
+            stroke-width: 2;
+        }
+
+        .article-content p { margin-bottom: 1.8rem; font-size: 1.05rem; }
+        .article-content h4 { font-size: 1.4rem; color: var(--text); margin: 3rem 0 1.5rem 0; }
+
+        .article-footer {
+            margin-top: 5rem; padding-top: 2rem; border-top: 1px solid rgba(136,136,136,0.2); text-align: center;
+        }
+
+        .btn {
+            display: inline-block; border: 1px solid var(--text); color: var(--text); padding: 1rem 2rem; text-decoration: none; transition: all 0.3s;
+        }
+        .btn:hover { background: var(--text); color: var(--bg); }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 1.8rem; }
+            .article-container { margin-top: 8rem; }
+            .nav-container { padding: 0 1.5rem; }
+        }
+
+        /* Responsywność dla paska nawigacji */
+        @media (max-width: 480px) {
+            .nav-brand-text {
+                display: none; /* Chowamy napis na telefonach, by nie blokował nav-controls */
+            }
+            .nav-container {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link" aria-label="Go to Home">
+                <img src="logo.jpg" alt="Nobody Meditates Here" class="nav-logo">
+                <span class="nav-brand-text">Nobody Meditates Here</span>
+            </a>
+            
+            <div class="nav-controls">
+                <a href="index.html#articles" class="back-link tr" data-en="&larr; Back" data-pl="&larr; Wróć" data-ru="&larr; Назад">&larr; Wróć</a>
+                <div class="lang-switch">
+                    <select id="langSelect" aria-label="Select language">
+                        <option value="en">EN</option>
+                        <option value="pl" selected>PL</option>
+                        <option value="ru">RU</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <header class="article-header">
+            <h1 class="tr" 
+                data-en="The Myth of the Buddha under the Tree and the Truth of Realization" 
+                data-pl="Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu" 
+                data-ru="Миф о Будде под Деревом и Правда о Реализации">
+                Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu
+            </h1>
+            
+            <div class="article-meta">
+                <span class="meta-item">
+                    <span class="tr" data-en="Author: " data-pl="Autor: " data-ru="Автор: ">Autor: </span>
+                    <span class="author-name">Pavel Bielski</span>
+                </span>
+                
+                <span class="meta-sep">|</span>
+                
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span class="tr" data-en="4 min read" data-pl="4 min czytania" data-ru="4 мин чтения">4 min czytania</span>
+                </span>
+
+                <span class="meta-sep">|</span>
+
+                <button class="meta-stat-btn" id="likeBtn" onclick="toggleLike()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span id="likeCount">18</span>
+                </button>
+
+                <span class="meta-sep">|</span>
+
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span id="viewCount">310</span>
+                </span>
+            </div>
+        </header>
+
+        <img src="article2.jpg" alt="Buddha and Realization" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 4px; margin-bottom: 3rem; filter: grayscale(10%); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+
+        <article class="article-content">
+            <p class="tr" 
+               data-en="The Western mind desires magic. Looking at the huge, colorful fabric unfurled on the slope of a Himalayan mountain, surrounded by monks under yellow umbrellas, we look for exoticism, sublimity, and the promise of eternal bliss, which would constitute the ultimate escape from the suffering of this world. Nurturing this idealized image, we fall into another trap of illusion. The golden idol and the phenomenal ritual become objects of spiritual materialism, and the true meaning of awakening is completely lost." 
+               data-pl="Umysł zachodni pragnie magii. Spoglądając na olbrzymią, barwną tkaninę rozwijaną na zboczu himalajskiej góry, otoczoną mnichami pod żółtymi parasolami, poszukujemy egzotyki, wzniosłości i obietnicy wiecznego błogostanu, który miałby stanowić ostateczną ucieczkę od cierpienia tego świata. Pielęgnując ten wyidealizowany obraz, wpadamy w kolejną pułapkę iluzji. Złoty idol i zjawiskowy rytuał stają się obiektami duchowego materializmu, a prawdziwe znaczenie przebudzenia zostaje całkowicie zatracone." 
+               data-ru="Западный ум жаждет магии. Глядя на огромную, красочную ткань, развернутую на склоне гималайской горы, окруженную монахами под желтыми зонтиками, мы ищем экзотику, возвышенность и обещание вечного блаженства, которое стало бы окончательным побегом от страданий этого мира. Лелея этот идеализированный образ, мы попадаем в очередную ловушку иллюзии. Золотой идол и феноменальный ритуал становятся объектами духовного материализма, а истинный смысл пробуждения полностью утрачивается.">
+               Umysł zachodni pragnie magii. Spoglądając na olbrzymią, barwną tkaninę rozwijaną na zboczu himalajskiej góry, otoczoną mnichami pod żółtymi parasolami, poszukujemy egzotyki, wzniosłości i obietnicy wiecznego błogostanu, który miałby stanowić ostateczną ucieczkę od cierpienia tego świata. Pielęgnując ten wyidealizowany obraz, wpadamy w kolejną pułapkę iluzji. Złoty idol i zjawiskowy rytuał stają się obiektami duchowego materializmu, a prawdziwe znaczenie przebudzenia zostaje całkowicie zatracone.
+            </p>
+
+            <p class="tr" 
+               data-en="The truth is much more raw, stripped of mysticism, and precisely for this reason – liberating." 
+               data-pl="Prawda jest znacznie bardziej surowa, obdarta z mistycyzmu i właśnie z tego powodu – wyzwalająca." 
+               data-ru="Правда гораздо более сурова, лишена мистицизма и именно поэтому – освобождающая.">
+               Prawda jest znacznie bardziej surowa, obdarta z mistycyzmu i właśnie z tego powodu – wyzwalająca.
+            </p>
+
+            <h4 class="tr" data-en="A Vessel for the Dharma on the Mountainside" data-pl="Naczynie dla Dharmy na zboczu góry" data-ru="Сосуд для Дхармы на склоне горы">Naczynie dla Dharmy na zboczu góry</h4>
+
+            <p class="tr" 
+               data-en="Before we understand the central figure woven on this monumental canvas, we must abandon the Western concept of 'art'. Tibetans call this giant appliqué Thongdrel – which literally means 'liberation through seeing'. However, this liberation does not descend upon the viewer in the form of a magic spell." 
+               data-pl="Zanim zrozumiemy centralną postać utkaną na tym monumentalnym płótnie, musimy porzucić zachodnie pojęcie 'sztuki'. Tybetańczycy nazywają tę wielkopostaciową aplikację Thongdrel – co dosłownie oznacza 'wyzwolenie poprzez samo spojrzenie'. Jednak wyzwolenie to nie spływa na widza w formie magicznego zaklęcia." 
+               data-ru="Прежде чем мы поймем центральную фигуру, вытканную на этом монументальном полотне, мы должны отказаться от западного понятия 'искусства'. Тибетцы называют эту гигантскую аппликацию Тонгдрел – что буквально означает 'освобождение через видение'. Однако это освобождение не снисходит на зрителя в виде магического заклинания.">
+               Zanim zrozumiemy centralną postać utkaną na tym monumentalnym płótnie, musimy porzucić zachodnie pojęcie "sztuki". Tybetańczycy nazywają tę wielkopostaciową aplikację Thongdrel – co dosłownie oznacza "wyzwolenie poprzez samo spojrzenie". Jednak wyzwolenie to nie spływa na widza w formie magicznego zaklęcia.
+            </p>
+
+            <p class="tr" 
+               data-en="Thongdrel is a visual map of the mind and a precise Dharma instruction written in threads, colors, and proportions. Its weaving is not a craft, but a contemplation of the invisible." 
+               data-pl="Thongdrel to wizualna mapa umysłu i precyzyjna instrukcja Dharmy zapisana w niciach, kolorach i proporcjach. Jej tkanie to nie rzemiosło, lecz kontemplacja niewidzialnego." 
+               data-ru="Тонгдрел — это визуальная карта ума и точная инструкция Дхармы, записанная в нитях, цветах и пропорциях. Ее плетение — это не ремесло, а созерцание невидимого.">
+               Thongdrel to wizualna mapa umysłu i precyzyjna instrukcja Dharmy zapisana w niciach, kolorach i proporcjach. Jej tkanie to nie rzemiosło, lecz kontemplacja niewidzialnego. 
+            </p>
+
+            <h4 class="tr" data-en="The Ultimate Abandonment of the Search" data-pl="Ostateczne porzucenie poszukiwań" data-ru="Окончательный отказ от поиска">Ostateczne porzucenie poszukiwań</h4>
+
+            <p class="tr" 
+               data-en="When you look at the smiling Buddha in the center of the Thangka, you must remember that over two and a half thousand years ago, Siddhartha Gautama, sitting under the Bodhi tree, was not a luminous deity. He was a human being driven to the ultimate limit." 
+               data-pl="Kiedy patrzysz na uśmiechniętego Buddę w centrum Thangki, musisz pamiętać, że ponad dwa i pół tysiąca lat temu Siddhartha Gautama, siadając pod drzewem Bodhi, nie był świetlistym bóstwem. Był człowiekiem doprowadzonym do ostatecznej granicy." 
+               data-ru="Когда вы смотрите на улыбающегося Будду в центре Тханки, вы должны помнить, что более двух с половиной тысяч лет назад Сиддхартха Гаутама, сидя под деревом Бодхи, не был светящимся божеством. Он был человеком, доведенным до крайнего предела.">
+               Kiedy patrzysz na uśmiechniętego Buddę w centrum Thangki, musisz pamiętać, że ponad dwa i pół tysiąca lat temu Siddhartha Gautama, siadając pod drzewem Bodhi, nie był świetlistym bóstwem. Był człowiekiem doprowadzonym do ostatecznej granicy. 
+            </p>
+
+            <p class="tr" 
+               data-en="So he sat still, making the most radical decision: he gave up the fight. He decided that he would not take another step fleeing from his own experience." 
+               data-pl="Usiadł więc w bezruchu, podejmując najbardziej radykalną decyzję: zrezygnował z walki. Zdecydował, że nie wykona już ani jednego kroku ucieczki przed własnym doświadczeniem." 
+               data-ru="Поэтому он сидел неподвижно, приняв самое радикальное решение: он сдался. Он решил, что не сделает больше ни шагу, убегая от собственного опыта.">
+               Usiadł więc w bezruchu, podejmując najbardziej radykalną decyzję: zrezygnował z walki. Zdecydował, że nie wykona już ani jednego kroku ucieczki przed własnym doświadczeniem.
+            </p>
+
+            <h4 class="tr" data-en="Earth Mudra: Anchoring in Ordinariness" data-pl="Mudra Ziemi: Zakotwiczenie w zwyczajności" data-ru="Мудра Земли: Укоренение в обыденности">Mudra Ziemi: Zakotwiczenie w zwyczajności</h4>
+
+            <p class="tr" 
+               data-en="Look closely at the Buddha's hands on the fabric. The most telling moment of the night of his awakening was not an explosion of mystical light, but this very specific gesture he made at dawn — the Bhumisparsha mudra. The hand touching the earth." 
+               data-pl="Przyjrzyj się uważnie dłoniom Buddy na tkaninie. Najbardziej wymownym momentem nocy jego przebudzenia nie był wybuch mistycznego światła, lecz ten właśnie, bardzo konkretny gest, który wykonał o świcie – Bhumisparsha mudra. Dłoń dotykająca ziemi." 
+               data-ru="Внимательно посмотрите на руки Будды на ткани. Самым показательным моментом ночи его пробуждения был не взрыв мистического света, а именно этот очень конкретный жест, который он сделал на рассвете — Бхумиспарша мудра. Рука, касающаяся земли.">
+               Przyjrzyj się uważnie dłoniom Buddy na tkaninie. Najbardziej wymownym momentem nocy jego przebudzenia nie był wybuch mistycznego światła, lecz ten właśnie, bardzo konkretny gest, który wykonał o świcie – Bhumisparsha mudra. Dłoń dotykająca ziemi.
+            </p>
+
+            <p class="tr" 
+               data-en="Wherever you are right now — this is the ultimate and perfect place to begin. Sit down. Be." 
+               data-pl="Gdziekolwiek się teraz znajdujesz – to ostateczne i doskonałe miejsce, aby zacząć. Usiądź. Bądź." 
+               data-ru="Где бы вы сейчас ни находились — это идеальное и окончательное место для начала. Сядь. Будь.">
+               Gdziekolwiek się teraz znajdujesz – to ostateczne i doskonałe miejsce, aby zacząć. Usiądź. Bądź.
+            </p>
+        </article>
+
+        <div class="article-footer">
+            <p class="tr" style="font-style: italic; color: var(--accent); margin-bottom: 2rem;" 
+               data-en="Start where you are. With what you have. Nothing more is needed." 
+               data-pl="Zacznij tam, gdzie jesteś. Z tym, co masz. Nic więcej nie jest potrzebne." 
+               data-ru="Начни там, где ты есть. С тем, что у тебя есть. Больше ничего не нужно.">
+               Zacznij tam, gdzie jesteś. Z tym, co masz. Nic więcej nie jest potrzebne.
+            </p>
+            <a href="index.html#articles" class="btn tr" data-en="View all articles" data-pl="Zobacz wszystkie artykuły" data-ru="Смотреть все статьи">Zobacz wszystkie artykuły</a>
+        </div>
+    </main>
+
+<script>
+/* =============================================================
+   SYSTEM STATYSTYK I TŁUMACZEŃ - FIXED VERSION (v5)
+   ============================================================= */
+
+// 1. Konfiguracja kluczy (v5 resetuje stare błędne dane)
+const path = window.location.pathname;
+const storageKeyLike = 'liked_v5_' + path;
+const storageKeyViews = 'views_v5_' + path;
+
+// 2. Obsługa Języków
+const langSelect = document.getElementById('langSelect');
+const elementsToTranslate = document.querySelectorAll('.tr');
+
+function changeLanguage(lang) {
+    elementsToTranslate.forEach(el => { 
+        if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
+    });
+    document.documentElement.lang = lang;
+    langSelect.value = lang;
+    localStorage.setItem('preferredLang', lang);
+}
+
+// 3. Obsługa Polubień (Serduszko)
+function toggleLike() {
+    const btn = document.getElementById('likeBtn');
+    const countEl = document.getElementById('likeCount');
+    let currentLikes = parseInt(countEl.innerText);
+
+    if (!btn.classList.contains('active')) {
+        btn.classList.add('active');
+        currentLikes++;
+        localStorage.setItem(storageKeyLike, 'true');
+    } else {
+        btn.classList.remove('active');
+        currentLikes--;
+        localStorage.removeItem(storageKeyLike);
+    }
+    countEl.innerText = currentLikes;
+}
+
+// 4. Licznik Wyświetleń (Uproszczony z dodaniem wartości startowej)
+function initStats() {
+    const viewEl = document.getElementById('viewCount');
+    const likeEl = document.getElementById('likeCount');
+    const likeBtn = document.getElementById('likeBtn');
+
+    // A. Przywróć polubienie
+    if (localStorage.getItem(storageKeyLike)) {
+        likeBtn.classList.add('active');
+        likeEl.innerText = (parseInt(likeEl.innerText) + 1).toString();
+    }
+
+    // B. Logika Wyświetleń - Prosta inkrementacja
+    let savedViews = localStorage.getItem(storageKeyViews);
+    let currentViews;
+
+    if (!savedViews) {
+        // Jeśli pierwszy raz na tej wersji kodu, weź wartość z HTML (np. 310) i dodaj 1
+        currentViews = parseInt(viewEl.innerText.replace(/\s/g, '')) + 1;
+    } else {
+        // Jeśli już byłeś, po prostu dodaj 1 do zapamiętanej liczby
+        currentViews = parseInt(savedViews) + 1;
+    }
+
+    // Zapisz i wyświetl
+    localStorage.setItem(storageKeyViews, currentViews);
+    viewEl.innerText = currentViews.toLocaleString();
+}
+
+// 5. Start wszystkiego po załadowaniu DOM
+document.addEventListener("DOMContentLoaded", () => {
+    // Ustaw język
+    let savedLang = localStorage.getItem('preferredLang');
+    if (!savedLang) {
+        const userLangFull = navigator.language || navigator.userLanguage || "en";
+        savedLang = userLangFull.toLowerCase().substring(0, 2);
+        if (!['pl', 'ru', 'en'].includes(savedLang)) savedLang = 'en';
+    }
+    changeLanguage(savedLang);
+
+    // Zainicjuj statystyki
+    initStats();
+});
+
+// Listener dla przełącznika języka
+langSelect.addEventListener('change', (e) => {
+    changeLanguage(e.target.value);
+});
+</script>
+</body>
+</html>

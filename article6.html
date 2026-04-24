@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Put away the puzzles. Zen koans and the wisdom of the lotus.">
+    <title>Put Away the Puzzles - Nobody Meditates Here</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --bg-light: #FAFAFA;
+            --text: #111111;
+            --accent: #888888;
+            --bord: #4A2C2A; 
+            --transition-fast: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            font-weight: 300; 
+        }
+
+        h1, h2, h3, h4 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
+        
+        /* Ambient BG */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: linear-gradient(to bottom, #FFFFFF, #FCFCFC);
+        }
+
+        /* Nav */
+        nav { 
+            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); padding: 1rem 0; z-index: 100; border-bottom: 1px solid rgba(136, 136, 136, 0.1);
+        }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        
+        /* LOGO W NAV + BRAND TEXT */
+        .nav-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+
+        .nav-logo {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        .nav-brand-text {
+            font-family: 'Libre Baskerville', sans-serif;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-logo-link:hover .nav-logo {
+            transform: scale(1.05);
+        }
+        
+        .nav-logo-link:hover .nav-brand-text {
+            color: var(--bord);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        nav a:not(.nav-logo-link) { color: var(--accent); text-decoration: none; font-size: 0.95rem; transition: color var(--transition-fast); }
+        nav a:not(.nav-logo-link):hover { color: var(--bord); }
+        
+        .back-link { font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+        .lang-switch select { 
+            background: transparent; border: 1px solid transparent; color: var(--accent); font-family: inherit; font-size: 0.95rem; cursor: pointer; outline: none;
+        }
+
+        /* Article Layout */
+        .article-container {
+            max-width: 700px;
+            margin: 10rem auto 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header { text-align: center; margin-bottom: 4rem; }
+        .article-header h1 { font-size: 2.5rem; color: var(--bord); line-height: 1.3; margin-bottom: 1.5rem; }
+
+        /* ==========================================================================
+           MODERN HEADER META (Author, Time, Likes, Views)
+           ========================================================================== */
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .meta-sep {
+            opacity: 0.2;
+            font-weight: 300;
+        }
+
+        /* CZYSTE SERDUSZKO CSS */
+        .meta-stat-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+            padding: 0;
+            outline: none;
+        }
+
+        .meta-stat-btn:hover { color: var(--bord); }
+        .meta-stat-btn.active { color: #e74c3c; }
+        .meta-stat-btn.active svg { fill: #e74c3c; stroke: #e74c3c; }
+
+        .meta-stat-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+
+        .meta-item svg {
+            width: 15px;
+            height: 15px;
+            stroke-width: 2;
+        }
+
+        .article-content p { margin-bottom: 1.8rem; font-size: 1.05rem; }
+        .article-content h4 { font-size: 1.4rem; color: var(--text); margin: 3rem 0 1.5rem 0; }
+
+        .article-footer {
+            margin-top: 5rem; padding-top: 2rem; border-top: 1px solid rgba(136,136,136,0.2); text-align: center;
+        }
+
+        .btn {
+            display: inline-block; border: 1px solid var(--text); color: var(--text); padding: 1rem 2rem; text-decoration: none; transition: all 0.3s;
+        }
+        .btn:hover { background: var(--text); color: var(--bg); }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 1.8rem; }
+            .article-container { margin-top: 8rem; }
+            .nav-container { padding: 0 1.5rem; }
+        }
+
+        /* Responsywność dla paska nawigacji */
+        @media (max-width: 480px) {
+            .nav-brand-text {
+                display: none; 
+            }
+            .nav-container {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-link" aria-label="Go to Home">
+                <img src="logo.jpg" alt="Nobody Meditates Here" class="nav-logo">
+                <span class="nav-brand-text">Nobody Meditates Here</span>
+            </a>
+            
+            <div class="nav-controls">
+                <a href="index.html#articles" class="back-link tr" data-en="&larr; Back" data-pl="&larr; Wróć" data-ru="&larr; Назад">&larr; Wróć</a>
+                <div class="lang-switch">
+                    <select id="langSelect" aria-label="Select language">
+                        <option value="en">EN</option>
+                        <option value="pl" selected>PL</option>
+                        <option value="ru">RU</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <header class="article-header">
+            <h1 class="tr" 
+                data-en="Put away the puzzles. Why you don't need to understand everything to simply bloom" 
+                data-pl="Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć" 
+                data-ru="Отложи головоломки. Почему не нужно понимать всё, чтобы просто расцвести">
+                Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć
+            </h1>
+            
+            <div class="article-meta">
+                <span class="meta-item">
+                    <span class="tr" data-en="Author: " data-pl="Autor: " data-ru="Автор: ">Autor: </span>
+                    <span class="author-name">Pavel Bielski</span>
+                </span>
+                
+                <span class="meta-sep">|</span>
+                
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span class="tr" data-en="4 min read" data-pl="4 min czytania" data-ru="4 мин чтения">4 min czytania</span>
+                </span>
+
+                <span class="meta-sep">|</span>
+
+                <button class="meta-stat-btn" id="likeBtn" onclick="toggleLike()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    <span id="likeCount">17</span>
+                </button>
+
+                <span class="meta-sep">|</span>
+
+                <span class="meta-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span id="viewCount">142</span>
+                </span>
+            </div>
+        </header>
+
+        <img src="article6.jpg" alt="Buddha and Lotus" style="width: 100%; height: auto; max-height: 400px; object-fit: cover; border-radius: 4px; margin-bottom: 3rem; filter: grayscale(10%); box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+
+        <article class="article-content">
+            <p class="tr" 
+               data-en="Look at this image. Dark stone, lush, juicy greenery, and the peaceful face of the Buddha, beside whom a bright lotus flower blooms. This entire scene emanates extraordinary gentleness and silence. When we look at such images, we often sigh with longing: 'If only I could find such peace within myself... If only I could finally solve all my problems, understand the past, and put my life in order, I could just sit and be happy'." 
+               data-pl="Spójrz na ten obraz. Ciemny kamień, bujna, soczysta zieleń i spokojna twarz Buddy, obok którego rozkwita jasny kwiat lotosu. Cała ta scena emanuje niezwykłą łagodnością i ciszą. Kiedy patrzymy na takie obrazy, często wzdychamy z tęsknotą: „Gdybym tylko potrafił znaleźć w sobie taki spokój... Gdybym tylko wreszcie rozwiązał wszystkie swoje problemy, zrozumiał przeszłość i poukładał swoje życie, mógłbym tak po prostu usiąść i być szczęśliwym”." 
+               data-ru="Посмотри на эту картину. Темный камень, пышная, сочная зелень и спокойное лицо Будды, рядом с которым расцветает яркий цветок лотоса. Вся эта сцена излучает необычайную мягкость и тишину. Глядя на такие изображения, мы часто вздыхаем с тоской: «Если бы только я мог найти в себе такой покой... Если бы я только наконец решил все свои проблемы, понял прошлое и привел в порядок свою жизнь, я мог бы просто сидеть и быть счастливым».">
+               Spójrz na ten obraz. Ciemny kamień, bujna, soczysta zieleń i spokojna twarz Buddy, obok którego rozkwita jasny kwiat lotosu. Cała ta scena emanuje niezwykłą łagodnością i ciszą. Kiedy patrzymy na takie obrazy, często wzdychamy z tęsknotą: „Gdybym tylko potrafił znaleźć w sobie taki spokój... Gdybym tylko wreszcie rozwiązał wszystkie swoje problemy, zrozumiał przeszłość i poukładał swoje życie, mógłbym tak po prostu usiąść i być szczęśliwym”.
+            </p>
+
+            <p class="tr" 
+               data-en="We are stuck in the belief that our inner harmony depends on whether we manage to 'figure it all out'. But what if it is precisely our need for constant analysis that is blocking us?" 
+               data-pl="Zatrzymujemy się w przekonaniu, że nasza wewnętrzna harmonia zależy od tego, czy zdołamy wszystko „rozgryźć”. Ale co, jeśli to właśnie nasza potrzeba ciągłego analizowania jest tym, co nas blokuje?" 
+               data-ru="Мы застреваем в убеждении, что наша внутренняя гармония зависит от того, удастся ли нам всё «разгадать». Но что, если именно наша потребность в постоянном анализе и есть то, что нас блокирует?">
+               Zatrzymujemy się w przekonaniu, że nasza wewnętrzna harmonia zależy od tego, czy zdołamy wszystko „rozgryźć”. Ale co, jeśli to właśnie nasza potrzeba ciągłego analizowania jest tym, co nas blokuje?
+            </p>
+
+            <h4 class="tr" data-en="The mind that wants to fix the world" data-pl="Umysł, który chce naprawić świat" data-ru="Ум, который хочет исправить мир">Umysł, który chce naprawić świat</h4>
+
+            <p class="tr" 
+               data-en="Our intellect is a wonderful tool. It helps us plan our day, build bridges, and pay bills. However, when we direct it inward, it often becomes our harshest critic. We treat ourselves like a complicated machine that has broken down. We read more books, analyze every thought, and look for the ultimate answer to who we are. We are convinced that peace is the reward for solving life's great puzzle." 
+               data-pl="Nasz intelekt to wspaniałe narzędzie. Pomaga nam planować dzień, budować mosty i płacić rachunki. Jednak kiedy kierujemy go do wewnątrz, często staje się naszym najbardziej surowym krytykiem. Traktujemy siebie jak skomplikowaną maszynę, która uległa awarii. Czytamy kolejne książki, analizujemy każdą myśl i szukamy ostatecznej odpowiedzi na to, kim jesteśmy. Jesteśmy przekonani, że spokój to nagroda za rozwiązanie wielkiej życiowej łamigłówki." 
+               data-ru="Наш интеллект — прекрасный инструмент. Он помогает нам планировать день, строить мосты и оплачивать счета. Однако когда мы направляем его внутрь себя, он часто становится нашим самым суровым критиком. Мы относимся к себе как к сложной машине, которая вышла из строя. Мы читаем всё новые книги, анализируем каждую мысль и ищем окончательный ответ на вопрос, кто мы такие. Мы убеждены, что покой — это награда за решение великой жизненной головоломки.">
+               Nasz intelekt to wspaniałe narzędzie. Pomaga nam planować dzień, budować mosty i płacić rachunki. Jednak kiedy kierujemy go do wewnątrz, często staje się naszym najbardziej surowym krytykiem. Traktujemy siebie jak skomplikowaną maszynę, która uległa awarii. Czytamy kolejne książki, analizujemy każdą myśl i szukamy ostatecznej odpowiedzi na to, kim jesteśmy. Jesteśmy przekonani, że spokój to nagroda za rozwiązanie wielkiej życiowej łamigłówki.
+            </p>
+
+            <h4 class="tr" data-en="Hitting a wall: The magic of koans" data-pl="Zderzenie ze ścianą, czyli magia koanów" data-ru="Столкновение со стеной, или магия коанов">Zderzenie ze ścianą, czyli magia koanów</h4>
+
+            <p class="tr" 
+               data-en="Zen tradition approaches this with a smile and hands us something completely unexpected: the koan. Koans are short stories, questions, or dialogues of Zen masters that at first glance seem completely meaningless. The most famous one is: 'You know the sound of two hands clapping. What is the sound of one hand?'. Another asks: 'What was your original face before your parents were born?'." 
+               data-pl="Tymczasem tradycja Zen podchodzi do tego z uśmiechem i wręcza nam coś zupełnie nieoczekiwanego: koan. Koany to krótkie historie, pytania lub dialogi mistrzów Zen, które na pierwszy rzut oka wydają się całkowicie pozbawione sensu. Najsłynniejszy z nich brzmi: „Znasz dźwięk klaskania dwóch dłoni. Jaki jest dźwięk jednej dłoni?”. Inny pyta: „Jaka była twoja pierwotna twarz, zanim urodzili się twoi rodzice?”." 
+               data-ru="Между тем, традиция Дзен подходит к этому с улыбкой и вручает нам нечто совершенно неожиданное: коан. Коаны — это короткие истории, вопросы или диалоги мастеров Дзен, которые на первый взгляд кажутся совершенно бессмысленными. Самый известный из них звучит так: «Ты знаешь звук хлопка двух ладоней. Каков звук одной ладони?». Другой спрашивает: «Каким было твое истинное лицо до рождения твоих родителей?»">
+               Tymczasem tradycja Zen podchodzi do tego z uśmiechem i wręcza nam coś zupełnie nieoczekiwanego: koan. Koany to krótkie historie, pytania lub dialogi mistrzów Zen, które na pierwszy rzut oka wydają się całkowicie pozbawione sensu. Najsłynniejszy z nich brzmi: „Znasz dźwięk klaskania dwóch dłoni. Jaki jest dźwięk jednej dłoni?”. Inny pyta: „Jaka była twoja pierwotna twarz, zanim urodzili się twoi rodzice?”.
+            </p>
+
+            <p class="tr" 
+               data-en="A student gets such a question and tries to solve it. They sit on the cushion and come up with logical, philosophical answers. And the master ruthlessly rejects each one. Why? Because a koan cannot be solved by the intellect. It is an invitation to exhaust your analytical mind. It is a wall that your intellect must hit with such force that it finally gives up and says: 'I don't know. I just don't know'." 
+               data-pl="Uczeń dostaje takie pytanie i próbuje je rozwiązać. Siada na poduszce i wymyśla logiczne, filozoficzne odpowiedzi. A mistrz każdą z nich bezlitośnie odrzuca. Dlaczego? Bo koanu nie da się rozwiązać intelektem. Jest zaproszeniem do tego, by wyczerpać swój analityczny umysł. To ściana, w którą Twój intelekt musi uderzyć z taką siłą, by w końcu się poddać, opuścić ręce i powiedzieć: „Nie wiem. Po prostu nie wiem”." 
+               data-ru="Ученик получает такой вопрос и пытается его решить. Он садится на подушку и придумывает логичные, философские ответы. А мастер безжалостно отвергает каждый из них. Почему? Потому что коан нельзя решить интеллектом. Это приглашение к тому, чтобы исчерпать свой аналитический ум. Это стена, в которую твой интеллект должен удариться с такой силой, чтобы в конце концов сдаться, опустить руки и сказать: «Я не знаю. Я просто не знаю».">
+               Uczeń dostaje takie pytanie i próbuje je rozwiązać. Siada na poduszce i wymyśla logiczne, filozoficzne odpowiedzi. A mistrz każdą z nich bezlitośnie odrzuca. Dlaczego? Bo koanu nie da się rozwiązać intelektem. Jest zaproszeniem do tego, by wyczerpać swój analityczny umysł. To ściana, w którą Twój intelekt musi uderzyć z taką siłą, by w końcu się poddać, opuścić ręce i powiedzieć: „Nie wiem. Po prostu nie wiem”.
+            </p>
+
+            <h4 class="tr" data-en="The lotus needs mud" data-pl="Lotos potrzebuje błota" data-ru="Лотосу нужна грязь">Lotos potrzebuje błota</h4>
+
+            <p class="tr" 
+               data-en="Look again at the lotus flower in the photo. In Buddhism, it is the most beautiful symbol of human potential. The lotus does not grow in crystal clear water or a sterile laboratory. To bloom in its full beauty, it needs murky water and dark, thick mud at the bottom of the pond." 
+               data-pl="Spójrz jeszcze raz na kwiat lotosu na zdjęciu. W buddyzmie to najpiękniejszy symbol ludzkiego potencjału. Lotos nie rośnie w krystalicznie czystej wodzie ani w sterylnym laboratorium. Aby mógł zakwitnąć w pełni swojego piękna, potrzebuje mętnej wody i ciemnego, gęstego błota na dnie stawu." 
+               data-ru="Посмотри еще раз на цветок лотоса на фотографии. В буддизме это самый прекрасный символ человеческого потенциала. Лотос не растет в кристально чистой воде или стерильной лаборатории. Чтобы расцвести во всей своей красе, ему нужна мутная вода и темная, густая грязь на дне пруда.">
+               Spójrz jeszcze raz na kwiat lotosu na zdjęciu. W buddyzmie to najpiękniejszy symbol ludzkiego potencjału. Lotos nie rośnie w krystalicznie czystej wodzie ani w sterylnym laboratorium. Aby mógł zakwitnąć w pełni swojego piękna, potrzebuje mętnej wody i ciemnego, gęstego błota na dnie stawu.
+            </p>
+
+            <p class="tr" 
+               data-en="This is a very supportive metaphor for each of us. Your 'mud'—your fatigue, life's twists, fears, misunderstood emotions—these are not mistakes to be erased. They are your fertile soil. You don't need to fix your mud. Your wisdom grows from it." 
+               data-pl="To bardzo wspierająca i ciepła metafora dla każdego z nas. Twoje „błoto” – Twoje zmęczenie, życiowe zakręty, lęki, niezrozumiane emocje i wszystkie te dni, w których czujesz, że nic nie ma sensu – to nie są błędy, które musisz z siebie wymazać. To Twoja żyzna gleba. Nie musisz naprawić swojego błota. Z niego właśnie wyrasta Twoja mądrość." 
+               data-ru="Это очень поддерживающая и теплая метафора для каждого из нас. Твоя «грязь» — твоя усталость, жизненные повороты, страхи, непонятые эмоции — это не ошибки, которые нужно стереть. Это твоя плодородная почва. Тебе не нужно исправлять свою грязь. Именно из нее вырастает твоя мудрость.">
+               To bardzo wspierająca i ciepła metafora dla każdego z nas. Twoje „błoto” – Twoje zmęczenie, życiowe zakręty, lęki, niezrozumiane emocje i wszystkie te dni, w których czujesz, że nic nie ma sensu – to nie są błędy, które musisz z siebie wymazać. To Twoja żyzna gleba. Nie musisz naprawić swojego błota. Z niego właśnie wyrasta Twoja mądrość.
+            </p>
+
+            <h4 class="tr" data-en="You have the right to rest" data-pl="Masz prawo odpocząć" data-ru="Ты имеешь право на отдых">Masz prawo odpocząć</h4>
+
+            <p class="tr" 
+               data-en="Meditation is one of the few moments in your day when you absolutely don't have to achieve anything. You don't have to be good at it. It's an invitation to radical kindness toward yourself. You can sit, take a deep breath, and realize: you are enough exactly at this moment." 
+               data-pl="Medytacja to jeden z niewielu momentów w Twoim dniu, w którym absolutnie nic nie musisz osiągać. Nie musisz być w niej dobry. To zaproszenie do radykalnej życzliwości wobec samego siebie. Możesz usiąść, wziąć głęboki oddech i uświadomić sobie: jesteś wystarczający dokładnie w tym momencie." 
+               data-ru="Медитация — один из немногих моментов в твоем дне, когда тебе абсолютно ничего не нужно достигать. Тебе не нужно быть в ней «хорошим». Это приглашение к радикальной доброте по отношению к самому себе. Ты можешь сесть, сделать глубокий вдох и осознать: ты достаточен именно в этот момент.">
+               Medytacja to jeden z niewielu momentów w Twoim dniu, w którym absolutnie nic nie musisz osiągać. Nie musisz być w niej dobry. To zaproszenie do radykalnej życzliwości wobec samego siebie. Możesz usiąść, wziąć głęboki oddech i uświadomić sobie: jesteś wystarczający dokładnie w tym momencie.
+            </p>
+        </article>
+
+        <div class="article-footer">
+            <p class="tr" style="font-style: italic; color: var(--accent); margin-bottom: 2rem;" 
+               data-en="Be like that stone Buddha among the green leaves—calm, grounded, letting the world simply grow around him. Put away the puzzles for a while. Sit down. Breathe. It really is enough." 
+               data-pl="Bądź jak ten kamienny Budda wśród zielonych liści – spokojny, osadzony w ziemi, pozwalający, aby świat po prostu wokół niego rósł. Odłóż na chwilę łamigłówki. Usiądź. Oddychaj. To naprawdę wystarczy." 
+               data-ru="Будь как этот каменный Будда среди зеленых листьев — спокойным, укорененным, позволяющим миру просто расти вокруг него. Отложи на время головоломки. Сядь. Дыши. Этого действительно достаточно.">
+               Bądź jak ten kamienny Budda wśród zielonych liści – spokojny, osadzony w ziemi, pozwalający, aby świat po prostu wokół niego rósł. Odłóż na chwilę łamigłówki. Usiądź. Oddychaj. To naprawdę wystarczy.
+            </p>
+            <a href="index.html#articles" class="btn tr" data-en="View all articles" data-pl="Zobacz wszystkie artykuły" data-ru="Смотреть все статьи">Zobacz wszystkie artykuły</a>
+        </div>
+    </main>
+
+    <script>
+        /* =============================================================
+           SYSTEM STATYSTYK I TŁUMACZEŃ - FIXED VERSION (v5)
+           ============================================================= */
+
+        const path = window.location.pathname;
+
+        // Reset pamięci dla article6
+        const storageKeyLike = 'liked_v5_' + path;
+        const storageKeyViews = 'views_v5_' + path;
+
+        const langSelect = document.getElementById('langSelect');
+        const elementsToTranslate = document.querySelectorAll('.tr');
+
+        function changeLanguage(lang) {
+            elementsToTranslate.forEach(el => { 
+                if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
+            });
+            document.documentElement.lang = lang;
+            langSelect.value = lang;
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        function toggleLike() {
+            const btn = document.getElementById('likeBtn');
+            const countEl = document.getElementById('likeCount');
+            let currentLikes = parseInt(countEl.innerText);
+
+            if (!btn.classList.contains('active')) {
+                btn.classList.add('active');
+                currentLikes++;
+                localStorage.setItem(storageKeyLike, 'true');
+            } else {
+                btn.classList.remove('active');
+                currentLikes--;
+                localStorage.removeItem(storageKeyLike);
+            }
+            countEl.innerText = currentLikes;
+        }
+
+        function initStats() {
+            const viewEl = document.getElementById('viewCount');
+            const likeEl = document.getElementById('likeCount');
+            const likeBtn = document.getElementById('likeBtn');
+
+            // Przywróć polubienie
+            if (localStorage.getItem(storageKeyLike)) {
+                likeBtn.classList.add('active');
+                likeEl.innerText = (parseInt(likeEl.innerText) + 1).toString();
+            }
+
+            // Logika Wyświetleń
+            let savedViews = localStorage.getItem(storageKeyViews);
+            let currentViews;
+
+            if (!savedViews) {
+                // Jeśli pierwszy raz, weź z HTML (142) i dodaj 1
+                currentViews = parseInt(viewEl.innerText.replace(/\s/g, '')) + 1;
+            } else {
+                currentViews = parseInt(savedViews) + 1;
+            }
+
+            localStorage.setItem(storageKeyViews, currentViews);
+            viewEl.innerText = currentViews.toLocaleString();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let savedLang = localStorage.getItem('preferredLang');
+            if (!savedLang) {
+                const userLangFull = navigator.language || navigator.userLanguage || "en";
+                savedLang = userLangFull.toLowerCase().substring(0, 2);
+                if (!['pl', 'ru', 'en'].includes(savedLang)) savedLang = 'en';
+            }
+            changeLanguage(savedLang);
+            initStats();
+        });
+
+        langSelect.addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+    </script>
+</body>
+</html>
