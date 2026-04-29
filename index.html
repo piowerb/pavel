@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -33,338 +33,22 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="style.css">
     
     <style>
-        /* ==========================================================================
-           1. ZMIENNE I RESET (CSS VARIABLES & RESET)
-           ========================================================================== */
-        :root {
-            --bg: #FFFFFF;
-            --bg-light: #FAFAFA;
-            --text: #111111;
-            --accent: #666666;
-            --bord: #4A2C2A; 
-            --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            --transition-fast: 0.3s ease;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            line-height: 1.8; 
-            font-weight: 300; 
-            overflow-x: hidden; 
-            width: 100%;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-        }
-
-        h1, h2, h3 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
-        img, iframe, video { max-width: 100%; }
-
-        section { 
-            padding: 8rem 2rem 6rem; 
-            max-width: 900px; 
-            margin: 0 auto; 
-            scroll-margin-top: 5rem; 
-            position: relative;
-            content-visibility: auto;
-            contain-intrinsic-size: 500px;
-        }
-
-        /* ==========================================================================
-           2. NOWOCZESNE ANIMACJE SCROLL REVEAL (CSS Klasy)
-           ========================================================================== */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.21, 1.02, 0.73, 1), 
-                        transform 0.8s cubic-bezier(0.21, 1.02, 0.73, 1);
-            will-change: opacity, transform;
-        }
-        .reveal-up.is-revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ==========================================================================
-           1.5. ANIMOWANE TŁO "PREMIUM"
-           ========================================================================== */
-        .ambient-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none;
-            background: linear-gradient(to bottom, #FFFFFF, #FCFCFC);
-        }
-        .ambient-bg::before, .ambient-bg::after {
-            content: ""; position: absolute; width: 80vw; height: 80vw; border-radius: 50%;
-            background: radial-gradient(circle, rgba(136, 136, 136, 0.04) 0%, rgba(255, 255, 255, 0) 70%);
-            animation: float 25s infinite ease-in-out alternate;
-        }
-        .ambient-bg::before { top: -20%; left: -20%; }
-        .ambient-bg::after { bottom: -20%; right: -20%; animation-delay: -12s; animation-duration: 30s; }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(5%, 10%) scale(1.1); }
-            100% { transform: translate(-5%, 5%) scale(0.9); }
-        }
-
-        /* ==========================================================================
-           2. NAWIGACJA I MENU
-           ========================================================================== */
-        nav { 
-            position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 1.5rem 0; z-index: 100; 
-            transition: padding var(--transition-fast), border-bottom var(--transition-fast), background var(--transition-fast); 
-        }
-        nav.scrolled { padding: 1rem 0; background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid rgba(136, 136, 136, 0.1); box-shadow: 0 4px 30px rgba(0,0,0,0.03); }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 0 2rem; position: relative; }
-        nav ul { list-style: none; display: flex; gap: 2.5rem; padding-right: 50px; }
-        nav a { color: var(--accent); text-decoration: none; font-size: 0.95rem; transition: color var(--transition-fast); position: relative; }
-        nav a:hover, nav a:focus { color: var(--bord); outline: none; }
-        
-        .lang-switch { position: absolute; right: 2rem; display: flex; }
-        .lang-switch select { 
-            background: transparent; border: 1px solid transparent; color: var(--accent); font-family: inherit; font-size: 0.95rem; 
-            cursor: pointer; outline: none; padding: 0.2rem 0.5rem; transition: all var(--transition-fast); border-radius: 4px;
-        }
-        .lang-switch select:hover, .lang-switch select:focus { color: var(--text); border-color: rgba(136,136,136,0.2); background: rgba(255,255,255,0.5); }
-
-        /* ==========================================================================
-           3. TYPOGRAFIA I GŁÓWNE ELEMENTY
-           ========================================================================== */
-        .microtext { text-align: center; font-size: 0.9rem; color: var(--accent); letter-spacing: 0.05em; margin: 4rem 0; font-style: italic; }
-        h2 { font-size: 2rem; margin-bottom: 2.5rem; color: var(--text); border-bottom: 1px solid rgba(136,136,136,0.2); padding-bottom: 1rem; display: inline-block; }
-        p { margin-bottom: 1.5rem; }
-        .lead { font-size: 1.2rem; color: var(--text); margin-bottom: 2rem; }
-
-        .btn { 
-            display: inline-block; border: 1px solid var(--text); color: var(--text); padding: 1.2rem 3rem; text-decoration: none; 
-            font-size: 0.95rem; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); background: transparent; cursor: pointer;
-            font-family: 'Inter', sans-serif; text-align: center; letter-spacing: 0.02em; position: relative; overflow: hidden;
-        }
-        .btn::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--text); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: -1; }
-        .btn:hover::before, .btn:focus::before { left: 0; }
-        .btn:hover, .btn:focus { color: var(--bg); border-color: var(--text); outline: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: translateY(-2px); }
-
-        .hero { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding-top: 0; position: relative; content-visibility: visible; }
-        .hero-watermark {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px; object-fit: cover;
-            border-radius: 50%; opacity: 0.04; z-index: 0; pointer-events: none; filter: grayscale(100%);
-        }
-        .hero-content { position: relative; z-index: 1; }
-        .hero h1 { font-size: clamp(2.8rem, 6vw, 4.8rem); margin-bottom: 1.5rem; line-height: 1.1; color: var(--text); letter-spacing: -0.02em; }
-        .hero p { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--accent); margin-bottom: 4rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-        /* ==========================================================================
-           4. KOMPONENTY (KARTY, KARUZELE, ZDJĘCIA)
-           ========================================================================== */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr) !important; gap: 2rem; margin-top: 2rem; }
-        .card { padding: 3rem 2.5rem; background: rgba(250, 250, 250, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(136,136,136,0.1); transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-        .card:hover { background: #FFFFFF; transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); border-color: rgba(136,136,136,0.2); }
-        .card h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--bord); }
-        .card p { font-size: 0.95rem; color: var(--accent); margin: 0; }
-        .upcoming { margin-top: 3rem; font-size: 0.95rem; border-left: 2px solid var(--accent); padding-left: 1rem; color: var(--text); }
-
-        .about-flex { display: flex; gap: 4rem; align-items: center; }
-        .profile-img-wrapper { flex-shrink: 0; width: 350px; }
-        .profile-img { width: 100%; height: auto; filter: grayscale(20%); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); aspect-ratio: 3/4; object-fit: cover; }
-        .profile-img:hover { filter: grayscale(0%); transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
-
-        .certificate-wrapper { margin-top: 4rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .certificate-images-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
-        .certificate-img { width: 100%; max-width: 250px; height: auto; border-radius: 4px; border: 1px solid rgba(136, 136, 136, 0.15); box-shadow: 0 5px 20px rgba(0,0,0,0.05); cursor: zoom-in; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); filter: grayscale(10%); }
-        .certificate-img:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); filter: grayscale(0%); }
-
-        .carousel-wrapper { position: relative; width: 100%; margin: 4rem 0 2rem; overflow: hidden; border: 1px solid rgba(136,136,136,0.15); background: var(--bg-light); transition: border-color var(--transition-fast), box-shadow 0.5s ease; touch-action: pan-y; border-radius: 4px; }
-        .carousel-wrapper:hover { border-color: rgba(136,136,136,0.4); box-shadow: 0 15px 40px rgba(0,0,0,0.06); }
-        .carousel-track { display: flex; width: 100%; }
-        .smooth-transition { transition: transform var(--transition-slow); }
-        .carousel-slide { min-width: 100%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; background: var(--bg-light); }
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); border: 1px solid rgba(136,136,136,0.1); color: var(--text); cursor: pointer; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; z-index: 10; user-select: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .carousel-btn:hover, .carousel-btn:focus { background: var(--text); color: var(--bg); outline: none; transform: translateY(-50%) scale(1.1); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-        .carousel-btn.prev { left: 1.5rem; }
-        .carousel-btn.next { right: 1.5rem; }
-        .media-caption { text-align: center; font-size: 0.85rem; color: var(--accent); margin-top: 1.5rem; font-style: italic; }
-
-        #video-wrapper { background: #000; }
-        #video-track iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: none; display: block; }
-
-        .collage-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 4rem; }
-        @media (min-width: 768px) { .collage-grid { grid-template-columns: repeat(4, 1fr); } }
-        .collage-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; cursor: zoom-in; filter: grayscale(15%); transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .collage-grid img:hover { filter: grayscale(0%); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-
-        .lightbox { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity var(--transition-fast); }
-        .lightbox.active { opacity: 1; pointer-events: all; }
-        .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; transform: scale(0.9); transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .lightbox.active img { transform: scale(1); }
-        .lightbox-close { position: absolute; top: 30px; right: 50px; color: #fff; font-size: 3.5rem; font-weight: 300; cursor: pointer; transition: color var(--transition-fast), transform var(--transition-fast); user-select: none; z-index: 10000; }
-        .lightbox-close:hover { color: var(--accent); transform: rotate(90deg); }
-        .lightbox-btn { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(255,255,255,0.5); font-size: 3rem; cursor: pointer; padding: 1rem; transition: color var(--transition-fast), transform var(--transition-fast); z-index: 10000; }
-        .lightbox-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
-        .lightbox-btn.prev { left: 2rem; }
-        .lightbox-btn.next { right: 2rem; }
-
-        form { margin-top: 2rem; max-width: 600px; position: relative; }
-        input, textarea { width: 100%; padding: 1.2rem 0; margin-bottom: 2.5rem; border: none; border-bottom: 1px solid rgba(136,136,136,0.3); background: transparent; font-family: inherit; font-size: 1rem; color: var(--text); transition: border-color var(--transition-fast), padding-left var(--transition-fast); border-radius: 0; appearance: none; }
-        input:focus, textarea:focus { outline: none; border-bottom-color: var(--bord); padding-left: 10px; }
-        textarea { height: 120px; resize: vertical; }
-        
-        .honeypot-field { 
+        /* Klasa ukrywająca tekst wizualnie, ale pozostawiająca go dla czytników ekranu (A11y) */
+        .sr-only {
             position: absolute;
-            left: -9999px;
-            top: -9999px;
-            z-index: -1; 
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
-
-        .form-status { margin-top: 1rem; font-size: 0.95rem; color: var(--bord); display: none; }
-        .contact-info { margin-top: 4rem; font-size: 0.95rem; }
-        .contact-info a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--accent); transition: border-color var(--transition-fast); padding-bottom: 2px; }
-        .contact-info a:hover { border-color: var(--bord); }
-
-        footer { text-align: center; padding: 5rem 2rem 4rem; color: var(--accent); font-size: 0.85rem; border-top: 1px solid rgba(136,136,136,0.1); position: relative; }
-        .social-media-container { margin: 3rem 0 2rem 0; padding: 2.5rem 0; border-top: 1px dashed rgba(136,136,136,0.1); }
-        .social-title { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--accent); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.1em; }
-        .social-links { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; }
-        .social-links a { color: var(--accent); transition: color var(--transition-fast), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); display: inline-flex; align-items: center; justify-content: center; }
-        .social-links a:hover { color: var(--bord); transform: translateY(-5px) scale(1.1); }
-        .social-links svg { width: 28px; height: 28px; }
-        .support-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; border: 1px solid rgba(136,136,136,0.2); background: rgba(255,255,255,0.5); backdrop-filter: blur(5px); color: var(--text); text-decoration: none; font-size: 0.9rem; border-radius: 50px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); margin-top: 1rem; }
-        .support-btn:hover { border-color: var(--bord); background: var(--bg); transform: translateY(-3px); color: var(--bord); box-shadow: 0 10px 20px rgba(74, 44, 42, 0.05); }
-        .support-btn svg { width: 20px; height: 20px; }
-        .footer-copyright { margin-top: 3rem; color: var(--accent); opacity: 0.7; }
-
-        .privacy-accordion { max-width: 600px; margin: 2rem auto 0; text-align: left; border-top: 1px solid rgba(136,136,136,0.1); padding-top: 1rem; }
-        .privacy-toggle { background: none; border: none; color: var(--accent); font-family: 'Inter', sans-serif; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; gap: 0.5rem; transition: color var(--transition-fast); padding: 0.5rem; }
-        .privacy-toggle:hover { color: var(--text); }
-        .privacy-toggle svg { width: 14px; height: 14px; transition: transform var(--transition-fast); }
-        .privacy-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-        .privacy-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease; opacity: 0; font-size: 0.8rem; color: var(--accent); line-height: 1.6; }
-        .privacy-content.open { max-height: 300px; opacity: 1; padding: 1rem 0; }
-
-        /* ==========================================================================
-           NOWA SEKCJA GALERII ZDJĘĆ (Zamiast wielkiej karuzeli)
-           ========================================================================== */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 20px;
-            margin-top: 5rem;
-        }
-        .gallery-item {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: zoom-in;
-            opacity: 0.85;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            background: var(--bg-light);
-        }
-        .gallery-item:hover {
-            opacity: 1;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        /* ==========================================================================
-           RESPONSYWNOŚĆ (MOBILE FIRST)
-           ========================================================================== */
-        @media (max-width: 1000px) { nav ul { gap: 1.5rem; } }
-        @media (max-width: 900px) {
-            .about-flex { flex-direction: column; align-items: center; text-align: center; gap: 2.5rem; }
-            .profile-img-wrapper { width: 100%; max-width: 400px; margin: 0 auto; }
-        }
-        @media (max-width: 768px) { 
-            .nav-container { flex-direction: column; gap: 1rem; padding: 1rem; justify-content: center; }
-            nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; padding-right: 0; } 
-            nav a { font-size: 0.85rem; }
-            section { padding: 6rem 1.5rem 3rem; }
-            .carousel-wrapper { margin: 2rem 0; }
-
-            .lightbox-close { top: 15px; right: 25px; font-size: 2.5rem; }
-            .lightbox-btn { font-size: 2rem; padding: 0.5rem; }
-            .lightbox-btn.prev { left: 0.5rem; }
-            .lightbox-btn.next { right: 0.5rem; }
-            .carousel-btn { width: 45px; height: 45px; font-size: 1.2rem; }
-            .carousel-btn.prev { left: 0.5rem; }
-            .carousel-btn.next { right: 0.5rem; }
-            .hero-watermark { width: 300px; height: 300px; }
-            .lang-switch { position: static; justify-content: center; width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 2.2rem; }
-            .support-btn { padding: 0.8rem 1.2rem; font-size: 0.8rem; }
-            #video-track iframe { height: 250px; }
-            .hero-watermark { width: 250px; height: 250px; }
-        }
-
-        .quote-wrapper { margin: 4rem auto 0; text-align: center; max-width: 600px; }
-        .quote-wrapper blockquote { font-family: 'Libre Baskerville', serif; font-size: 1.3rem; font-style: italic; color: var(--bord); line-height: 1.6; margin-bottom: 1rem; }
-        .quote-wrapper cite { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-style: normal; }
-
-        #articles { max-width: 1100px !important; margin: 0 auto; padding: 4rem 2rem; }
-        #articles .grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px; }
-        .article-card { position: relative; display: flex !important; flex-direction: column; height: 280px; border-radius: 8px; overflow: hidden; text-decoration: none; background: #000; transition: all 0.4s ease; }
-        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .article-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.4s ease; }
-        .article-card:hover .article-img { opacity: 1; }
-        .article-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 65%; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%); z-index: 1; }
-        .article-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; z-index: 2; }
-        .article-content h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem !important; color: #FFFFFF; line-height: 1.4; margin: 0; font-weight: 600; text-shadow: 0 1px 5px rgba(0,0,0,0.3); }
-        .article-content p, .article-content span.tr { display: none !important; }
-
-        /* ==========================================================================
-           WYMUSZENIE 3 KOLUMN I SKALOWANIE W DÓŁ (ZMNIEJSZANIE)
-           ========================================================================== */
-        @media (max-width: 1024px) {
-            .grid, .gallery-grid, #articles .grid { gap: 15px !important; }
-            .article-card { height: 200px; }
-            .gallery-item { height: 180px; }
-            .article-content h3 { font-size: 0.95rem !important; }
-        }
-
-        @media (max-width: 768px) { 
-            .grid, .gallery-grid, #articles .grid { gap: 8px !important; }
-            
-            .card { padding: 1.5rem 1rem; }
-            .card h3 { font-size: 0.85rem; margin-bottom: 0.5rem; }
-            .card p { font-size: 0.75rem; line-height: 1.4; }
-
-            .gallery-item { height: 120px; border-radius: 4px; }
-            .article-card { height: 140px; border-radius: 4px; }
-            
-            .article-content { padding: 8px; }
-            .article-content h3 { 
-                font-size: 0.75rem !important; 
-                line-height: 1.2; 
-                margin-bottom: 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .grid, .gallery-grid, #articles .grid { gap: 4px !important; }
-            
-            .card { padding: 1rem 0.5rem; }
-            .card h3 { font-size: 0.7rem; }
-            .card p { font-size: 0.65rem; }
-
-            .gallery-item { height: 90px; }
-            .article-card { height: 110px; }
-            
-            .article-content { padding: 5px; }
-            .article-content h3 { font-size: 0.6rem !important; }
-        }
-
-        .footer-brand-block { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 1.5rem; text-decoration: none; cursor: pointer; }
-        .footer-brand-logo { width: 50px; height: 50px; display: block; border-radius: 12px; object-fit: cover; border: 1px solid rgba(136, 136, 136, 0.1); }
-        .footer-brand-name { font-family: 'Libre Baskerville', serif; font-size: 1.1rem; color: var(--text); font-weight: 400; letter-spacing: -0.01em; transition: none; }
-        @media (max-width: 360px) { .footer-brand-block { flex-direction: column; gap: 10px; } }
     </style>
 
     <script>
@@ -378,6 +62,8 @@
             document.documentElement.lang = savedLang;
         })();
     </script>
+
+    <script src="main.js" defer></script>
 </head>
 <body>
 
@@ -403,240 +89,286 @@
         </div>
     </nav>
 
-    <section id="home" class="hero">
-        <img src="logo.jpg" alt="Logo Watermark" class="hero-watermark">
-        
-        <div class="hero-content">
-            <h1 class="tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
-            <p class="tr" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
-            <a href="#sessions" class="btn tr" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться к медитации">Join meditation</a>
-        </div>
-    </section>
+    <main>
+        <section id="home" class="hero">
+            <img src="logo.jpg" alt="" aria-hidden="true" class="hero-watermark" width="500" height="500">
+            
+            <div class="hero-content">
+                <h1 class="tr reveal-up" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
+                <p class="tr reveal-up" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
+                <a href="#contact" class="btn tr reveal-up" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться к медитации">Join meditation</a>
+            </div>
+        </section>
 
-    <div class="microtext tr" data-en="Sit down. Begin." data-pl="Usiądź. Zacznij." data-ru="Сядь. Начни.">Sit down. Begin.</div>
+        <div class="microtext tr reveal-up" data-en="Sit down. Begin." data-pl="Usiądź. Zacznij." data-ru="Сядь. Начни.">Sit down. Begin.</div>
 
-    <section id="about-practice">
-        <h2 class="tr" data-en="About the practice" data-pl="O praktyce" data-ru="О практике">About the practice</h2>
-        <p class="lead tr" data-en="I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind." data-pl="Prowadzę proste instrukcje medytacji siedzącej online dla osób chcących rozwijać uwagę i pracować z umysłem." data-ru="Я провожу простые инструкции по сидячей медитации онлайн для тех, кто хочет развивать внимание и работать с умом.">I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind.</p>
-        <p class="tr" data-en="Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is." data-pl="Medytacja nie polega na wyłączaniu myśli. Praktyka polega na spotkaniu doświadczenia takim, jakie jest." data-ru="Медитация не заключается в отключении мыслей. Практика — это встреча с опытом таким, какой он есть.">Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is.</p>
-        <p class="tr" data-en="Attention develops stability and clarity. Meditation is a simple discipline of presence." data-pl="Uwaga rozwija stabilność i przejrzystość. Medytacja jest prostą dyscypliną obecności." data-ru="Внимание развивает стабильность и ясность. Медитация — это простая дисциплина присутствия.">Attention develops stability and clarity. Meditation is a simple discipline of presence.</p>
-        
-        <div class="carousel-wrapper" id="video-wrapper">
-            <div class="carousel-track smooth-transition" id="video-track">
-                <div class="carousel-slide">
-                    <iframe src="https://drive.google.com/file/d/1ahxwsMn4Q-6g8UKVtzDD0nWn6h_ja3xm/preview" allow="autoplay; fullscreen" loading="lazy" title="Meditation Video 1"></iframe>
+        <section id="about-practice">
+            <h2 class="tr reveal-up" data-en="About the practice" data-pl="O praktyce" data-ru="О практике">About the practice</h2>
+            <p class="lead tr reveal-up" data-en="I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind." data-pl="Prowadzę proste instrukcje medytacji siedzącej online dla osób chcących rozwijać uwagę i pracować z umysłem." data-ru="Я провожу простые инструкции по сидячей медитации онлайн для тех, кто хочет развивать внимание и работать с умом.">I provide simple sitting meditation instruction online for those wishing to develop attention and work with their mind.</p>
+            <p class="tr reveal-up" data-en="Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is." data-pl="Medytacja nie polega na wyłączaniu myśli. Praktyka polega na spotkaniu doświadczenia takim, jakie jest." data-ru="Медитация не заключается в отключении мыслей. Практика — это встреча с опытом таким, какой он есть.">Meditation is not about turning off your thoughts. Practice is about meeting experience exactly as it is.</p>
+            <p class="tr reveal-up" data-en="Attention develops stability and clarity. Meditation is a simple discipline of presence." data-pl="Uwaga rozwija stabilność i przejrzystość. Medytacja jest prostą dyscypliną obecności." data-ru="Внимание развивает стабильность и ясность. Медитация — это простая дисциплина присутствия.">Attention develops stability and clarity. Meditation is a simple discipline of presence.</p>
+            
+            <div class="carousel-wrapper reveal-up" id="video-wrapper">
+                <div class="carousel-track smooth-transition" id="video-track">
+                    <div class="carousel-slide">
+                        <video controls playsinline preload="none" poster="poster-1.webp">
+                            <source src="IMG_8538.mp4" type="video/mp4">
+                            Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+                        </video>
+                    </div>
+                    <div class="carousel-slide">
+                        <video controls playsinline preload="none" poster="poster-2.webp">
+                            <source src="IMG_8622.mp4" type="video/mp4">
+                            Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+                        </video>
+                    </div>
+                    <div class="carousel-slide">
+                        <video controls playsinline preload="none" poster="poster-3.webp">
+                            <source src="IMG_8743.mp4" type="video/mp4">
+                            Twoja przeglądarka nie obsługuje odtwarzacza wideo.
+                        </video>
+                    </div>
                 </div>
-                <div class="carousel-slide">
-                    <iframe src="https://drive.google.com/file/d/1ee34BBgVhNMBYsX0e0ITWmfb1J0_3Hqv/preview" allow="autoplay; fullscreen" loading="lazy" title="Meditation Video 2"></iframe>
+                <button class="carousel-btn prev" id="btn-prev-vid" aria-label="Previous video">&#10094;</button>
+                <button class="carousel-btn next" id="btn-next-vid" aria-label="Next video">&#10095;</button>
+            </div>
+        </section>
+
+        <div class="microtext tr reveal-up" data-en="Practice is simple." data-pl="Praktyka jest prosta." data-ru="Практика проста.">Practice is simple.</div>
+
+        <section id="sessions">
+            <h2 class="tr reveal-up" data-en="Sessions" data-pl="Spotkania" data-ru="Встречи">Sessions</h2>
+            <div class="grid">
+                <div class="card reveal-up">
+                    <h3 class="tr" data-en="Weekly online meditation" data-pl="Cotygodniowa medytacja online" data-ru="Еженедельная онлайн-медитация">Weekly online meditation</h3>
+                    <p class="tr" data-en="Sessions held via Zoom." data-pl="Spotkania na platformie Zoom." data-ru="Встречи проходят через Zoom.">Sessions held via Zoom.</p>
                 </div>
-                <div class="carousel-slide">
-                    <iframe src="https://drive.google.com/file/d/1QMBitK_5YWzCpokeECkuNJFQGyYgefyx/preview" allow="autoplay; fullscreen" loading="lazy" title="Meditation Video 3"></iframe>
+                <div class="card reveal-up">
+                    <h3 class="tr" data-en="Meditation for beginners" data-pl="Medytacja dla początkujących" data-ru="Медитация для начинающих">Meditation for beginners</h3>
+                    <p class="tr" data-en="Introduction to shamatha practice." data-pl="Wprowadzenie do praktyki shamatha." data-ru="Введение в практику шаматха.">Introduction to shamatha practice.</p>
+                </div>
+                <div class="card reveal-up">
+                    <h3 class="tr" data-en="Individual guidance" data-pl="Indywidualne instrukcje" data-ru="Индивидуальное руководство">Individual guidance</h3>
+                    <p class="tr" data-en="Private sessions and practice support." data-pl="Prywatne sesje i wsparcie w praktyce." data-ru="Частные сессии и поддержка в практике.">Private sessions and practice support.</p>
                 </div>
             </div>
-            <button class="carousel-btn prev" onclick="moveVideoCarousel(-1)" aria-label="Previous video">&#10094;</button>
-            <button class="carousel-btn next" onclick="moveVideoCarousel(1)" aria-label="Next video">&#10095;</button>
-        </div>
-        <p class="media-caption tr" data-en="A short introduction to practice" data-pl="Krótkie wprowadzenie do praktyki" data-ru="Краткое введение в практику">A short introduction to practice</p>
-    </section>
-
-    <div class="microtext tr" data-en="Practice is simple." data-pl="Praktyka jest prosta." data-ru="Практика проста.">Practice is simple.</div>
-
-    <section id="sessions">
-        <h2 class="tr" data-en="Sessions" data-pl="Spotkania" data-ru="Встречи">Sessions</h2>
-        <div class="grid">
-            <div class="card">
-                <h3 class="tr" data-en="Weekly online meditation" data-pl="Cotygodniowa medytacja online" data-ru="Еженедельная онлайн-медитация">Weekly online meditation</h3>
-                <p class="tr" data-en="Sessions held via Zoom." data-pl="Spotkania na platformie Zoom." data-ru="Встречи проходят через Zoom.">Sessions held via Zoom.</p>
+            <div class="upcoming tr reveal-up" data-en="Upcoming Sessions: Details are sent via email." data-pl="Nadchodzące spotkania: Szczegóły wysyłam drogą mailową." data-ru="Предстоящие встречи: Детали отправляются по email.">
+                Upcoming Sessions: Details are sent via email.
             </div>
-            <div class="card">
-                <h3 class="tr" data-en="Meditation for beginners" data-pl="Medytacja dla początkujących" data-ru="Медитация для начинающих">Meditation for beginners</h3>
-                <p class="tr" data-en="Introduction to shamatha practice." data-pl="Wprowadzenie do praktyki shamatha." data-ru="Введение в практику шаматха.">Introduction to shamatha practice.</p>
-            </div>
-            <div class="card">
-                <h3 class="tr" data-en="Individual guidance" data-pl="Indywidualne instrukcje" data-ru="Индивидуальное руководство">Individual guidance</h3>
-                <p class="tr" data-en="Private sessions and practice support." data-pl="Prywatne sesje i wsparcie w praktyce." data-ru="Частные сессии и поддержка в практике.">Private sessions and practice support.</p>
-            </div>
-        </div>
-        <div class="upcoming tr" data-en="Upcoming Sessions: Details are sent via email." data-pl="Nadchodzące spotkania: Szczegóły wysyłam drogą mailową." data-ru="Предстоящие встречи: Детали отправляются по email.">
-            Upcoming Sessions: Details are sent via email.
-        </div>
-    </section>
+        </section>
 
-    <div class="microtext tr" data-en="Spiritual materialism is the enemy." data-pl="Duchowy materializm jest przeszkodą." data-ru="Духовный материализм — это препятствие.">Duchowy materializm jest przeszkodą.</div>
+        <div class="microtext tr reveal-up" data-en="Spiritual materialism is the enemy." data-pl="Duchowy materializm jest przeszkodą." data-ru="Духовный материализм — это препятствие.">Duchowy materializm jest przeszkodą.</div>
 
-    <section id="philosophy">
-        <h2 class="tr" data-en="Philosophy" data-pl="Filozofia" data-ru="Философия">Filozofia</h2>
-        <div>
-            <p class="lead tr" data-en="My main source of inspiration is Chögyam Trungpa Rinpoche, a Tibetan Buddhist meditation master." data-pl="Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpocze, tybetański mistrz medytacji." data-ru="Моим главным источником вдохновения является Чогьям Трунгпа Ринпоче, тибетский мастер медитации.">Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpocze, tybetański mistrz medytacji.</p>
-            <p class="tr" data-en="Trungpa inspires me and people all over the world with his uncompromising approach. He taught that spirituality is not about escaping reality or seeking bliss, but about facing our everyday life with courage and opening up to it completely." data-pl="Trungpa inspiruje mnie i ludzi na całym świecie swoim bezkompromisowym podejściem. Nauczał, że duchowość nie polega na ucieczce od rzeczywistości czy szukaniu błogostanu, ale na odważnym stawianiu czoła naszej codzienności i całkowitym otwarciu się na nią." data-ru="Трунгпа вдохновляет меня и людей по всему миру своим бескомпромиссным подходом. Он учил, что духовность — это не бегство от реальности, а смелое противостояние нашей повседневной жизни.">Trungpa inspiruje mnie i ludzi na całym świecie swoim bezkompromisowym podejściem. Nauczał, że duchowość nie polega na ucieczce od rzeczywistości czy szukaniu błogostanu, ale na odważnym stawianiu czoła naszej codzienności i całkowitym otwarciu się na nią.</p>
-            <p class="tr" data-en="His practice emphasizes the concept of 'Basic Goodness' — the inherent purity and dignity in every human being. Meditation in his tradition is a process of dropping our ego-driven masks, cutting through spiritual materialism, and developing a genuine, grounded presence in the here and now. We sit not to become someone better, but to discover who we already are." data-pl="Jego praktyka kładzie nacisk na koncepcję „Podstawowego Dobra” (Basic Goodness) — wrodzonej czystości i godności w każdym człowieku. Medytacja w jego ujęciu to proces zrzucania masek napędzanych przez ego, odcinania „duchowego materializmu” i rozwijania autentycznej, ugruntowanej obecności tu i teraz. Siadamy nie po to, by stać się kimś lepszym, ale by odkryć, kim już jesteśmy." data-ru="Его практика подчеркивает концепцию 'Базовой Доброты' — врожденной чистоты и достоинства в каждом человеке. Медитация в его понимании — это процесс сбрасывания масок эго и развития подлинного присутствия здесь и сейчас.">Jego praktyka kładzie nacisk na koncepcję „Podstawowego Dobra” (Basic Goodness) — wrodzonej czystości i godności w każdym człowieku. Medytacja w jego ujęciu to proces zrzucania masek napędzanych przez ego, odcinania „duchowego materializmu” i rozwijania autentycznej, ugruntowanej obecności tu i teraz. Siadamy nie po to, by stać się kimś lepszym, ale by odkryć, kim już jesteśmy.</p>
-        </div>
-
-        <div class="collage-grid">
-            <img src="trungpa1.jpg" alt="Chögyam Trungpa Rinpoche portrait" onclick="openLightbox(this)" loading="lazy" decoding="async">
-            <img src="trungpa2.jpg" alt="Chögyam Trungpa Rinpoche with another monk" onclick="openLightbox(this)" loading="lazy" decoding="async">
-            <img src="trungpa3.jpg" alt="Chögyam Trungpa Rinpoche painting" onclick="openLightbox(this)" loading="lazy" decoding="async">
-            <img src="trungpa4.jpg" alt="Chögyam Trungpa Rinpoche with a group" onclick="openLightbox(this)" loading="lazy" decoding="async">
-        </div>
-        <p class="media-caption tr" data-en="Chögyam Trungpa Rinpoche" data-pl="Chögyam Trungpa Rinpocze" data-ru="Чогьям Трунгпа Ринпоче">Chögyam Trungpa Rinpocze</p>
-    </section>
-
-    <div class="microtext tr" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, где ты есть.">Start where you are.</div>
-
-    <section id="about-me">
-        <h2 class="tr" data-en="About" data-pl="O mnie" data-ru="Обо мне">About</h2>
-        <div class="about-flex">
-            <div class="profile-img-wrapper">
-                <img src="main.jpeg" alt="Pavel Bielski" class="profile-img" loading="lazy" decoding="async">
-            </div>
+        <section id="philosophy">
+            <h2 class="tr reveal-up" data-en="Philosophy" data-pl="Filozofia" data-ru="Философия">Filozofia</h2>
             <div>
-                <p class="tr" data-en="Pavel Bielski — practicing meditation instructor since 2023, drawing from Kwan Um Zen, Shambhala, Diamond Way, and Indo-Tibetan Buddhist traditions." data-pl="Pavel Bielski — praktykujący instruktor medytacji od 2023 roku, czerpiący z tradycji Kwan Um Zen, Shambhali, Diamentowej Drogi oraz buddyzmu indo-tybetańskiego." data-ru="Павел Бельский — практикующий инструктор по медитации с 2023 года, опирающийся на традиции Кван Ум Дзен, Шамбалы, Алмазного Пути и индо-тибетского буддизма.">
-                    Pavel Bielski — practicing meditation instructor since 2023, drawing from Kwan Um Zen, Shambhala, Diamond Way, and Indo-Tibetan Buddhist traditions.
+                <p class="lead tr reveal-up" 
+                   data-en="My main source of inspiration is Chögyam Trungpa Rinpoche, a Tibetan meditation master known for his direct and authentic approach to spirituality." 
+                   data-pl="Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpoche, tybetański mistrz medytacji, znany z bezpośredniego i autentycznego podejścia do duchowości." 
+                   data-ru="Моим главным источником вдохновения является Чогьям Трунгпа Ринпоче — тибетский мастер медитации, известный своим прямым и аутентичным подходом к духовности.">
+                    Moim głównym źródłem inspiracji jest Chögyam Trungpa Rinpoche, tybetański mistrz medytacji, znany z bezpośredniego i autentycznego podejścia do duchowości.
                 </p>
-                <p class="tr" data-en="This project offers simple meditation instruction for students, beginners, and people interested in developing awareness and mental stability." data-pl="Projekt ten oferuje proste instrukcje medytacji dla studentów, początkujących i osób zainteresowanych rozwijaniem świadomości oraz stabilności umysłu." data-ru="Этот проект предлагает простые инструкции по медитации для студентов, начинающих и всех, кто заинтересован в развитии осознанности и стабильности ума.">
-                    This project offers simple meditation instruction for students, beginners, and people interested in developing awareness and mental stability.
+                <p class="tr reveal-up" 
+                   data-en="His teaching emphasizes that meditation is not about escaping reality, but about fully meeting it as it is. A central idea is “Basic Goodness” — the inherent dignity and worth present in every human being." 
+                   data-pl="Jego nauczanie podkreśla, że medytacja nie polega na ucieczce od rzeczywistości, lecz na pełnym spotkaniu z nią — taką, jaka jest. Kluczową rolę odgrywa koncepcja „Podstawowego Dobra” (Basic Goodness), czyli wrodzonej godności i wartości obecnej w każdym człowieku." 
+                   data-ru="Его учение подчеркивает, что медитация — это не способ убежать от реальности, а возможность полностью встретиться с ней такой, какая она есть. Центральное место занимает идея «Основополагающего добра» (Basic Goodness) — врожденного достоинства и ценности, присущих каждому человеку.">
+                    Jego nauczanie podkreśla, że medytacja nie polega na ucieczce od rzeczywistości, lecz na pełnym spotkaniu z nią — taką, jaka jest. Kluczową rolę odgrywa koncepcja „Podstawowego Dobra” (Basic Goodness), czyli wrodzonej godności i wartości obecnej w każdym człowieku.
                 </p>
-                <p class="tr" data-en="Based in Gdańsk, Poland, offering meditation instruction online for an international audience." data-pl="Na co dzień mieszkam w Gdańsku, oferując instrukcje medytacyjne online dla międzynarodowej publiczności." data-ru="Я живу в Гданьске (Польша) и предлагаю онлайн-инструкции по медитации для международной аудитории.">
-                    Based in Gdańsk, Poland, offering meditation instruction online for an international audience.
+                <p class="tr reveal-up" 
+                   data-en="Meditation, in this view, is not about becoming better, but about cultivating presence and discovering who we already are." 
+                   data-pl="Praktyka medytacji nie ma na celu stawania się „lepszym”, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy." 
+                   data-ru="В этом понимании медитация — это не стремление стать лучше, а развитие осознанного присутствия и постепенное открытие того, кем мы уже являемся.">
+                    Praktyka medytacji nie ma na celu stawania się „lepszym”, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy.
                 </p>
             </div>
-        </div>
 
-        <div class="certificate-wrapper">
-            <div class="certificate-images-container">
-                <img src="certyfikat.jpg" alt="Certyfikat 1" class="certificate-img" onclick="openLightbox(this)" loading="lazy" decoding="async">
-                <img src="certyfikat2.jpg" alt="Certyfikat 2" class="certificate-img" onclick="openLightbox(this)" loading="lazy" decoding="async">
+            <div class="collage-grid">
+                <img src="trungpa1.jpg" alt="Chögyam Trungpa Rinpoche portrait" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa2.jpg" alt="Chögyam Trungpa Rinpoche with another monk" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa3.jpg" alt="Chögyam Trungpa Rinpoche painting" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa4.jpg" alt="Chögyam Trungpa Rinpoche with a group" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
             </div>
-            <p class="media-caption tr" data-en="My Certificates." data-pl="Moje certyfikaty." data-ru="Мои сертификаты."> Moje certyfikaty.</p>
+            <p class="media-caption tr reveal-up" data-en="Chögyam Trungpa Rinpoche" data-pl="Chögyam Trungpa Rinpocze" data-ru="Чогьям Трунгпа Ринпоче">Chögyam Trungpa Rinpocze</p>
+        </section>
+
+        <div class="microtext tr reveal-up" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, где ты есть.">Start where you are.</div>
+
+        <section id="about-me">
+            <h2 class="tr reveal-up" data-en="About" data-pl="O mnie" data-ru="Обо мне">About</h2>
+            <div class="about-flex">
+                <div class="profile-img-wrapper reveal-up">
+                    <img src="main.jpeg" alt="Pavel Bielski" class="profile-img" width="400" height="533" loading="lazy" decoding="async">
+                </div>
+                <div>
+                    <p class="tr reveal-up" 
+                       data-en="Pavel Bielski — a certified meditation instructor, practicing since 2023, working within the traditions of Kwan Um Zen, Shambhala, Diamond Way, and Indo-Tibetan Buddhism." 
+                       data-pl="Pavel Bielski — certyfikowany instruktor medytacji, praktykujący od 2023 roku, pracujący w oparciu o tradycje Kwan Um Zen, Shambhali, Diamentowej Drogi oraz buddyzmu indo-tybetańskiego." 
+                       data-ru="Павел Бельский — сертифицированный инструктор медитации, практикующий с 2023 года, работающий в рамках традиций Кван Ум Дзэн, Shambhala, Алмазного Пути и индо-тибетского буддизма.">
+                        Pavel Bielski — certyfikowany instruktor medytacji, praktykujący od 2023 roku, pracujący w oparciu o tradycje Kwan Um Zen, Shambhali, Diamentowej Drogi oraz buddyzmu indo-tybetańskiego.
+                    </p>
+                    <p class="tr reveal-up" 
+                       data-en="This project offers structured and accessible meditation guidance for beginners and anyone interested in developing mindfulness and mental stability." 
+                       data-pl="Projekt oferuje ustrukturyzowane i przystępne instrukcje medytacji, skierowane do osób początkujących oraz wszystkich zainteresowanych rozwijaniem uważności i stabilności umysłu." 
+                       data-ru="Проект предлагает структурированные и доступные инструкции по медитации для начинающих, а также для всех, кто заинтересован в развитии осознанности и устойчивости ума.">
+                        Projekt oferuje ustrukturyzowane i przystępne instrukcje medytacji, skierowane do osób początkujących oraz wszystkich zainteresowanych rozwijaniem uważności i stabilności umysłu.
+                    </p>
+                    <p class="tr reveal-up" 
+                       data-en="Based in Gdańsk, he provides online meditation sessions for an international audience." 
+                       data-pl="Na co dzień mieszka w Gdańsku i prowadzi sesje medytacyjne online dla międzynarodowej społeczności." 
+                       data-ru="На постоянной основе проживает в Гданьске и проводит онлайн-сессии медитации для международной аудитории.">
+                        Na co dzień mieszka w Gdańsku i prowadzi sesje medytacyjne online dla międzynarodowej społeczności.
+                    </p>
+                    <p class="tr reveal-up" 
+                       data-en="He holds an accredited Meditation Practitioner / Teacher Certification and has completed the Palouse Mindfulness program, based on the MBSR (Mindfulness-Based Stress Reduction) method developed by Jon Kabat-Zinn at the University of Massachusetts Medical School." 
+                       data-pl="Posiada akredytowany certyfikat Meditation Practitioner / Teacher Certification oraz ukończył program Palouse Mindfulness — oparty na metodzie MBSR (Mindfulness-Based Stress Reduction) stworzonej przez Jon Kabat-Zinn na University of Massachusetts Medical School." 
+                       data-ru="Имеет аккредитованный сертификат Meditation Practitioner / Teacher Certification и завершил программу Palouse Mindfulness, основанную на методе MBSR (Mindfulness-Based Stress Reduction), разработанном Jon Kabat-Zinn в University of Massachusetts Medical School.">
+                        Posiada akredytowany certyfikat Meditation Practitioner / Teacher Certification oraz ukończył program Palouse Mindfulness — oparty na metodzie MBSR (Mindfulness-Based Stress Reduction) stworzonej przez Jon Kabat-Zinn na University of Massachusetts Medical School.
+                    </p>
+                </div>
+            </div>
+
+            <div class="certificate-wrapper">
+                <div class="certificate-images-container">
+                    <img src="certyfikat.jpg" alt="Certyfikat 1" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
+                    <img src="certyfikat2.jpg" alt="Certyfikat 2" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
+                </div>
+                <p class="media-caption tr reveal-up" data-en="My Certificates." data-pl="Moje certyfikaty." data-ru="Мои сертификаты."> Moje certyfikaty.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <img src="IMG_4699.jpeg" alt="Meditation Practice 1" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+                <img src="IMG_5149.jpeg" alt="Meditation Practice 2" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+                <img src="IMG_8623.jpeg" alt="Meditation Practice 3" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+            </div>
+
+            <div class="quote-wrapper reveal-up">
+                <blockquote class="tr" 
+                            data-en="&quot;Sitting quietly, doing nothing, Spring comes, and the grass grows, by itself.&quot;" 
+                            data-pl="&quot;Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama.&quot;" 
+                            data-ru="&quot;Сидя тихо, ничего не делая, приходит весна, и трава растет сама по себе.&quot;">
+                    "Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama."
+                </blockquote>
+                <cite class="tr" data-en="— Zen Proverb" data-pl="— Przysłowie Zen" data-ru="— Дзенская пословица">— Przysłowie Zen</cite>
+            </div>
+            
+            <div class="center-action">
+                <a href="#articles" class="btn tr reveal-up" data-en="Read my articles" data-pl="Przeczytaj moje artykuły" data-ru="Читать мои статьи">Przeczytaj moje artykuły</a>
+            </div>
+        </section>
+
+        <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+            <span class="lightbox-close" id="btn-close-lightbox" role="button" tabindex="0" aria-label="Close lightbox">&times;</span>
+            <button class="lightbox-btn prev" id="btn-prev-lightbox" aria-label="Previous image">&#10094;</button>
+            <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Enlarged view" loading="lazy" decoding="async">
+            <button class="lightbox-btn next" id="btn-next-lightbox" aria-label="Next image">&#10095;</button>
         </div>
 
-        <div class="gallery-grid">
-            <img src="IMG_4699.jpeg" alt="Meditation Practice 1" class="gallery-item" onclick="openLightbox(this)" loading="lazy" decoding="async">
-            <img src="IMG_5149.jpeg" alt="Meditation Practice 2" class="gallery-item" onclick="openLightbox(this)" loading="lazy" decoding="async">
-            <img src="IMG_8623.jpeg" alt="Meditation Practice 3" class="gallery-item" onclick="openLightbox(this)" loading="lazy" decoding="async">
-        </div>
+        <div class="microtext tr reveal-up" data-en="Attention can be trained." data-pl="Uwaga może być trenowana." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
 
-<div class="quote-wrapper">
-            <blockquote class="tr" 
-                        data-en="&quot;Sitting quietly, doing nothing, Spring comes, and the grass grows, by itself.&quot;" 
-                        data-pl="&quot;Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama.&quot;" 
-                        data-ru="&quot;Сидя тихо, ничего не делая, приходит весна, и трава растет сама по себе.&quot;">
-                "Siedząc cicho, nic nie robiąc, nadchodzi wiosna, a trawa rośnie sama."
-            </blockquote>
-            <cite class="tr" data-en="— Zen Proverb" data-pl="— Przysłowie Zen" data-ru="— Дзенская пословица">— Przysłowie Zen</cite>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="#articles" class="btn tr" data-en="Read my articles" data-pl="Przeczytaj moje artykuły" data-ru="Читать мои статьи">Przeczytaj moje artykuły</a>
-        </div>
-    </section>
+        <section id="articles">
+            <h2 class="tr reveal-up" data-en="Articles" data-pl="Artykuły" data-ru="Статьи">Artykuły</h2>
+            
+            <div class="grid">
+                <a href="article1.html" class="article-card reveal-up">
+                    <img src="article1.jpg" alt="Duchowy materializm" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Meditation & Mind" data-pl="Medytacja i Umysł" data-ru="Медитация и Ум">Medytacja i Umysł</p>
+                        <h3 class="tr article-title" data-en="Spiritual materialism: Why meditation is not a spa for the brain?" data-pl="Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?" data-ru="Духовный материализм: Почему медитация — это не спа для мозга?">
+                            Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?
+                        </h3>
+                    </div>
+                </a>
 
-    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
-        <span class="lightbox-close" aria-label="Close lightbox" onclick="closeLightbox()">&times;</span>
-        <button class="lightbox-btn prev" onclick="navigateLightbox(-1)" aria-label="Previous image">&#10094;</button>
-        <img id="lightbox-img" src="" alt="Enlarged view" loading="lazy" decoding="async">
-        <button class="lightbox-btn next" onclick="navigateLightbox(1)" aria-label="Next image">&#10095;</button>
-    </div>
+                <a href="article2.html" class="article-card reveal-up">
+                    <img src="article2.jpg" alt="Mit Buddy pod Drzewem" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Dharma & Realization" data-pl="Dharma i Urzeczywistnienie" data-ru="Дхарма и Реализация">Dharma i Urzeczywistnienie</p>
+                        <h3 class="tr article-title" data-en="The Myth of the Buddha under the Tree and the Truth of Realization" data-pl="Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu" data-ru="Миф о Будде под Деревом и Правда о Реализации">
+                            Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu
+                        </h3>
+                    </div>
+                </a>
 
-    <div class="microtext tr" data-en="Attention can be trained." data-pl="Uwaga może być trenowana." data-ru="Внимание можно тренировать.">Attention can be trained.</div>
+                <a href="article3.html" class="article-card reveal-up">
+                    <img src="article3.jpg" alt="Twierdza Niezmiennego Umysłu" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Spiritual Ego" data-pl="Duchowe Ego" data-ru="Духовное Эго">Duchowe Ego</p>
+                        <h3 class="tr article-title" data-en="Fortress of the Unchanging Mind: Why you don't need to become someone better" data-pl="Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym" data-ru="Крепость Неизменного Ума: Почему тебе не нужно становиться кем-то лучшим">
+                            Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym
+                        </h3>
+                    </div>
+                </a>
 
-    <section id="articles">
-        <h2 class="tr" data-en="Articles" data-pl="Artykuły" data-ru="Статьи">Artykuły</h2>
-        
-        <div class="grid">
-            <a href="article1.html" class="article-card">
-                <img src="article1.jpg" alt="Duchowy materializm" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Meditation & Mind" data-pl="Medytacja i Umysł" data-ru="Медитация и Ум">Medytacja i Umysł</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Spiritual materialism: Why meditation is not a spa for the brain?" data-pl="Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?" data-ru="Духовный материализм: Почему медитация — это не спа для мозга?">
-                        Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?
-                    </h3>
-                </div>
-            </a>
+                <a href="article4.html" class="article-card reveal-up">
+                    <img src="article4.jpg" alt="Instrukcja medytacji" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Instruction" data-pl="Instrukcja" data-ru="Инструкция">Instrukcja</p>
+                        <h3 class="tr article-title" data-en="Just sit. An ordinary instruction for beginners" data-pl="Po prostu usiądź. Zwyczajna instrukcja dla początkujących" data-ru="Просто сядь. Обычная инструкция для начинающих">
+                            Po prostu usiądź. Zwyczajna instrukcja dla początkujących
+                        </h3>
+                    </div>
+                </a>
 
-            <a href="article2.html" class="article-card">
-                <img src="article2.jpg" alt="Mit Buddy pod Drzewem" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Dharma & Realization" data-pl="Dharma i Urzeczywistnienie" data-ru="Дхарма и Реализация">Dharma i Urzeczywistnienie</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="The Myth of the Buddha under the Tree and the Truth of Realization" data-pl="Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu" data-ru="Миф о Будде под Деревом и Правда о Реализации">
-                        Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu
-                    </h3>
-                </div>
-            </a>
+                <a href="article5.html" class="article-card reveal-up">
+                    <img src="article5.jpg" alt="Mit zachodu słońca" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Practice & Discomfort" data-pl="Praktyka i Dyskomfort" data-ru="Практика i Дискомфорт">Praktyka i Dyskomfort</p>
+                        <h3 class="tr article-title" data-en="The Sunset Myth. Discomfort as a Path to Awakening" data-pl="Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia" data-ru="Миф о закате. Дискомфорт как путь к пробуждению">
+                            Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia
+                        </h3>
+                    </div>
+                </a>
 
-            <a href="article3.html" class="article-card">
-                <img src="article3.jpg" alt="Twierdza Niezmiennego Umysłu" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Spiritual Ego" data-pl="Duchowe Ego" data-ru="Духовное Эго">Duchowe Ego</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Fortress of the Unchanging Mind: Why you don't need to become someone better" data-pl="Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym" data-ru="Крепость Неизменного Ума: Почему тебе не нужно становиться кем-то лучшим">
-                        Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym
-                    </h3>
-                </div>
-            </a>
+                <a href="article6.html" class="article-card reveal-up">
+                    <img src="article6.jpg" alt="Budda i lotos" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <div class="article-content">
+                        <p class="tr article-meta" data-en="Zen & Wisdom" data-pl="Zen i Mądrość" data-ru="Дзен и Мудрость">Zen i Mądrość</p>
+                        <h3 class="tr article-title" data-en="Put away the puzzles. Why you don't need to understand everything to simply bloom" data-pl="Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć" data-ru="Отложи головоломки. Почему не нужно понимать всё, чтобы просто расцвести">
+                            Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć
+                        </h3>
+                    </div>
+                </a>
+            </div>
+        </section>
 
-            <a href="article4.html" class="article-card">
-                <img src="article4.jpg" alt="Instrukcja medytacji" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Instruction" data-pl="Instrukcja" data-ru="Инструкция">Instrukcja</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Just sit. An ordinary instruction for beginners" data-pl="Po prostu usiądź. Zwyczajna instrukcja dla początkujących" data-ru="Просто сядь. Обычная инструкция для начинающих">
-                        Po prostu usiądź. Zwyczajna instrukcja dla początkujących
-                    </h3>
-                </div>
-            </a>
+        <div class="microtext tr reveal-up" data-en="Read and reflect." data-pl="Przeczytaj i przemyśl." data-ru="Прочти и поразмысли.">Przeczytaj i przemyśl.</div>
 
-            <a href="article5.html" class="article-card">
-                <img src="article5.jpg" alt="Mit zachodu słońca" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Practice & Discomfort" data-pl="Praktyka i Dyskomfort" data-ru="Практика i Дискомфорт">Praktyka i Dyskomfort</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="The Sunset Myth. Discomfort as a Path to Awakening" data-pl="Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia" data-ru="Миф о закате. Дискомфорт как путь к пробуждению">
-                        Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia
-                    </h3>
-                </div>
-            </a>
+        <section id="contact">
+            <h2 class="tr reveal-up" data-en="Contact" data-pl="Kontakt" data-ru="Контакты">Contact</h2>
+            <p class="tr reveal-up" data-en="Leave a message if you want to join a session or have questions about the practice." data-pl="Zostaw wiadomość, jeśli chcesz dołączyć do spotkania lub masz pytania o praktykę." data-ru="Оставьте сообщение, если хотите присоединиться к сессии или у вас есть вопросы о практике.">Leave a message if you want to join a session or have questions about the practice.</p>
+            
+            <form id="contactForm" action="https://formspree.io/f/mlgaqkjd" method="POST">
+                <input type="text" name="_gotcha" id="honeypot" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                
+                <label for="contactName" class="sr-only tr" data-en="Name" data-pl="Imię" data-ru="Имя">Imię</label>
+                <input type="text" name="name" id="contactName" class="tr-ph reveal-up" data-en="Name" data-pl="Imię" data-ru="Имя" placeholder="Name" required>
+                
+                <label for="contactEmail" class="sr-only tr" data-en="Email" data-pl="Email" data-ru="Email">Email</label>
+                <input type="email" name="email" id="contactEmail" class="tr-ph reveal-up" data-en="Email" data-pl="Email" data-ru="Email" placeholder="Email" required>
+                
+                <label for="contactMessage" class="sr-only tr" data-en="Message" data-pl="Wiadomość" data-ru="Сообщение">Wiadomość</label>
+                <textarea name="message" id="contactMessage" class="tr-ph reveal-up" data-en="Message" data-pl="Wiadomość" data-ru="Сообщение" placeholder="Message" required></textarea>
+                
+                <button type="submit" class="btn tr reveal-up" data-en="Send message" data-pl="Wyślij wiadomość" data-ru="Отправить сообщение">Send message</button>
+                <p id="formStatus" class="form-status tr" data-en="Message sent successfully!" data-pl="Wiadomość została wysłana!" data-ru="Сообщение успешно отправлено!">Message sent successfully!</p>
+            </form>
 
-            <a href="article6.html" class="article-card">
-                <img src="article6.jpg" alt="Budda i lotos" class="article-img" loading="lazy" decoding="async">
-                <div class="article-content">
-                    <p class="tr" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem;" data-en="Zen & Wisdom" data-pl="Zen i Mądrość" data-ru="Дзен и Мудрость">Zen i Mądrość</p>
-                    <h3 class="tr" style="font-size: 1.2rem; margin-bottom: 1rem; line-height: 1.4;" data-en="Put away the puzzles. Why you don't need to understand everything to simply bloom" data-pl="Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć" data-ru="Отложи головоломки. Почему не нужно понимать всё, чтобы просто расцвести">
-                        Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <div class="microtext tr" data-en="Read and reflect." data-pl="Przeczytaj i przemyśl." data-ru="Прочти и поразмысли.">Przeczytaj i przemyśl.</div>
-
-    <section id="contact">
-        <h2 class="tr" data-en="Contact" data-pl="Kontakt" data-ru="Контакты">Contact</h2>
-        <p class="tr" data-en="Leave a message if you want to join a session or have questions about the practice." data-pl="Zostaw wiadomość, jeśli chcesz dołączyć do spotkania lub masz pytania o praktykę." data-ru="Оставьте сообщение, если хотите присоединиться к сессии или у вас есть вопросы о практике.">Leave a message if you want to join a session or have questions about the practice.</p>
-        
-        <form id="contactForm" action="https://formspree.io/f/mlgaqkjd" method="POST">
-            <input type="text" name="_gotcha" id="honeypot" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-            <input type="text" name="name" id="contactName" class="tr-ph" data-en="Name" data-pl="Imię" data-ru="Имя" placeholder="Name" required>
-            <input type="email" name="email" id="contactEmail" class="tr-ph" data-en="Email" data-pl="Email" data-ru="Email" placeholder="Email" required>
-            <textarea name="message" id="contactMessage" class="tr-ph" data-en="Message" data-pl="Wiadomość" data-ru="Сообщение" placeholder="Message" required></textarea>
-            <button type="submit" class="btn tr" data-en="Send message" data-pl="Wyślij wiadomość" data-ru="Отправить сообщение">Send message</button>
-            <p id="formStatus" class="form-status tr" data-en="Message sent successfully!" data-pl="Wiadomość została wysłana!" data-ru="Сообщение успешно отправлено!">Message sent successfully!</p>
-        </form>
-
-        <div class="contact-info">
-            <p>Email: <a href="mailto:pspirydonau@gmail.com">pspirydonau@gmail.com</a></p>
-            <p>Zoom: <span class="tr" data-en="Link provided after contact" data-pl="Link podawany po kontakcie" data-ru="Ссылка предоставляется по контакте">Link provided after contact</span></p>
-        </div>
-    </section>
+            <div class="contact-info reveal-up">
+                <p>Email: <a href="mailto:pspirydonau@gmail.com">pspirydonau@gmail.com</a></p>
+                <p>Zoom: <span class="tr" data-en="Link provided after contact" data-pl="Link podawany po kontakcie" data-ru="Ссылка предоставляется по контакте">Link provided after contact</span></p>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p class="tr" data-en="Meetings are educational and contemplative in nature." data-pl="Spotkania mają charakter edukacyjny i kontemplacyjny." data-ru="Встречи носят образовательный и созерцательный характер.">
+        <p class="tr reveal-up" data-en="Meetings are educational and contemplative in nature." data-pl="Spotkania mają charakter edukacyjny i kontemplacyjny." data-ru="Встречи носят образовательный и созерцательный характер.">
             Meetings are educational and contemplative in nature.
         </p>
         
         <div class="social-media-container">
-            <p class="social-title tr" data-en="Connect with me" data-pl="Znajdziesz mnie tutaj" data-ru="Найдите меня здесь">Connect with me</p>
+            <p class="social-title tr reveal-up" data-en="Connect with me" data-pl="Znajdziesz mnie tutaj" data-ru="Найдите меня здесь">Connect with me</p>
             
-            <div class="social-links">
+            <div class="social-links reveal-up">
                 <a href="https://www.instagram.com/nobodymeditateshere/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -652,26 +384,36 @@
                 </a>
             </div>
 
-<a href="https://www.buymeacoffee.com/pavelbielski" target="_blank" rel="noopener noreferrer" class="support-btn" aria-label="Support the project">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-        <line x1="6" y1="1" x2="6" y2="4"></line>
-        <line x1="10" y1="1" x2="10" y2="4"></line>
-        <line x1="14" y1="1" x2="14" y2="4"></line>
-    </svg>
-    <span class="tr" data-en="Buy me a coffee" data-pl="Postaw mi kawę" data-ru="Купить мне кофе">Buy me a coffee</span>
-</a>
+            <div class="support-buttons-container reveal-up">
+                <a href="https://www.buymeacoffee.com/pavelbielski" target="_blank" rel="noopener noreferrer" class="support-btn" aria-label="Support the project">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                    <span class="tr" data-en="Buy me a coffee" data-pl="Postaw mi kawę" data-ru="Купить мне кофе">Buy me a coffee</span>
+                </a>
+                
+                <a href="https://www.paypal.com/paypalme/pavelbielski" target="_blank" rel="noopener noreferrer" class="support-btn" aria-label="Support via PayPal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="tr" data-en="PayPal" data-pl="PayPal" data-ru="PayPal">PayPal</span>
+                </a>
+            </div>
+        </div>
 
-        <p class="footer-copyright">&copy; <span id="current-year"></span> Pavel Bielski | Nobody Meditates Here.</p>
+        <p class="footer-copyright reveal-up">&copy; <span id="current-year"></span> Pavel Bielski | Nobody Meditates Here.</p>
         
-        <a href="#home" class="footer-brand-block">
-            <img src="logo.jpg" alt="Logo" class="footer-brand-logo" loading="lazy" decoding="async">
+        <a href="#home" class="footer-brand-block reveal-up">
+            <img src="logo.jpg" alt="" aria-hidden="true" class="footer-brand-logo" width="50" height="50" loading="lazy" decoding="async">
             <span class="footer-brand-name tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</span>
         </a>        
         
         <div class="privacy-accordion">
-            <button class="privacy-toggle" aria-expanded="false" aria-controls="privacy-content" onclick="togglePrivacy()">
+            <button class="privacy-toggle" aria-expanded="false" aria-controls="privacy-content" id="btn-toggle-privacy">
                 <span class="tr" data-en="Privacy Policy & Cookies" data-pl="Polityka Prywatności i Cookies" data-ru="Политика конфиденциальности и Cookies">Privacy Policy & Cookies</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
@@ -686,254 +428,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        /* ==========================================================================
-           1. AUTOMATYCZNE WYKRYWANIE JĘZYKA
-           ========================================================================== */
-        const langSelect = document.getElementById('langSelect');
-        const elementsToTranslate = document.querySelectorAll('.tr');
-        const placeholdersToTranslate = document.querySelectorAll('.tr-ph');
-
-        function changeLanguage(lang) {
-            elementsToTranslate.forEach(el => { 
-                if (el.dataset[lang]) el.innerText = el.dataset[lang]; 
-            });
-            placeholdersToTranslate.forEach(el => { 
-                if (el.dataset[lang]) el.placeholder = el.dataset[lang]; 
-            });
-            document.documentElement.lang = lang;
-            langSelect.value = lang; 
-            localStorage.setItem('preferredLang', lang); 
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            let savedLang = document.documentElement.lang || "en";
-            changeLanguage(savedLang);
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        });
-
-        langSelect.addEventListener('change', (e) => {
-            changeLanguage(e.target.value);
-        });
-
-        /* ==========================================================================
-           2. PRZEZROCZYSTA NAWIGACJA (Scroll Effect)
-           ========================================================================== */
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        /* ==========================================================================
-           3. EFEKTY POJAWIANIA SIĘ (Fancy Scroll Reveal ze Staggerem)
-           ========================================================================== */
-        const selectorsToReveal = [
-            '.hero h1', '.hero p', '.hero .btn',
-            '.microtext', 'h2', '.lead', 'section p:not(.lead)', 
-            '.carousel-wrapper',
-            '.card', '.profile-img', '.certificate-img', 
-            '.collage-grid img', '.gallery-item', '.quote-wrapper', '.article-card',
-            'form input', 'form textarea', 'form button', '.contact-info', 
-            '.social-title', '.social-links a', '.support-btn', '.footer-brand-block'
-        ];
-
-        const revealElements = document.querySelectorAll(selectorsToReveal.join(', '));
-        
-        const revealOptions = {
-            threshold: 0.1, 
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-revealed');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, revealOptions);
-
-        revealElements.forEach(el => {
-            el.classList.add('reveal-up'); 
-            if(el.closest('.grid') || el.closest('.collage-grid') || el.closest('.gallery-grid') || el.closest('.certificate-images-container') || el.closest('.social-links') || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'BUTTON') {
-                const siblings = Array.from(el.parentElement.children);
-                const index = siblings.indexOf(el);
-                el.style.transitionDelay = `${index * 0.12}s`; 
-            }
-            revealObserver.observe(el);
-        });
-
-        /* ==========================================================================
-           4. WSPÓŁDZIELONA FUNKCJA DOTYKU (SWIPE) DLA MOBILNYCH
-           ========================================================================== */
-        function addTouchSupport(elementId, onSwipeLeft, onSwipeRight) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-
-            let touchstartX = 0;
-            let touchendX = 0;
-
-            el.addEventListener('touchstart', e => {
-                touchstartX = e.changedTouches[0].screenX;
-            }, {passive: true});
-
-            el.addEventListener('touchend', e => {
-                touchendX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, {passive: true});
-
-            function handleSwipe() {
-                const swipeThreshold = 50; 
-                if (touchendX < touchstartX - swipeThreshold) onSwipeLeft();  
-                if (touchendX > touchstartX + swipeThreshold) onSwipeRight(); 
-            }
-        }
-
-        /* ==========================================================================
-           5. PROSTA KARUZELA WIDEO (Google Drive)
-           ========================================================================== */
-        let videoIdx = 0;
-        const videoTrack = document.getElementById('video-track');
-
-        function moveVideoCarousel(dir) {
-            if (!videoTrack) return;
-            const slidesCount = videoTrack.children.length;
-            
-            videoIdx += dir;
-            
-            if (videoIdx >= slidesCount) {
-                videoIdx = 0;
-            } else if (videoIdx < 0) {
-                videoIdx = slidesCount - 1;
-            }
-            
-            videoTrack.style.transform = `translateX(-${videoIdx * 100}%)`;
-        }
-
-        addTouchSupport('video-wrapper', 
-            () => moveVideoCarousel(1),  
-            () => moveVideoCarousel(-1)  
-        );
-
-        /* ==========================================================================
-           6. ZAAWANSOWANY LIGHTBOX
-           ========================================================================== */
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        
-        let originalImages = [];
-        let currentLightboxIndex = 0;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.gallery-item, .collage-grid img, .certificate-img');
-            slides.forEach(img => {
-                originalImages.push(img.src);
-            });
-        });
-
-        function openLightbox(imgElement) {
-            currentLightboxIndex = originalImages.indexOf(imgElement.src);
-            lightboxImg.src = imgElement.src;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function navigateLightbox(direction) {
-            currentLightboxIndex += direction;
-            
-            if (currentLightboxIndex >= originalImages.length) {
-                currentLightboxIndex = 0;
-            } else if (currentLightboxIndex < 0) {
-                currentLightboxIndex = originalImages.length - 1;
-            }
-            
-            lightboxImg.style.opacity = '0.5';
-            setTimeout(() => {
-                lightboxImg.src = originalImages[currentLightboxIndex];
-                lightboxImg.style.opacity = '1';
-            }, 150);
-        }
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto'; 
-            setTimeout(() => { 
-                lightboxImg.src = ''; 
-            }, 400);
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            
-            if (e.key === "Escape") closeLightbox();
-            if (e.key === "ArrowRight") navigateLightbox(1);
-            if (e.key === "ArrowLeft") navigateLightbox(-1);
-        });
-
-        /* ==========================================================================
-           7. FUNKCJONALNOŚĆ FORMULARZA (AJAX - FORMSPREE)
-           ========================================================================== */
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const form = this;
-            const statusEl = document.getElementById('formStatus');
-            
-            const honeypot = document.getElementById('honeypot').value;
-            if (honeypot !== "") {
-                console.log("Bot detected. Stopping submission.");
-                return false;
-            }
-            
-            const data = new FormData(form);
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                if (response.ok) {
-                    statusEl.style.display = 'block';
-                    statusEl.style.color = 'var(--bord)';
-                    form.reset();
-                    setTimeout(() => {
-                        statusEl.style.display = 'none';
-                    }, 5000);
-                } else {
-                    statusEl.style.display = 'block';
-                    statusEl.style.color = 'red';
-                    statusEl.innerText = "Oops! Problem with sending the message.";
-                }
-            } catch (error) {
-                statusEl.style.display = 'block';
-                statusEl.style.color = 'red';
-                statusEl.innerText = "Network error. Try again.";
-            }
-        });
-
-        /* ==========================================================================
-           8. AKORDEON POLITYKI PRYWATNOŚCI
-           ========================================================================== */
-        function togglePrivacy() {
-            const btn = document.querySelector('.privacy-toggle');
-            const content = document.getElementById('privacy-content');
-            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-            
-            btn.setAttribute('aria-expanded', !isExpanded);
-            
-            if (!isExpanded) {
-                content.classList.add('open');
-            } else {
-                content.classList.remove('open');
-            }
-        }
-    </script>
 </body>
 </html>
