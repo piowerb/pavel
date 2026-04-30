@@ -981,17 +981,19 @@ footer {
    9. RESPONSYWNOŚĆ
    ========================================================================== */
 @media (max-width: 900px) {
+    /* Wymuszamy układ obok siebie dla sekcji O mnie nawet na tablecie/PC */
     .about-flex { 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
-        gap: 2.5rem; 
+        flex-direction: row; 
+        align-items: flex-start; 
+        text-align: left; 
+        gap: 1.5rem; 
+        flex-wrap: nowrap; 
     }
     
     .profile-img-wrapper { 
-        width: 100%; 
-        max-width: 400px; 
-        margin: 0 auto; 
+        flex: 0 0 40%; 
+        max-width: 100%; 
+        margin: 0; 
     }
 }
 
@@ -1025,13 +1027,15 @@ footer {
         grid-template-columns: repeat(2, 1fr); 
     }
 
-    /* Certyfikaty obok siebie na telefonie */
+    /* ZMIANA: Certyfikaty jeden pod drugim na telefonie */
     .certificate-images-container {
-        flex-wrap: nowrap;
-        gap: 1rem;
+        flex-wrap: wrap; /* Pozwala elementom spadać do nowej linii */
+        flex-direction: column; /* Wymusza pionowy stos */
+        align-items: center;
+        gap: 2rem;
     }
 
-    /* ZMIANA: Większa wysokość zdjęć nad przysłowiem na telefonach */
+    /* Większa wysokość zdjęć nad przysłowiem na telefonach */
     .gallery-item {
         height: 150px; 
     }
