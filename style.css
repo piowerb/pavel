@@ -6,7 +6,7 @@
     --color-white: #FFFFFF;
     --color-black: #000000;
     --color-gray-light: #FAFAFA;
-    --color-gray-dark: #666666;
+    --color-gray-dark: #333333; /* ZMIANA: Wymuszony wyższy kontrast dla PageSpeed (WCAG) */
     --color-text-dark: #111111;
     --color-brand-bord: #4A2C2A;
 
@@ -390,14 +390,14 @@ p {
 
 .about-flex { 
     display: flex; 
-    gap: 4rem; 
-    align-items: center; 
-    flex-wrap: wrap; 
+    gap: clamp(1.5rem, 4vw, 4rem); 
+    align-items: flex-start; /* ZMIANA: wyrównanie tekstu do góry zdjęcia */
+    flex-wrap: nowrap; /* ZMIANA: to blokuje "spadanie" tekstu pod zdjęcie */
 }
 
 .profile-img-wrapper { 
-    flex: 1 1 350px; 
-    max-width: 100%; 
+    flex: 0 0 35%; /* ZMIANA: rezerwuje 35% szerokości ekranu na zdjęcie */
+    max-width: 350px; 
     text-align: center; 
 }
 
@@ -1018,6 +1018,22 @@ footer {
     .ambient-bg::after {
         animation: none;
         display: none;
+    }
+
+    /* Układ 2 kolumn dla artykułów na telefonie */
+    #articles .grid { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    /* Certyfikaty obok siebie na telefonie */
+    .certificate-images-container {
+        flex-wrap: nowrap;
+        gap: 1rem;
+    }
+
+    /* ZMIANA: Większa wysokość zdjęć nad przysłowiem na telefonach */
+    .gallery-item {
+        height: 150px; 
     }
 }
 

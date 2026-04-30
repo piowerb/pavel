@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function changeLanguage(lang) {
         // Użycie textContent zamiast innerText (Optymalizacja: unikanie reflow)
-        document.querySelectorAll('.tr').forEach(el => { if (el.dataset[lang]) el.textContent = el.dataset[lang]; });
+        document.querySelectorAll('.tr').forEach(el => { if (el.dataset[lang]) el.innerHTML = el.dataset[lang]; });
         document.querySelectorAll('.tr-ph').forEach(el => { if (el.dataset[lang]) el.placeholder = el.dataset[lang]; });
         document.documentElement.lang = lang;
         langSelect.value = lang; 
@@ -20,27 +20,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
     /* ==========================================================================
-       2. NAWIGACJA SCROLL (Zoptymalizowana przez Throttle)
+       2. NAWIGACJA SCROLL (Zoptymalizowana przez IntersectionObserver)
        ========================================================================== */
     const navbar = document.getElementById('navbar');
-    
-    // Funkcja Throttle zapobiegająca przeciążeniu przeglądarki przy scrollowaniu
-    function throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        }
-    }
+    const sentinel = document.getElementById('nav-sentinel'); // Znacznik dodany w index.html
 
-    window.addEventListener('scroll', throttle(() => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
-    }, 100)); // Wywołuje się max co 100ms
+    if (sentinel && navbar) {
+        const navObserver = new IntersectionObserver((entries) => {
+            // Kiedy sentinel przestaje być widoczny (przeskrolowaliśmy w dół), dodaj klasę
+            navbar.classList.toggle('scrolled', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        
+        navObserver.observe(sentinel);
+    }
 
     /* ==========================================================================
        3. SCROLL REVEAL

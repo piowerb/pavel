@@ -14,30 +14,33 @@
     <meta property="og:description" content="Learn to sit still in a restless world. Simple sitting meditation instruction online.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pavelbielski.com/">
-    <meta property="og:image" content="main.jpeg">
+    <meta property="og:image" content="main.webp">
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nobody Meditates Here">
     <meta name="twitter:description" content="Simple sitting meditation instruction online.">
-    <meta name="twitter:image" content="main.jpeg">
+    <meta name="twitter:image" content="main.webp">
 
     <link rel="canonical" href="https://pavelbielski.com/">
     <title>Nobody Meditates Here | Pavel Bielski</title>
     
-    <link rel="preload" href="logo.jpg" as="image">
+    <link rel="preload" href="logo.webp" as="image">
+    
+    <!-- Optymalizacja czcionek: wczesne łączenie i asynchroniczne ładowanie -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap"></noscript>
     
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+    <!-- ZMIANA: Powrót do standardowego ładowania, aby uniknąć błysku "gołej" strony (FOUC) -->
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* Klasa ukrywająca tekst wizualnie, ale pozostawiająca go dla czytników ekranu (A11y) */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -67,6 +70,9 @@
 </head>
 <body>
 
+    <!-- ZNACZNIK DO OPTYMALIZACJI SCROLLA (JS) -->
+    <div id="nav-sentinel" style="position: absolute; top: 50px; width: 100%; height: 1px; visibility: hidden;"></div>
+
     <div class="ambient-bg"></div>
 
     <nav id="navbar">
@@ -91,12 +97,12 @@
 
     <main>
         <section id="home" class="hero">
-            <img src="logo.jpg" alt="" aria-hidden="true" class="hero-watermark" width="500" height="500">
+            <img src="logo.webp" alt="" aria-hidden="true" class="hero-watermark" width="500" height="500" fetchpriority="high">
             
             <div class="hero-content">
-                <h1 class="tr reveal-up" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
-                <p class="tr reveal-up" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
-                <a href="#contact" class="btn tr reveal-up" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться к медитации">Join meditation</a>
+                <h1 class="tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</h1>
+                <p class="tr" data-en="Learn to sit still in a restless world." data-pl="Naucz się siedzieć spokojnie w niespokojnym świecie." data-ru="Научись сидеть спокойно в беспокойном мире.">Learn to sit still in a restless world.</p>
+                <a href="#contact" class="btn tr" data-en="Join meditation" data-pl="Dołącz do medytacji" data-ru="Присоединиться к медитации">Join meditation</a>
             </div>
         </section>
 
@@ -111,20 +117,23 @@
             <div class="carousel-wrapper reveal-up" id="video-wrapper">
                 <div class="carousel-track smooth-transition" id="video-track">
                     <div class="carousel-slide">
-                        <video controls playsinline preload="none" poster="poster-1.webp">
+                        <video controls playsinline preload="none" poster="poster-1.webp" width="800" height="450">
                             <source src="IMG_8538.mp4" type="video/mp4">
+                            <track kind="captions" src="puste-napisy.vtt" srclang="pl" label="Polski" default>
                             Twoja przeglądarka nie obsługuje odtwarzacza wideo.
                         </video>
                     </div>
                     <div class="carousel-slide">
-                        <video controls playsinline preload="none" poster="poster-2.webp">
+                        <video controls playsinline preload="none" poster="poster-2.webp" width="800" height="450">
                             <source src="IMG_8622.mp4" type="video/mp4">
+                            <track kind="captions" src="puste-napisy.vtt" srclang="pl" label="Polski" default>
                             Twoja przeglądarka nie obsługuje odtwarzacza wideo.
                         </video>
                     </div>
                     <div class="carousel-slide">
-                        <video controls playsinline preload="none" poster="poster-3.webp">
+                        <video controls playsinline preload="none" poster="poster-3.webp" width="800" height="450">
                             <source src="IMG_8743.mp4" type="video/mp4">
+                            <track kind="captions" src="puste-napisy.vtt" srclang="pl" label="Polski" default>
                             Twoja przeglądarka nie obsługuje odtwarzacza wideo.
                         </video>
                     </div>
@@ -174,30 +183,30 @@
                    data-ru="Его учение подчеркивает, что медитация — это не способ убежать от реальности, а возможность полностью встретиться с ней такой, какая она есть. Центральное место занимает идея «Основополагающего добра» (Basic Goodness) — врожденного достоинства и ценности, присущих каждому человеку.">
                     Jego nauczanie podkreśla, że medytacja nie polega na ucieczce od rzeczywistości, lecz na pełnym spotkaniu z nią — taką, jaka jest. Kluczową rolę odgrywa koncepcja „Podstawowego Dobra” (Basic Goodness), czyli wrodzonej godności i wartości obecnej w każdym człowieku.
                 </p>
-                <p class="tr reveal-up" 
-                   data-en="Meditation, in this view, is not about becoming better, but about cultivating presence and discovering who we already are." 
-                   data-pl="Praktyka medytacji nie ma na celu stawania się „lepszym”, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy." 
-                   data-ru="В этом понимании медитация — это не стремление стать лучше, а развитие осознанного присутствия и постепенное открытие того, кем мы уже являемся.">
-                    Praktyka medytacji nie ma na celu stawania się „lepszym”, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy.
+                <p class="tr reveal-up highlight-quote" 
+                data-en="&quot;Meditation, in this view, is not about becoming <i>better</i>, but about cultivating presence and discovering who we already are.&quot; <cite>(C. Trungpa, Cutting Through Spiritual Materialism)</cite>" 
+                data-pl="&quot;Praktyka medytacji nie ma na celu stawania się <i>lepszym</i>, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy.&quot; <cite>(C. Trungpa, Przezwyciężanie duchowego materializmu)</cite>" 
+                data-ru="&quot;В этом понимании медитация — это не стремление стать <i>лучше</i>, а развитие осознанного присутствия и постепенное открытие того, кем мы уже являемся.&quot; <cite>(Ч. Трунгпа, Преодоление духовного материализма)</cite>">
+                    &quot;Praktyka medytacji nie ma na celu stawania się <i>lepszym</i>, lecz rozwijania uważnej obecności i odkrywania tego, kim już jesteśmy.&quot; <cite>(C. Trungpa, Przezwyciężanie duchowego materializmu)</cite>
                 </p>
             </div>
 
             <div class="collage-grid">
-                <img src="trungpa1.jpg" alt="Chögyam Trungpa Rinpoche portrait" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
-                <img src="trungpa2.jpg" alt="Chögyam Trungpa Rinpoche with another monk" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
-                <img src="trungpa3.jpg" alt="Chögyam Trungpa Rinpoche painting" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
-                <img src="trungpa4.jpg" alt="Chögyam Trungpa Rinpoche with a group" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa1.webp" alt="Chögyam Trungpa Rinpoche portrait" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa2.webp" alt="Chögyam Trungpa Rinpoche with another monk" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa3.webp" alt="Chögyam Trungpa Rinpoche painting" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
+                <img src="trungpa4.webp" alt="Chögyam Trungpa Rinpoche with a group" class="reveal-up lightbox-trigger" width="400" height="400" loading="lazy" decoding="async">
             </div>
             <p class="media-caption tr reveal-up" data-en="Chögyam Trungpa Rinpoche" data-pl="Chögyam Trungpa Rinpocze" data-ru="Чогьям Трунгпа Ринпоче">Chögyam Trungpa Rinpocze</p>
         </section>
 
-        <div class="microtext tr reveal-up" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, где ты есть.">Start where you are.</div>
+        <div class="microtext tr reveal-up" data-en="Start where you are." data-pl="Zacznij tam, gdzie jesteś." data-ru="Начни там, gdzie ты есть.">Start where you are.</div>
 
         <section id="about-me">
             <h2 class="tr reveal-up" data-en="About" data-pl="O mnie" data-ru="Обо мне">About</h2>
             <div class="about-flex">
                 <div class="profile-img-wrapper reveal-up">
-                    <img src="main.jpeg" alt="Pavel Bielski" class="profile-img" width="400" height="533" loading="lazy" decoding="async">
+                    <img src="main.webp" alt="Pavel Bielski" class="profile-img" width="400" height="533" loading="lazy" decoding="async">
                 </div>
                 <div>
                     <p class="tr reveal-up" 
@@ -212,12 +221,7 @@
                        data-ru="Проект предлагает структурированные и доступные инструкции по медитации для начинающих, а также для всех, кто заинтересован в развитии осознанности и устойчивости ума.">
                         Projekt oferuje ustrukturyzowane i przystępne instrukcje medytacji, skierowane do osób początkujących oraz wszystkich zainteresowanych rozwijaniem uważności i stabilności umysłu.
                     </p>
-                    <p class="tr reveal-up" 
-                       data-en="Based in Gdańsk, he provides online meditation sessions for an international audience." 
-                       data-pl="Na co dzień mieszka w Gdańsku i prowadzi sesje medytacyjne online dla międzynarodowej społeczności." 
-                       data-ru="На постоянной основе проживает в Гданьске и проводит онлайн-сессии медитации для международной аудитории.">
-                        Na co dzień mieszka w Gdańsku i prowadzi sesje medytacyjne online dla międzynarodowej społeczności.
-                    </p>
+
                     <p class="tr reveal-up" 
                        data-en="He holds an accredited Meditation Practitioner / Teacher Certification and has completed the Palouse Mindfulness program, based on the MBSR (Mindfulness-Based Stress Reduction) method developed by Jon Kabat-Zinn at the University of Massachusetts Medical School." 
                        data-pl="Posiada akredytowany certyfikat Meditation Practitioner / Teacher Certification oraz ukończył program Palouse Mindfulness — oparty na metodzie MBSR (Mindfulness-Based Stress Reduction) stworzonej przez Jon Kabat-Zinn na University of Massachusetts Medical School." 
@@ -229,16 +233,16 @@
 
             <div class="certificate-wrapper">
                 <div class="certificate-images-container">
-                    <img src="certyfikat.jpg" alt="Certyfikat 1" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
-                    <img src="certyfikat2.jpg" alt="Certyfikat 2" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
+                    <img src="certyfikat.webp" alt="Certyfikat 1" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
+                    <img src="certyfikat2.webp" alt="Certyfikat 2" class="certificate-img reveal-up lightbox-trigger" width="300" height="424" loading="lazy" decoding="async">
                 </div>
                 <p class="media-caption tr reveal-up" data-en="My Certificates." data-pl="Moje certyfikaty." data-ru="Мои сертификаты."> Moje certyfikaty.</p>
             </div>
 
             <div class="gallery-grid">
-                <img src="IMG_4699.jpeg" alt="Meditation Practice 1" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
-                <img src="IMG_5149.jpeg" alt="Meditation Practice 2" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
-                <img src="IMG_8623.jpeg" alt="Meditation Practice 3" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+                <img src="IMG_4699.webp" alt="Meditation Practice 1" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+                <img src="IMG_5149.webp" alt="Meditation Practice 2" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
+                <img src="IMG_8623.webp" alt="Meditation Practice 3" class="gallery-item reveal-up lightbox-trigger" width="600" height="400" loading="lazy" decoding="async">
             </div>
 
             <div class="quote-wrapper reveal-up">
@@ -256,10 +260,10 @@
             </div>
         </section>
 
-        <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
             <span class="lightbox-close" id="btn-close-lightbox" role="button" tabindex="0" aria-label="Close lightbox">&times;</span>
             <button class="lightbox-btn prev" id="btn-prev-lightbox" aria-label="Previous image">&#10094;</button>
-            <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Enlarged view" loading="lazy" decoding="async">
+            <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Enlarged view" loading="lazy" decoding="async" width="800" height="600">
             <button class="lightbox-btn next" id="btn-next-lightbox" aria-label="Next image">&#10095;</button>
         </div>
 
@@ -270,7 +274,7 @@
             
             <div class="grid">
                 <a href="article1.html" class="article-card reveal-up">
-                    <img src="article1.jpg" alt="Duchowy materializm" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article1.webp" alt="Duchowy materializm" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Meditation & Mind" data-pl="Medytacja i Umysł" data-ru="Медитация и Ум">Medytacja i Umysł</p>
                         <h3 class="tr article-title" data-en="Spiritual materialism: Why meditation is not a spa for the brain?" data-pl="Duchowy materializm: Dlaczego medytacja to nie spa dla mózgu?" data-ru="Духовный материализм: Почему медитация — это не спа для мозга?">
@@ -280,7 +284,7 @@
                 </a>
 
                 <a href="article2.html" class="article-card reveal-up">
-                    <img src="article2.jpg" alt="Mit Buddy pod Drzewem" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article2.webp" alt="Mit Buddy pod Drzewem" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Dharma & Realization" data-pl="Dharma i Urzeczywistnienie" data-ru="Дхарма и Реализация">Dharma i Urzeczywistnienie</p>
                         <h3 class="tr article-title" data-en="The Myth of the Buddha under the Tree and the Truth of Realization" data-pl="Mit Buddy pod Drzewem a Prawda o Urzeczywistnieniu" data-ru="Миф о Будде под Деревом и Правда о Реализации">
@@ -290,7 +294,7 @@
                 </a>
 
                 <a href="article3.html" class="article-card reveal-up">
-                    <img src="article3.jpg" alt="Twierdza Niezmiennego Umysłu" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article3.webp" alt="Twierdza Niezmiennego Umysłu" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Spiritual Ego" data-pl="Duchowe Ego" data-ru="Духовное Эго">Duchowe Ego</p>
                         <h3 class="tr article-title" data-en="Fortress of the Unchanging Mind: Why you don't need to become someone better" data-pl="Twierdza Niezmiennego Umysłu: Dlaczego nie musisz stawać się kimś lepszym" data-ru="Крепость Неизменного Ума: Почему тебе не нужно становиться кем-то лучшим">
@@ -300,7 +304,7 @@
                 </a>
 
                 <a href="article4.html" class="article-card reveal-up">
-                    <img src="article4.jpg" alt="Instrukcja medytacji" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article4.webp" alt="Instrukcja medytacji" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Instruction" data-pl="Instrukcja" data-ru="Инструкция">Instrukcja</p>
                         <h3 class="tr article-title" data-en="Just sit. An ordinary instruction for beginners" data-pl="Po prostu usiądź. Zwyczajna instrukcja dla początkujących" data-ru="Просто сядь. Обычная инструкция для начинающих">
@@ -310,7 +314,7 @@
                 </a>
 
                 <a href="article5.html" class="article-card reveal-up">
-                    <img src="article5.jpg" alt="Mit zachodu słońca" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article5.webp" alt="Mit zachodu słońca" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Practice & Discomfort" data-pl="Praktyka i Dyskomfort" data-ru="Практика i Дискомфорт">Praktyka i Dyskomfort</p>
                         <h3 class="tr article-title" data-en="The Sunset Myth. Discomfort as a Path to Awakening" data-pl="Mit zachodu słońca. Dyskomfort jako ścieżka do przebudzenia" data-ru="Миф о закате. Дискомфорт как путь к пробуждению">
@@ -320,7 +324,7 @@
                 </a>
 
                 <a href="article6.html" class="article-card reveal-up">
-                    <img src="article6.jpg" alt="Budda i lotos" class="article-img" width="600" height="400" loading="lazy" decoding="async">
+                    <img src="article6.webp" alt="Budda i lotos" class="article-img" width="600" height="400" loading="lazy" decoding="async">
                     <div class="article-content">
                         <p class="tr article-meta" data-en="Zen & Wisdom" data-pl="Zen i Mądrość" data-ru="Дзен и Мудрость">Zen i Mądrość</p>
                         <h3 class="tr article-title" data-en="Put away the puzzles. Why you don't need to understand everything to simply bloom" data-pl="Odłóż łamigłówki. Dlaczego nie musisz rozumieć wszystkiego, by po prostu rozkwitnąć" data-ru="Отложи головоломки. Почему не нужно понимать всё, чтобы просто расцвести">
@@ -408,7 +412,7 @@
         <p class="footer-copyright reveal-up">&copy; <span id="current-year"></span> Pavel Bielski | Nobody Meditates Here.</p>
         
         <a href="#home" class="footer-brand-block reveal-up">
-            <img src="logo.jpg" alt="" aria-hidden="true" class="footer-brand-logo" width="50" height="50" loading="lazy" decoding="async">
+            <img src="logo.webp" alt="" aria-hidden="true" class="footer-brand-logo" width="50" height="50" loading="lazy" decoding="async">
             <span class="footer-brand-name tr" data-en="Nobody Meditates Here" data-pl="Nobody Meditates Here" data-ru="Никто не медитирует здесь">Nobody Meditates Here</span>
         </a>        
         
