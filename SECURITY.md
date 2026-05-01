@@ -12,4 +12,4 @@ Report vulnerabilities privately to pspirydonau@gmail.com. Public disclosure is 
 This project does not utilize a backend database, significantly reducing the potential attack surface.
 
 ## Liability Disclaimer
-Developer (@piowerb) disclaims all liability for the security, integrity, availability, and accuracy of data and any content on the site, which is developed and maintained independently without any affiliation, sponsorship, or endorsement by third parties.
+Developer (@piowerb on GitHub.com) expressly disclaims all liability for the security, integrity, availability, and accuracy of data and any content on the site, which is developed and maintained independently, without any affiliation, sponsorship, or endorsement by third parties.
