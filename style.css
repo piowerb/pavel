@@ -1004,6 +1004,18 @@ footer {
         padding: 1rem; 
     }
     
+    .about-flex { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+    
+    .profile-img-wrapper { 
+        flex: 1 1 100%; 
+        max-width: 280px;
+        margin: 0 auto 1.5rem auto;
+    }
+
     nav ul { 
         padding-right: 0; 
         flex-wrap: wrap; 
