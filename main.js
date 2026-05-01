@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const langSelect = document.getElementById('langSelect');
     
     function changeLanguage(lang) {
-        // Użycie textContent zamiast innerText (Optymalizacja: unikanie reflow)
         document.querySelectorAll('.tr').forEach(el => { if (el.dataset[lang]) el.innerHTML = el.dataset[lang]; });
         document.querySelectorAll('.tr-ph').forEach(el => { if (el.dataset[lang]) el.placeholder = el.dataset[lang]; });
         document.documentElement.lang = lang;
@@ -23,11 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
        2. NAWIGACJA SCROLL (Zoptymalizowana przez IntersectionObserver)
        ========================================================================== */
     const navbar = document.getElementById('navbar');
-    const sentinel = document.getElementById('nav-sentinel'); // Znacznik dodany w index.html
+    const sentinel = document.getElementById('nav-sentinel');
 
     if (sentinel && navbar) {
         const navObserver = new IntersectionObserver((entries) => {
-            // Kiedy sentinel przestaje być widoczny (przeskrolowaliśmy w dół), dodaj klasę
             navbar.classList.toggle('scrolled', !entries[0].isIntersecting);
         }, { threshold: 0 });
         
@@ -77,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let touchstartX = 0;
     let touchstartY = 0;
-    let touchstartTime = 0; // Rejestrowanie czasu startu dotyku
+    let touchstartTime = 0; 
     const videoWrapper = document.getElementById('video-wrapper');
 
     videoWrapper?.addEventListener('touchstart', e => {
@@ -93,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const diffY = touchstartY - touchendY;
         const swipeDuration = Date.now() - touchstartTime;
 
-        // Ograniczenie czasowe (300ms) i priorytet osi X
         if (swipeDuration < 300 && Math.abs(diffX) > Math.abs(diffY)) {
             if (diffX > 50) moveVideoCarousel(1);
             if (diffX < -50) moveVideoCarousel(-1);
@@ -107,9 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const lightboxImg = document.getElementById('lightbox-img');
     let currentLightboxIndex = 0;
 
-    // Obliczanie szerokości paska przewijania, aby strona nie skakała
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
     const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
     
     lightboxTriggers.forEach((img, index) => {
@@ -120,14 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
         currentLightboxIndex = index;
         lightboxImg.src = lightboxTriggers[currentLightboxIndex].src;
         lightbox.classList.add('active');
-        document.body.style.paddingRight = `${scrollbarWidth}px`; // Dodajemy prawy margines
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
         document.body.style.overflow = 'hidden'; 
     }
 
     function navigateLightbox(dir) {
         currentLightboxIndex = (currentLightboxIndex + dir + lightboxTriggers.length) % lightboxTriggers.length;
         lightboxImg.style.opacity = '0.5';
-        
         setTimeout(() => { 
             lightboxImg.src = lightboxTriggers[currentLightboxIndex].src; 
             lightboxImg.style.opacity = '1'; 
@@ -136,8 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function closeLightbox() {
         lightbox.classList.remove('active');
-        document.body.style.paddingRight = ''; // Resetujemy margines
-        document.body.style.overflow = ''; // Pusty ciąg znaków przywraca styl ze stylesheet
+        document.body.style.paddingRight = ''; 
+        document.body.style.overflow = ''; 
         setTimeout(() => lightboxImg.removeAttribute('src'), 400);
     }
 
@@ -162,11 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (document.getElementById('honeypot').value) return false;
         
-        // Zabezpieczenie przycisku na czas wysyłania
         const originalBtnText = submitBtn.textContent;
         submitBtn.disabled = true;
         
-        // Tymczasowa zmiana tekstu przycisku zależnie od języka
         const lang = document.documentElement.lang;
         submitBtn.textContent = lang === 'pl' ? 'Wysyłanie...' : (lang === 'ru' ? 'Отправка...' : 'Sending...');
         
@@ -187,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
             statusEl.style.color = 'red'; 
             statusEl.textContent = "Network error. Try again.";
         } finally {
-            // Przywrócenie przycisku do pierwotnego stanu
             submitBtn.disabled = false;
             submitBtn.textContent = originalBtnText;
         }
@@ -201,4 +192,43 @@ document.addEventListener("DOMContentLoaded", () => {
         this.setAttribute('aria-expanded', !isExpanded);
         document.getElementById('privacy-content').classList.toggle('open', !isExpanded);
     });
+
+    /* ==========================================================================
+       8. ANIMACJA GWIAZDEK (SESSIONS RATING)
+       ========================================================================== */
+    const starContainer = document.querySelector('.sessions-rating .stars');
+    if (starContainer) {
+        // Tniemy gwiazdki na pojedyncze znaki
+        const stars = starContainer.textContent.trim().split('');
+        starContainer.textContent = '';
+        
+        const starSpans = stars.map((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            // Styl początkowy wstrzyknięty prosto w JS
+            Object.assign(span.style, {
+                display: 'inline-block',
+                opacity: '0',
+                transform: 'scale(0) translateY(15px)',
+                transition: `all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.27) ${i * 0.1}s`
+            });
+            starContainer.appendChild(span);
+            return span;
+        });
+
+        // Używamy osobnego obserwatora, żeby odpalić animację dokładnie dla gwiazdek
+        const starObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    starSpans.forEach(span => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'scale(1) translateY(0)';
+                    });
+                    starObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        starObserver.observe(starContainer);
+    }
 });
